@@ -56,18 +56,18 @@ export class HelpersService {
   getMonth(month) {
     let mon;
     return new Promise((resolve, reject) => {
-      if (month == "JAN") mon = "01";
-      if (month == "FEB") mon = "02";
-      if (month == "MAR") mon = "03";
-      if (month == "APR") mon = "04";
-      if (month == "MAY") mon = "05";
-      if (month == "JUN") mon = "06";
-      if (month == "JUL") mon = "07";
-      if (month == "AUG") mon = "08";
-      if (month == "SEP") mon = "09";
-      if (month == "OCT") mon = "10";
-      if (month == "NOV") mon = "11";
-      if (month == "DEC") mon = "12";
+      if (month == this.translate("JAN")) mon = "01";
+      if (month == this.translate("FEB")) mon = "02";
+      if (month == this.translate("MAR")) mon = "03";
+      if (month == this.translate("APR")) mon = "04";
+      if (month == this.translate("MAY")) mon = "05";
+      if (month == this.translate("JUN")) mon = "06";
+      if (month == this.translate("JUL")) mon = "07";
+      if (month == this.translate("AUG")) mon = "08";
+      if (month == this.translate("SEP")) mon = "09";
+      if (month == this.translate("OCT")) mon = "10";
+      if (month == this.translate("NOV")) mon = "11";
+      if (month == this.translate("DEC")) mon = "12";
 
       resolve(mon);
     });
@@ -89,18 +89,18 @@ export class HelpersService {
     return new Promise((resolve, reject) => {
       var lat12MOn = [];
       var theMonths = new Array(
-        "JAN",
-        "FEB",
-        "MAR",
-        "APR",
-        "MAY",
-        "JUN",
-        "JUL",
-        "AUG",
-        "SEP",
-        "OCT",
-        "NOV",
-        "DEC"
+        this.translate("JAN"),
+        this.translate("FEB"),
+        this.translate("MAR"),
+        this.translate("APR"),
+        this.translate("MAY"),
+        this.translate("JUN"),
+        this.translate("JUL"),
+        this.translate("AUG"),
+        this.translate("SEP"),
+        this.translate("OCT"),
+        this.translate("NOV"),
+        this.translate("DEC")
       );
       var today = new Date();
       var aMonth = today.getMonth() + 1;

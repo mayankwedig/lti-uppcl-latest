@@ -6175,3 +6175,6 @@ nav.pagi {
     display: none !important;
     text-transform: uppercase;
 }
+.dash-box-list .dash-box-li .chart-box .modal-graph-label .label-left {
+    left: -62px;
+}

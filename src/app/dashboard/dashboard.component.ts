@@ -300,7 +300,9 @@ export class DashboardComponent implements OnInit {
 
     this.consgraphFilter = [{ key: 2, value: "Monthly" }];
     this.billgraphFilter = [{ key: 2, value: "Monthly" }]; // ,{key:3,value:"Weekly"}
-    this.getDashboardData();
+    setTimeout(()=>{
+      this.getDashboardData();
+    },1000) 
     this.consumptionchartOptions = {
       responsive: true // THIS WILL MAKE THE CHART RESPONSIVE (VISIBLE IN ANY DEVICE).
     };
@@ -496,6 +498,7 @@ export class DashboardComponent implements OnInit {
   getDashboardData() {
     this.showYtdData();
     this.showAccountDetails();
+    this.getlast12mnt();
     this.showMonthlyConsumptionGraphData();
     this.getEnergyTips();
     this.getBillingData();
@@ -535,6 +538,16 @@ export class DashboardComponent implements OnInit {
       }
     );
   }
+  getlast12mnt(){
+    this.helpers.lat12Monts().then(
+      response => {
+        this.consumptionlabels = response;
+      },
+      error => {
+        console.log("Error occured...!");
+      }
+    );
+  }
   showMonthlyConsumptionGraphData() {
     let data = [];
     let gData = [];
@@ -553,22 +566,12 @@ export class DashboardComponent implements OnInit {
         dataSort.map(function(item) {
           gData.push(item.consumption);
         });
-        this.helpers.lat12Monts().then(
-          response => {
-            // getting last 12 months from current date.
-            this.consumptionlabels = response;
-            this.consumptionchartData = [
-              {
-                label: this.translate("Consumption"),
-                data: gData
-              }
-            ];
-          },
-          error => {
-            console.log("Error occured...!");
+        this.consumptionchartData = [
+          {
+            label: this.translate("Consumption"),
+            data: gData
           }
-        );
-        /*  console.log(this.consumptionlabels); */
+        ];
       }
     });
   }
