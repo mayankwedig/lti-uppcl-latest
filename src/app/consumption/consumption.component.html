@@ -1,0 +1,210 @@
+<div id="main-wrapper">
+  <app-header></app-header>
+  <app-side-bar [displayUserInfo]="dispString"></app-side-bar>
+  <div id="content-wrapper">
+    <div class="page-heading ">{{'Consumption Details'| translate}}</div>
+    <div class="rows consumptionDesktopBackButton" style="margin-bottom:15px;">
+       <div class="week-month-btn-sec pull-right">
+          <a style="cursor: pointer;" (click)="showchart('daily')" title="{{'Weekly'|translate}}" class="blue-btn" *ngIf="chartToShow == 'hourly' || chartToShow == 'Weekly'" >{{'Daily'|translate}}</a>
+
+          <a style="cursor: pointer;" (click)="showchart('yearly')" title="{{'Yearly'|translate}}" class="blue-btn" *ngIf="chartToShow == 'monthly' ||  chartToShow == 'daily' || chartToShow == 'hourly' || chartToShow == 'Weekly'">{{'Yearly'|translate}}</a>
+
+          <a style="cursor: pointer;" (click)="showchart('monthly')" title="{{'Monthly'|translate}}" class="blue-btn" *ngIf="chartToShow == 'hourly' || chartToShow == 'Weekly'">{{'Monthly'|translate}}</a>
+          
+          <a style="cursor: pointer;" (click)="showchart('Weekly')" title="{{'Weekly'|translate}}" class="blue-btn" *ngIf="chartToShow == 'daily'" >{{'Weekly'|translate}}</a>
+      </div> 
+       <div class="week-month-btn-sec pull-left" *ngIf="isMonthSelected">
+            <a (click)="backToDashBoard()" class="blue-btn" title="{{'Back to dashboard'|translate}}" style="cursor: pointer;"><i class="fa fa-backward" aria-hidden="true"></i> &nbsp; {{'Back to dashboard'|translate}}</a>
+        </div>
+    </div>
+    
+    <div class="billing-sec">
+       
+      <div class="panel ">
+        
+        <div
+          class="panel-body"
+          [ngClass]="{ consumptionPanalLoader: loder == true }"
+        >
+          <div class="graph-container modal-graph-label" *ngIf="loder == false && isDataFound == true">
+            <div class="pull-right">
+               <!--New Changes By Chandni-->
+
+              <a 
+              *ngIf="chartToShow == 'monthly'"
+                      (click)="downloadGraphExcelConsumption()"
+                      style="cursor:pointer;"
+                      title="{{'Download'|translate}}"
+                      href="javascript:void(0)"
+                    >
+                      <div class="download-circle" *ngIf="setIconeImage(4) != null">
+                        <img [src]="setIconeImage(4)" />
+                      </div>
+                    </a>
+
+                    <a 
+              *ngIf="chartToShow == 'yearly'"
+                      (click)="downloadAllYesrExcelConsumption()"
+                      style="cursor: pointer;"
+                      title="{{'Download'|translate}}"
+                      href="javascript:void(0)"
+                    >
+                      <div class="download-circle" *ngIf="setIconeImage(4) != null">
+                        <img [src]="setIconeImage(4)" />
+                      </div>
+                    </a>
+                     
+                    <a 
+                  *ngIf="chartToShow == 'daily'"
+                      (click)="downloadAllDailyExcelConsumption()"
+                      style="cursor: pointer;"
+                      title="{{'Download'|translate}}"
+                      href="javascript:void(0)"
+                    >
+                      <div class="download-circle" *ngIf="setIconeImage(4) != null">
+                        <img [src]="setIconeImage(4)" />
+                      </div>
+                    </a>
+
+                    <a 
+                  *ngIf="chartToShow == 'hourly'"
+                      (click)="downloadAllHourlyExcelConsumption()"
+                      style="cursor: pointer;"
+                      title="{{'Download'|translate}}"
+                      href="javascript:void(0)"
+                    >
+                      <div class="download-circle" *ngIf="setIconeImage(4) != null">
+                        <img [src]="setIconeImage(4)" />
+                      </div>
+                    </a>
+
+
+                    <a 
+                    *ngIf="chartToShow == 'Weekly'"
+                        (click)="downloadAllWeeklyExcelConsumption()"
+                        style="cursor: pointer;"
+                        title="{{'Download'|translate}}"
+                        href="javascript:void(0)"
+                      >
+                        <div class="download-circle" *ngIf="setIconeImage(4) != null">
+                          <img [src]="setIconeImage(4)" />
+                        </div>
+                      </a>
+
+
+                      <!--End Wrok  22/12/2018-->
+
+            </div>
+            <div class="label-left">{{'Units'|translate}} <span>({{'In KWH'|translate}})</span></div>
+            <div class="consumption-canvas" *ngIf="chartToShow == 'yearly'">
+              <canvas
+                class=""
+                baseChart
+                [chartType]="chartType"
+                [datasets]="consumptionchartData"
+                [labels]="consumptionlabels"
+                [options]="consumptionchartOptions"
+                [legend]="true"
+                [colors]="consumptioncolors"
+                (chartClick)="openChartOnClick($event, 'monthly')"
+              >
+              </canvas>
+            </div>
+            <div class="consumption-canvas" *ngIf="chartToShow == 'monthly'">
+              <canvas
+                class=""
+                baseChart
+                [chartType]="chartType"
+                [datasets]="consumptionchartData"
+                [labels]="consumptionlabels"
+                [options]="consumptionchartOptions"
+                [legend]="true"
+                [colors]="consumptioncolors"
+                (chartClick)="openChartOnClick($event, 'daily')"
+              >
+              </canvas>
+            </div>
+            <div class="consumption-canvas" *ngIf="chartToShow == 'Weekly'">
+              <canvas
+                class=""
+                baseChart
+                [chartType]="chartType"
+                [datasets]="consumptionchartData"
+                [labels]="consumptionlabels"
+                [options]="consumptionchartOptions"
+                [legend]="true"
+                [colors]="consumptioncolors"
+              >
+              </canvas>
+            </div>
+            <div class="consumption-canvas" *ngIf="chartToShow == 'daily'">
+              <canvas
+                class=""
+                baseChart
+                [chartType]="chartType"
+                [datasets]="consumptionchartData"
+                [labels]="consumptionlabels"
+                [options]="consumptionchartOptions"
+                [legend]="true"
+                [colors]="consumptioncolors"
+                (chartClick)="openChartOnClick($event, 'hourly')"
+              >
+              </canvas>
+            </div>
+            <div class="consumption-canvas" *ngIf="chartToShow == 'hourly'">
+              <canvas
+                class=""
+                baseChart
+                [chartType]="chartType"
+                [datasets]="consumptionchartData"
+                [labels]="consumptionlabels"
+                [options]="consumptionchartHourlyOpts"
+                [legend]="true"
+                [colors]="consumptionHourlycolors"
+              >
+              </canvas>
+            </div>
+            <div class="label-bottom" *ngIf="chartToShow == 'monthly'">{{'Months'|translate}}
+                <div class="text-center bottom-link">
+                    <div style="    position: relative;">
+                        {{'Click on any bar above to view more details of respective month'|translate}}
+                    </div>
+                </div>
+            </div>
+            <div class="label-bottom" *ngIf="chartToShow == 'daily'">{{'Days'|translate}}
+                <div class="text-center bottom-link">
+                    <div style="    position: relative;">
+                        {{'Click on any bar above to view more details of respective day'|translate}}
+                    </div>
+                </div>
+            </div>
+            <div class="label-bottom" *ngIf="chartToShow == 'hourly'">{{'Hours'|translate}}</div>
+            <div class="label-bottom" *ngIf="chartToShow == 'Weekly'">{{'Weeks'|translate}}</div>
+            <div class="label-bottom" *ngIf="chartToShow == 'yearly'">{{'Years'|translate}}
+                <div class="text-center bottom-link">
+                    <div style="    position: relative;">
+                        {{'Click on any bar above to view more details of respective year'|translate}}
+                    </div>
+                </div>
+            </div>
+          
+					</div>
+					<div class="rows" *ngIf="loder == true ">
+						<div class="spinner box-spinner">
+							<div class="bounce1"></div>
+							<div class="bounce2"></div>
+							<div class="bounce3"></div>
+						</div>
+					</div>
+					<div  style="margin-top: 2;"
+					class="text-center font-12  field_not_found" *ngIf="isDataFound == false && loder == false">
+							<img src="/assets/images/no_data.png" />{{'Currently no data found for consumption details'|translate}} <br />
+					 </div>
+				</div>
+			
+      </div>
+    </div>
+    <div id="main-menu-bg"></div>
+  </div>
+  <app-footer></app-footer>
+</div>

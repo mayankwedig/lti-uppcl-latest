@@ -1,0 +1,152 @@
+<div id="main-wrapper">
+  <app-header></app-header>
+  <app-side-bar [displayUserInfo]="dispString"></app-side-bar>
+  <div id="content-wrapper">
+    <div class="page-heading ">{{'TOU'|translate}}</div>
+    <div class="billing-sec margin_top10 padding_bottom10 ">
+      <div class="panel ">
+          <div class="row">
+              <div class="col-sm-6 pull-right margin_top20">
+                <a
+                  data-toggle="modal"
+                  data-target="#add-account-modal"
+                  class="blue-btn pull-right"
+                  (click)="redirectTo()"
+                  style="cursor:pointer;"
+                  title="{{ 'Add Account'|translate }}"
+                  >{{ "View Tariff" | translate }}</a
+                >
+              </div>
+            </div>
+        <div class="row">
+          <div
+            class="col-lg-3 col-md-4 col-sm-6 col-xs-12 pull-right tou-filter"
+          >
+            <div class="input-group">
+              <!--  (focus)="dp.clearDate()" -->
+              <input
+                class="form-control"
+                style="float:none"
+                placeholder="Select a date"
+                ngx-mydatepicker
+                name="mydate"
+                [(ngModel)]="selectedDateCalc"
+                [options]="myOptions"
+                #dp="ngx-mydatepicker"
+                (dateChanged)="onDateChanged($event)"
+              />
+              <span class="input-group-btn">
+                <button
+                  type="button"
+                  class="btn btn-default"
+                  (click)="dp.clearDate()"
+                >
+                  <i class="glyphicon glyphicon-remove"></i>
+                </button>
+                <button
+                  type="button"
+                  class="btn btn-default"
+                  (click)="dp.toggleCalendar()"
+                >
+                  <i class="glyphicon glyphicon-calendar"></i>
+                </button>
+              </span>
+            </div>
+          </div>
+        </div>
+        <div
+          class="page-heading text-center margin_top20"
+          style="color:#635b5b;"
+        >
+         {{'TOU AS ON Month date, year'|translate}} {{ dispSelectedMonth }} {{ dispSelectedDay }},
+          {{ dispSelectedYear }}
+        </div>
+        <div class="panel-body" [ngClass]="{ touLoader: loder == true }">
+          <div
+            class="graph-container modal-graph-label showChart"
+            style="display: none;"
+          >
+            <div class="label-left">{{'Units'|translate}}<span>{{'(KWH)'|translate}}</span></div>
+            <div class="consumption-canvas pos-rel">
+              <div id="chartdiv"></div>
+              <div
+                class="label-bottom touHours"
+                *ngIf="chartToShow == 'hourly'"
+              >
+                Hours
+              </div>
+            </div>
+          </div>
+          <div class="rows" *ngIf="loder == true">
+            <div class="spinner box-spinner">
+              <div class="bounce1"></div>
+              <div class="bounce2"></div>
+              <div class="bounce3"></div>
+            </div>
+          </div>
+          <div
+            style="margin-top: 2;"
+            class="text-center font-12  field_not_found"
+            *ngIf="isDataFound == false && loder == false"
+          >
+            <img src="/assets/images/no_data.png" />Currently no data found in
+            this section <br />
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="rows margin_top10 padding_bottom10 no-padding-l no-padding-r">
+      <div
+        class="panel-body"
+        [ngClass]="{ dashboardManageAccount: tabularDataloader == true }"
+      >
+        <div class="table-wrapper no-padding">
+          <table
+            class="fl-table tb-header table-fixed"
+            *ngIf="isTabularDataFound == true && tabularDataloader == false"
+          >
+            <thead>
+              <tr>
+                <th width="50%"><span class="center-pos">{{'TOU'|translate}}</span></th>
+                <th width="50%">
+                  <span class="center-pos">{{'Total Consumption'|translate}}</span><br />
+                  <span style="font-size:11px;">(In KWH)</span>
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let tou of toudata">
+                <td width="50%">
+                  {{ tou._id }}
+                  <div
+                    [style.background-color]="getTourColour(tou._id)"
+                    class="touTabularColour"
+                  ></div>
+                  <!--  [style.background-color]="{{tousColor[tou._id]}}" -->
+                </td>
+                <td width="50%">{{ tou.total }}</td>
+              </tr>
+            </tbody>
+          </table>
+          <div
+            style="margin-top: 2;"
+            class="text-center font-12  field_not_found"
+            *ngIf="isTabularDataFound == false && tabularDataloader == false"
+          >
+            <img src="/assets/images/no_data.png" /> Currently no data found in
+            this section.
+          </div>
+          <div *ngIf="tabularDataloader == true">
+            <div class="spinner box-spinner" style="top: 71%;">
+              <div class="bounce1"></div>
+              <div class="bounce2"></div>
+              <div class="bounce3"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="main-menu-bg"></div>
+  </div>
+  <app-footer></app-footer>
+</div>

@@ -1,0 +1,479 @@
+<div
+  id="main-navbar"
+  class="navbar navbar-inverse"
+  [ngClass]="{ 'home-menu': !auth.isLoggedIn() }"
+  role="navigation"
+>
+  <button type="button" *ngIf="auth.isLoggedIn()"  id="main-menu-toggle2" (click)="changeNavBar()">
+    <i class="navbar-icon fa fa-bars icon"></i
+    ><span class="hide-menu-text">{{ "Hide Menu" | translate }}</span>
+  </button>
+  
+  <div class="navbar-inner">
+    <div class="navbar-header">
+      <a routerLink="" class="navbar-brand pull-left">
+        <img alt="UPPCL" [src]="logogImage" />
+      </a>
+    </div>
+    <ul class="responsive-menu">
+      <li
+        class="nav-icon-btn nav-icon-btn-danger dropdown"
+         *ngIf="auth.isLoggedIn()"
+        >
+        <a
+          class="dropdown-toggle no-padding-t notifications-icon"
+          data-toggle="dropdown"
+          href="javascript:void(0);"
+        >
+          <span
+            class="label-notification"
+            *ngIf="hideTotalNotification == false"
+            >{{ totalNotifications }}</span
+          >
+          <span
+            class="title-icon header-notification"
+            title="View notifications"
+            style="cursor:pointer;"
+            (click)="funcHideNotification()"
+            *ngIf="setIconeImage(2) != null"
+          >
+            <img [src]="setIconeImage(2)" alt="" />
+          </span>
+          <span class="small-screen-text">{{
+            "Notifications" | translate
+          }}</span>
+        </a>
+        <div
+          class="dropdown-menu widget-notifications no-padding"
+          style="width: 300px"
+        >
+          <span class="ddl-icon-arrow"
+            ><img src="../assets/images/ddl-icon.png" alt=""
+          /></span>
+          <a class="notifications-link" href="javascript:void(0);"
+            >{{ "Notifications" | translate }}
+            <span>{{ totalNotifications }}</span></a
+          >
+          <div class="notifications-list" id="main-navbar-notifications">
+            <div class="notification" *ngFor="let nofication of notifications">
+              <div class="notification-description">
+             
+              </div>
+            </div>
+            <!-- <div class="notification">
+                 <div class="notification-description">Mahapareshan Samachar June - July 2018.  pdf</div>
+                </div>
+                <div class="notification">
+                 <div class="notification-description">Mahapareshan Samachar June - July 2018.  pdf</div>
+                </div>
+                <div class="notification">
+                 <div class="notification-description">Mahapareshan Samachar June - July 2018.  pdf</div>
+                </div>
+                <div class="notification">
+                 <div class="notification-description">Mahapareshan Samachar June - July 2018.  pdf</div>
+                </div>
+                <div class="notification">
+                 <div class="notification-description">Mahapareshan Samachar June - July 2018.  pdf</div>
+                </div>
+                <div class="notification">
+                 <div class="notification-description">Mahapareshan Samachar June - July 2018.  pdf</div>
+                </div>
+                <div class="notification">
+                 <div class="notification-description">Mahapareshan Samachar June - July 2018.  pdf</div>
+                </div> -->
+          </div>
+        </div>
+      </li>
+      <li class="nav-icon-btn nav-icon-btn-danger dropdown tollfree-dropdown jdsadh" >
+        <a
+          href="javascript: void(0);"
+          class="dropdown-toggle no-padding-t notifications-icon"
+          data-toggle="dropdown"
+        >
+          <span
+            class="title-icon header-notification"
+            title="{{ 'tollfreenumbers' | translate }}"
+            style="cursor:pointer;"
+            *ngIf="setIconeImage(3) != null"
+            ><img [src]="setIconeImage(3)" alt=""
+          /></span>
+          <span class="small-screen-text">{{ "tollfreenumbers" | translate }}</span>
+        </a>
+        <div
+          class="dropdown-menu widget-notifications no-padding"
+          style="width: 300px"
+        >
+          <span class="ddl-icon-arrow"
+            ><img src="../assets/images/ddl-icon.png" alt=""
+          /></span>
+          <a class="notifications-link">{{ "tollfreenumbers" | translate }}</a>
+          <div class="notifications-list" id="main-navbar-notifications-1">
+            <div class="notification">
+              <span>PUVVNL</span>
+              <div class="notification-description"> 
+                <a  href="tel:+1800-180-5025"> +1800-180-5025</a>
+              </div>
+            </div>
+            <div class="notification">
+              <span>MVVNL</span>
+              <div class="notification-description">
+                <a  href="tel:+1800-1800-440">+1800-1800-440</a>
+              </div>
+            </div>
+            <div class="notification">
+              <span>PVVNL</span>  
+              <div class="notification-description">
+                <a  href="tel:+1800-180-3002">+1800-180-3002</a>
+              </div>
+            </div>
+            <div class="notification">
+              <span>DVVNL</span>
+              <div class="notification-description">
+                <a  href="tel:+1800-180-3023">+1800-180-3023</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </li>
+      <li class="download-menu">
+        <a routerLink="/downloads"
+          ><span class="download" *ngIf="setIconeImage(4) != null"
+            ><img [src]="setIconeImage(4)" alt=""/></span
+        ></a>
+      </li>
+
+      <li class="dropdown user-account" *ngIf="auth.isLoggedIn()">
+        <a class="dropdown-toggle user-menu" data-toggle="dropdown">
+          <img src="../assets/images/1.jpg" alt="" />
+          <div class="name-email">
+            <span>{{ userName }}</span>
+            <div class="email-acccount" *ngIf="userEmail != ''">
+              {{ userEmail }} <i class="fa fa-angle-down"></i>
+            </div>
+          </div>
+        </a>
+        <ul class="dropdown-menu user-info-menu">
+          <li>
+            <a
+              routerLink="/profile"
+              routerLinkActive="active"
+              [routerLinkActiveOptions]="{ exact: true }"
+              style="cursor: pointer;"
+              ><span class="label label-warning pull-right">{{
+                "new" | translate
+              }}</span
+              >{{ "Manage Profile" | translate }}</a
+            >
+          </li>
+          <li>
+            <a
+              ><span class="badge badge-primary pull-right">{{
+                "new" | translate
+              }}</span
+              >{{ "Accounts" | translate }}</a
+            >
+          </li>
+          <!-- <li><a ><i class="dropdown-icon fa fa-cog"></i>&nbsp;&nbsp;Settings</a></li> -->
+          <li class="divider"></li>
+          <li>
+            <a href="Javascript:void(0);" (click)="logout()"
+              ><i class="dropdown-icon fa fa-power-off"></i>&nbsp;&nbsp;Log
+              Out</a
+            >
+          </li>
+        </ul>
+      </li>
+    </ul>
+
+    <div class="header-search-bar for-responsive" *ngIf="isLoggedIn()">
+      <form class="navbar-form">
+        <input
+          name="searchKeyWord"
+          type="text"
+          [(ngModel)]="searchKeyWord"
+          #ngModel
+          class="form-control"
+          placeholder="{{'Search'|translate}}"
+        />
+        <a
+          class="blue-search-btn"
+          (click)="doSearch()"
+          style="cursor: pointer;"
+          >{{ "Search" | translate }}</a
+        >
+      </form>
+    </div>
+    <button
+      type="button"
+      class="navbar-toggle collapsed"
+      data-toggle="collapse"
+      data-target="#main-navbar-collapse"
+    >
+      <i class="navbar-icon fa fa-bars"></i>
+    </button>
+    <div
+      id="main-navbar-collapse"
+      class="collapse navbar-collapse main-navbar-collapse"
+    >
+      <div>
+        <div class="right clearfix">
+          <ul class="nav navbar-nav pull-right right-navbar-nav">
+            <li class="language-option">
+              <!-- <div class="rows" style="margin-top: 23px;">
+              </div> -->
+              <select
+                [(ngModel)]="selected_lang"
+                name="langs"
+                class="form-control lang-control"
+                #selectedLang="ngModel"
+                (change)="changeLang(selectedLang.value)"
+              >
+                <option value="hi">हिंदी संस्करण</option>
+                <option value="eng">English Version</option>
+              </select>
+            </li>
+            <li *ngIf="auth.isLoggedIn()">
+              <a
+                routerLink="/dashboard"
+                routerLinkActive="active-menu"
+                [routerLinkActiveOptions]="{ exact: true }"
+                >{{ "Dashboard" | translate }}</a
+              >
+            </li>
+            <li *ngIf="!auth.isLoggedIn()">
+              <a
+                routerLink=""
+                routerLinkActive="active-menu"
+                [routerLinkActiveOptions]="{ exact: true }"
+              >
+                {{ "Home" | translate }}</a
+              >
+            </li>
+            <li>
+              <a
+                routerLink="/about"
+                routerLinkActive="active-menu"
+                [routerLinkActiveOptions]="{ exact: true }"
+                >{{ "About Us" | translate }}</a
+              >
+            </li>
+            <li>
+              <a
+                routerLink="/contact-us"
+                routerLinkActive="active-menu"
+                [routerLinkActiveOptions]="{ exact: true }"
+                >{{ "Contact" | translate }}</a
+              >
+            </li>
+            <li
+              class="nav-icon-btn nav-icon-btn-danger dropdown"
+              *ngIf="auth.isLoggedIn()"
+            >
+              <a
+                class="dropdown-toggle no-padding-t notifications-icon"
+                data-toggle="dropdown"
+              >
+                <span
+                  class="label-notification"
+                  *ngIf="hideTotalNotification == false"
+                  >{{ totalNotifications }}</span
+                >
+                <span
+                  class="title-icon header-notification"
+                  title="View notifications"
+                  style="cursor:pointer;"
+                  (click)="funcHideNotification()"
+                  *ngIf="setIconeImage(2) != null"
+                  ><img [src]="setIconeImage(2)" alt=""
+                /></span>
+                <span class="small-screen-text">{{
+                  "Notifications" | translate
+                }}</span>
+              </a>
+              <div
+                class="dropdown-menu widget-notifications no-padding"
+                style="width: 300px; cursor: pointer;"
+              >
+                <span class="ddl-icon-arrow" style="cursor: pointer;"
+                  ><img
+                    src="../assets/images/ddl-icon.png"
+                    alt="Notifications"
+                    title="Notifications"
+                /></span>
+                <a class="notifications-link"
+                  >{{ "Notifications" | translate }}
+                  <span>{{ totalNotifications }}</span></a
+                >
+                <!--  {{notifications|json}} -->
+                <div class="notifications-list" id="main-navbar-notifications">
+                  <div class="notification" *ngFor="let item of notifications">
+                    <div class="notification-description">{{ item.title }}</div>
+                  </div>
+                </div>
+                <div class="view-all-notification-link">
+                  <a
+                    [routerLink]="['/notifications']"
+                    routerLinkActive="router-link-active"
+                    title="View all notifications"
+                    >{{ "View all" | translate }}</a
+                  >
+                </div>
+              </div>
+            </li>
+            <li
+              class="nav-icon-btn nav-icon-btn-danger dropdown tollfree-dropdown"
+            >
+              <a
+                href="JavaScript: void(0);"
+                class="dropdown-toggle no-padding-t notifications-icon"
+                data-toggle="dropdown"
+              >
+                <span
+                  class="title-icon header-notification"
+                  title="View notifications"
+                  style="cursor:pointer;"
+                  *ngIf="setIconeImage(3) != null"
+                  ><img [src]="setIconeImage(3)" alt=""
+                /></span>
+                <span class="small-screen-text">{{
+                  "Notifications" | translate
+                }}</span>
+              </a>
+              <div
+                class="dropdown-menu widget-notifications no-padding"
+                style="width: 300px"
+              >
+                <span class="ddl-icon-arrow"
+                  ><img src="../assets/images/ddl-icon.png" alt=""
+                /></span>
+                <a class="notifications-link">{{
+                  "Toll free numbers" | translate
+                }}</a>
+                <div
+                  class="notifications-list"
+                  id="main-navbar-notifications-1"
+                >
+                  <div class="notification">
+                    <span>PUVVNL</span>
+                    <div class="notification-description"> <a href="tel:+1800-180-5025">+1800-180-5025 </a></div>
+                  </div>
+                  <div class="notification">
+                    <span>MVVNL</span>
+                    <div class="notification-description"><a href="tel:+1800-1800-440"> +1800-1800-440 </a></div>
+                  </div>
+                  <div class="notification">
+                    <span>PVVNL</span>
+                    <div class="notification-description"> <a href="tel:+1800-180-3002">+1800-180-3002 </a></div>
+                  </div>
+                  <div class="notification">
+                    <span>DVVNL</span>
+                    <div class="notification-description"><a href="tel:+1800-180-3023">+1800-180-3023</a></div>
+                  </div>
+                  <div class="notification">
+                    <span>1-Common Complaint No.</span>
+                    <div class="notification-description"><a href="tel:9454400330">9454400330</a></div>
+                  </div>
+                  <div class="notification">
+                    <span>2-Common Complaint No.</span>
+                    <div class="notification-description"><a href="tel:9454401200">9454401200</a></div>
+                  </div>
+                  <div class="notification">
+                    <span>3-Common Complaint No.</span>
+                    <div class="notification-description"><a href="tel:9454401980">9454401980</a></div>
+                  </div>
+                </div>
+              </div>
+            </li>
+            <li class="download-menu">
+              <a
+                title="Forms download"
+                style="cursor: pointer;"
+                routerLink="/downloads"
+              >
+                <span class="download" *ngIf="setIconeImage(4) != null"
+                  ><img [src]="setIconeImage(4)" alt=""
+                /></span>
+              </a>
+            </li>
+            <li class="dropdown" *ngIf="auth.isLoggedIn()">
+              <a class="dropdown-toggle user-menu" data-toggle="dropdown">
+                <span class="user-profile-img" *ngIf="profile_image != ''"
+                  ><img src="{{ profile_image }}" alt="" width="100"
+                /></span>
+                <!-- <span *ngIf="profile_image == ''">{{userName}}</span> -->
+                <div class="name-email">
+                  <span>{{ userName }} <i class="fa fa-angle-down"></i></span>
+                  <!-- <div class="email-acccount">{{userEmail}} <i class="fa fa-angle-down"></i></div> -->
+                </div>
+              </a>
+              <ul class="dropdown-menu user-info-menu">
+                <li>
+                  <a
+                    routerLink="/profile"
+                    routerLinkActive="active"
+                    [routerLinkActiveOptions]="{ exact: true }"
+                    >{{ "Manage Profile" | translate }}</a
+                  >
+                </li>
+                <li>
+                  <a
+                    routerLink="/manageaccount"
+                    routerLinkActive="active"
+                    [routerLinkActiveOptions]="{ exact: true }"
+                    >{{ "Accounts" | translate }}</a
+                  >
+                </li>
+                <!-- <li><a ><i class="dropdown-icon fa fa-cog"></i>&nbsp;&nbsp;Settings</a></li> -->
+                <li class="divider"></li>
+                <li>
+                  <a href="JavaScript:Void(#);" (click)="logout()"
+                    ><i class="dropdown-icon fa fa-power-off"></i>&nbsp;&nbsp;{{
+                      "Logout" | translate
+                    }}</a
+                  >
+                </li>
+              </ul>
+            </li>
+            <li class="login-signup-sec" *ngIf="!auth.isLoggedIn()">
+              <button
+                class="login-btn blue-btn"
+                routerLink="/login"
+                routerLinkActive="active"
+              >
+                {{ "Login" | translate }}
+              </button>
+              <button
+                class="login-btn blue-btn"
+                routerLink="/account-verification"
+                routerLinkActive="active"
+              >
+                {{ "Signup" | translate }}
+              </button>
+            </li>
+            <!-- <li class="login-signup-sec" *ngIf="auth.isLoggedIn()">
+              <button class="login-btn blue-btn" (click)="auth.logout()"  routerLinkActive="active" >Logout</button>
+             </li> -->
+          </ul>
+          <div class="header-search-bar" *ngIf="isLoggedIn()">
+            <form class="navbar-form">
+              <input
+                name="search"
+                type="text"
+                [(ngModel)]="searchKeyWord"
+                #ngModel
+                class="form-control"
+                placeholder="Search"
+              />
+              <a
+                class="blue-search-btn"
+                (click)="doSearch()"
+                style="cursor: pointer;"
+                >{{ "Search" | translate }}</a
+              >
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

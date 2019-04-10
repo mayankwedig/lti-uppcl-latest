@@ -1,0 +1,227 @@
+<div id="main-wrapper" [ngClass]="{ 'no-sidebar': !isLoggedIn() }">
+  <app-header></app-header>
+  <span *ngIf="isLoggedIn()">
+  <app-side-bar [displayUserInfo]="dispString"></app-side-bar>
+  </span>
+  <div id="content-wrapper"  [ngClass]="{ 'complaint-wrapeer-bg': !isLoggedIn() }">
+      <div [ngClass]="{ 'col-sm-10 col-sm-offset-1': !isLoggedIn() }">
+    <div class="page-heading">
+      {{'Service Request details'|translate}}
+    </div>
+    <div class="billing-sec complaints-page">
+      <div class="row margin_top20">
+        <div class="col-sm-12">
+          <div class="panel-body">
+            <div class="service-request-dtl">
+              <div class="service-dtl-block no-padding-t">
+                <div class="row">
+                  <div class="col-xs-6">
+                    <div class="form-group">
+                      <div class="dtl-status" *ngIf="serviceRequestDetails.status == 0">{{'Status:'|translate}} <span class="status-box status-open">{{'Open'|translate}}</span></div>
+                      <div class="dtl-status" *ngIf="serviceRequestDetails.status == 1">{{'Status:'|translate}} <span class="status-box status-resolved">{{'Resolved'|translate}}</span></div>
+                      <div class="dtl-status" *ngIf="serviceRequestDetails.status == 2">{{'Status:'|translate}} <span class="status-box status-pending">{{'Pending'|translate}}</span></div>
+                      <div class="dtl-status" *ngIf="serviceRequestDetails.status == 3">{{'Status:'|translate}} <span class="status-box status-rejected">{{'Rejected'|translate}}</span></div>
+                      <div class="dtl-status" *ngIf="serviceRequestDetails.status == 4">{{'Status:'|translate}} <span class="status-box status-closed">{{'Closed'|translate}}</span></div>
+                    </div>
+                  </div>
+                  <div class="col-xs-6">
+                    <div class="form-group">
+                      <label>{{'Tracking Number'|translate}}</label>
+                      <div class="dtl-value">{{serviceRequestDetails.tracking_number}}</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="service-dtl-block">
+                <div class="row">
+                  <div class="col-sm-6">
+                    <div class="form-group">
+                      <label>{{'Account Number'|translate}}</label>
+                      <div class="dtl-value">{{serviceRequestDetails.account_number}}</div>
+                    </div>
+                  </div>
+                  <div class="col-sm-6">
+                    <div class="form-group">
+                      <label>{{'Service Request Type'|translate}}</label>
+                      <div class="dtl-value">{{serviceRequestDetails.service_request_type}}</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="service-dtl-block">
+                <div class="sr-heading">{{'Consumer Information'|translate}}</div>
+                <div class="row">
+                  <div class="col-sm-6">
+                    <div class="form-group">
+                      <label>{{'Name'|translate}}</label>
+                      <div class="dtl-value">{{name}}</div>
+
+                    </div>
+                  </div>
+                  <div class="col-sm-6">
+                    <div class="form-group">
+                      <label>{{'Supply Type'|translate}}</label>
+
+                      <div class="dtl-value">{{supplyType}}</div>
+
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-sm-6">
+                    <div class="form-group">
+                      <label>{{'Installation Address'|translate}}</label>
+                      <div class="dtl-value"> {{installationAddress}} </div>
+
+                    </div>
+                  </div>
+                  <div class="col-sm-6">
+                    <div class="form-group">
+                      <label>{{'Mobile Number'|translate}}</label>
+
+                      <div class="dtl-value" *ngIf="mobileNumber != null">+91{{mobileNumber}}</div>
+
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-sm-6">
+                    <div class="form-group">
+                      <label>{{'Current Load'|translate}}</label>
+                      <div class="dtl-value">{{currentLoad}} KW</div>
+
+                    </div>
+                  </div>
+                  <div class="col-sm-6">
+                    <div class="form-group">
+                      <label>{{'Email ID'|translate}}</label>
+                      <div class="dtl-value">{{emailId}}</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="service-dtl-block" *ngIf="serviceRequestDetails.service_request_type == 'Permanent Disconnection Request'">
+                <div class="row">
+                  <div class="col-sm-6">
+                    <div class="form-group">
+                      <label>{{'Enclosed Identification Document'|translate}}</label>
+                      <div class="dtl-value">{{serviceRequestDetails.enclosed_identificaton_document}}</div>
+                    </div>
+                  </div>
+                  <div class="col-sm-6">
+                    <div class="form-group">
+                      <label>{{'Comments'|translate}}</label>
+                      <div class="dtl-value">{{serviceRequestDetails.comment}}</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="service-dtl-block" *ngIf="serviceRequestDetails.service_request_type == 'Load Change Request'">
+                  <div class="row">
+                    <div class="col-sm-6">
+                      <div class="form-group">
+                        <label>{{'Load Unit'|translate}}</label>
+                        <div class="dtl-value">{{serviceRequestDetails.load_unit}}</div>
+                      </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                          <label>{{'New Load'|translate}}</label>
+                          <div class="dtl-value">{{serviceRequestDetails.new_load}}</div>
+                        </div>
+                      </div>
+                    <div class="col-sm-6">
+                      <div class="form-group">
+                        <label>{{'Comments'|translate}}</label>
+                        <div class="dtl-value">{{serviceRequestDetails.comment}}</div>
+                      </div>
+                    </div>
+                  </div>
+                </div> 
+                <div class="service-dtl-block" *ngIf="serviceRequestDetails.service_request_type == 'Category Change Request'">
+                    <div class="row">
+                      <div class="col-sm-6">
+                        <div class="form-group">
+                          <label>{{'Proposed Category'|translate}}</label>
+                          <div class="dtl-value">{{serviceRequestDetails.proposed_category}}</div>
+                        </div>
+                      </div>
+                      <div class="col-sm-6">
+                          <div class="form-group">
+                            <label>{{'Reason'|translate}}</label>
+                            <div class="dtl-value">{{serviceRequestDetails.reason}}</div>
+                          </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                              <label>{{'Proposed Supply Code'|translate}}</label>
+                              <div class="dtl-value">{{serviceRequestDetails.proposed_supply_code}}</div>
+                            </div>
+                          </div>
+                      <div class="col-sm-6">
+                        <div class="form-group">
+                          <label>{{'Comments'|translate}}</label>
+                          <div class="dtl-value">{{serviceRequestDetails.comment}}</div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="service-dtl-block" *ngIf="serviceRequestDetails.service_request_type == 'Shifting of Meter' || serviceRequestDetails.service_request_type == 'Meter Testing'">
+                      <div class="row">
+                        <div class="col-sm-6">
+                          <div class="form-group">
+                            <label>{{'Comments'|translate}}</label>
+                            <div class="dtl-value">{{serviceRequestDetails.comment}}</div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="service-dtl-block" *ngIf="serviceRequestDetails.service_request_type == 'Transfer of Connection'">
+                        <div class="row">
+                          <div class="col-sm-6">
+                            <div class="form-group">
+                              <label>{{'Applicant Name'|translate}}</label>
+                              <div class="dtl-value">{{serviceRequestDetails.applicant_name}}</div>
+                            </div>
+                          </div>
+                          <div class="col-sm-6">
+                              <div class="form-group">
+                                <label>{{'Enclosed Identification Document'|translate}}</label>
+                                <div class="dtl-value">{{serviceRequestDetails.enclosed_identificaton_document}}</div>
+                              </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                  <label>{{'House Number'|translate}}</label>
+                                  <div class="dtl-value">{{serviceRequestDetails.house_number}}</div>
+                                </div>
+                              </div>
+                          <div class="col-sm-6">
+                            <div class="form-group">
+                              <label>{{'Comments'|translate}}</label>
+                              <div class="dtl-value">{{serviceRequestDetails.comment}}</div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- <ul class="dash-box-list">
+        <li class="dash-box-li rows offer-li no-padding">
+          <div class="offer-section">
+            <div class="offer-content">
+              <img src="images/offer-icon.png" alt="">
+              <div class="text-content">We have a lot more to <a href="#">OFFER</a>. Choose from a wide range of products</div>
+              <a class="blue-btn" href="#">Explore</a>
+            </div>
+          </div>
+        </li>
+      </ul> -->
+    </div>
+      </div>
+    <div *ngIf="isLoggedIn()" id="main-menu-bg"></div>
+  </div>
+  <app-footer></app-footer>
+</div>

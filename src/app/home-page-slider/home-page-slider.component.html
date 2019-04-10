@@ -1,0 +1,50 @@
+<div class="owl-carousel owl-theme main-carousel">
+	<div class="item" *ngFor="let sliderContent of content">
+		<div class="item-box">
+			<img src="{{sliderContent.image}}" alt="">
+			<div class="slide-text"  [innerHTML]="sliderContent.desc"></div>
+		</div>
+	</div>
+</div>
+<div class="blue-tabs-sec">
+		<ul class="menu-listing">
+			<li (click)="redirecttocomplaints('pay-bill')">
+				<a href="javascript:void(0);">
+					<ng-container *ngIf="setIconeImage(13) != null">
+							<img [src]="setIconeImage(13)"></ng-container>
+					<div class="title" >
+							{{"Pay Online"|translate}}
+					</div>	
+				</a>
+			</li>
+			<li (click)="redirecttocomplaints('complaints')">
+				<a href="javascript:void(0);">
+					<ng-container *ngIf="setIconeImage(10) != null">
+					<img [src]="setIconeImage(10)"></ng-container>
+					<div class="title" >
+						{{'Complaints'|translate}} <br>({{'register'|translate}} / {{'track'|translate}})
+					</div>
+				</a>
+			</li>
+			<li (click)="redirecttocomplaints('energy-tips')">
+				<a href="javascript:void(0);">
+					<ng-container *ngIf="setIconeImage(11) != null"><img [src]="setIconeImage(11)"></ng-container>
+					<div class="title">{{'Energy Tips'|translate}}</div>
+				</a>
+			</li>
+			<li (click)="redirecttocomplaints('track-service-request')">
+				<a href="javascript:void(0);">
+					<ng-container *ngIf="setIconeImage(14) != null"><img [src]="setIconeImage(14)"></ng-container>
+					<div class="title" >
+						{{"Service Requests"|translate}} <br>(<!-- {{'register'|translate}} /  -->{{'track'|translate}})
+					</div>
+				</a>
+			</li>
+			<li (click)="redirecttocomplaints('new-service-connection')">
+				<a href="javascript:void(0);">
+					<ng-container *ngIf="setIconeImage(1) != null"><img [src]="setIconeImage(12)"></ng-container>
+					<div class="title">{{'New Connection'|translate}}</div>
+				</a>
+			</li>
+		</ul>
+	</div>

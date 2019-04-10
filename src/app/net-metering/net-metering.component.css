@@ -1,0 +1,22 @@
+.touTabularColour{
+    width: 15px;
+    height: 15px;
+    background-color: #09b4aa;
+    float: left;
+    margin-top: 1px;
+}
+.metering-table-box {
+    width: 20%;
+    margin: 0 auto;
+    margin-top: 15px;
+}
+.metering-table-box span{
+    overflow: hidden;
+    display: block;
+    padding-left: 5px;
+    line-height: initial;
+    text-align: left;
+}
+.net-metering-loder-panel{
+    min-height: 300px;
+}

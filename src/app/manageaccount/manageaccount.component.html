@@ -1,0 +1,430 @@
+<div id="main-wrapper">
+  <div class="my-container">
+    <!--Redirection Loder-->
+    <ngx-loading
+      [show]="redirectLoding"
+      [config]="{
+        primaryColour: primaryColour,
+        secondaryColour: secondaryColour,
+        tertiaryColour: primaryColour,
+        backdropBorderRadius: '3px'
+      }"
+    ></ngx-loading>
+    <!--Redirection Loder Ends here-->
+    <app-header></app-header>
+    <app-side-bar [displayUserInfo]="dispString"></app-side-bar>
+    <div id="content-wrapper">
+      <div class="page-heading">{{ "Manage Accounts" | translate }}</div>
+
+      <div class="billing-sec manage-account">
+        <div class="row margin_top5">
+          <div class="col-sm-12">
+            <div class="panel-body">
+              <div class="">
+                <div class="table-wrapper">
+                  <div class="row">
+                    <div class="col-sm-6 pull-right margin_bottom15">
+                      <a
+                        data-toggle="modal"
+                        data-target="#add-account-modal"
+                        class="blue-btn pull-right"
+                        (click)="initAddaccFrm()"
+                        style="cursor:pointer;"
+                        title="{{ 'Add Account'|translate }}"
+                        >{{ "Add Account" | translate }}</a
+                      >
+                    </div>
+                  </div>
+                  <!-- {{displayUserInfo | json}} -->
+                  <div class="manage-table-scroll">
+                    <table class="fl-table manage-account-table tb-header">
+                      <thead>
+                        <tr>
+                          <th colspan="2" width="25%" class="mat-account-dtl">
+                            <table width="100%">
+                              <tr>
+                                <th colspan="50%" class="text-center">
+                                  {{ "Account Number" | translate }}
+                                  <input
+                                    type="text"
+                                    class="form-control"
+                                    placeholder="{{
+                                      'Account Number' | translate
+                                    }}"
+                                    #account_no_serach
+                                    (change)="search(account_no_serach.value)"
+                                  />
+                                </th>
+                                <th width="50%">
+                                  {{ "Account Name" | translate }}
+                                  <input
+                                    type="text"
+                                    class="form-control"
+                                    placeholder="{{
+                                      'Account Name' | translate
+                                    }}"
+                                    #account_name_serach
+                                    (change)="search(account_name_serach.value)"
+                                  />
+                                </th>
+                              </tr>
+                            </table>
+                          </th>
+                          <th width="20%" class="mat-address-col">
+                            {{ "Address" | translate }}
+                          </th>
+                          <th width="10%">{{ "Bill Amount" | translate }}</th>
+                          <th width="10%">{{ "Due Date" | translate }}</th>
+                          <th width="15%">{{ "Action" | translate }}</th>
+                          <!-- <th colspan="2" class="subscribe-th" width="20%">
+                            <table width="100%">
+                              <tr>
+                                <th colspan="2" class="text-center">
+                                  {{ "Subscribe" | translate }}
+                                </th>
+                              </tr>
+                              <tr>
+                                <th width="50%">{{ "E-Bill" | translate }}</th>
+                                <th width="50%">
+                                  {{ "Mobile-Bill" | translate }}
+                                </th>
+                              </tr>
+                            </table>
+                          </th> -->
+                        </tr>
+                      </thead>
+                    </table>
+                    <!--
+                      <pre>
+                      		{{accountData | json}}
+                      </pre>
+                    -->
+                    <table
+                      class="fl-table manage-account-table tb-body"
+                      *ngIf="loder != true && isDataFound == true"
+                    >
+                      <tbody class="mng-data-scroll-tb">
+                        <tr *ngFor="let account of accountData; let i = index" class="mng-data-scroll-tr">
+                          <td colspan="2" width="25%" class="mat-account-dtl">
+                            <table width="100%" cellpadding="0" cellspacing="0">
+                              <tr>
+                                <td width="50%">
+                                  {{ account.account_number
+                                  }}<!-- f -->
+                                </td>
+                                <td width="50%">
+                                  <span *ngIf="account.account_name != ''">{{
+                                    account.account_name
+                                  }}</span>
+                                  <span *ngIf="account.account_name == ''"
+                                    >-</span
+                                  >
+                                </td>
+                              </tr>
+                              
+                            </table>
+                          </td>
+                          <td width="20%" class="mat-address-col">
+                            <span *ngIf="account.billing_address != ''">{{
+                              account.billing_address
+                            }}</span>
+                            <span *ngIf="account.billing_address == ''">-</span>
+                          </td>
+                          <td width="10%">
+                            <i class="fa fa-inr" aria-hidden="true"></i>&nbsp;{{
+                              account.billing_amount | number
+                            }}
+                          </td>
+                          <td width="10%" *ngIf="account.billing_due_date != '-'">
+                            {{ account.billing_due_date | date: "d/M/yy" }}
+                          </td>
+                          <td width="10%" *ngIf="account.billing_due_date == '-'">
+                            -
+                          </td>
+                          <td width="15%">
+                            <a
+                              class="blue-btn action-sm-btn"
+                              (click)="
+                                redirectoPaymentPage(
+                                  account.account_number,
+                                  account.id
+                                )
+                              "
+                              data-toggle="tooltip"
+                              data-placement="top"
+                              title="{{ 'Pay Bill' | translate }}"
+                              style="cursor: pointer;"
+                              ><i class="fa fa-credit-card"></i></a
+                            ><a
+                              class="blue-btn edit-btn action-sm-btn"
+                              style="cursor: pointer;"
+                              (click)="
+                                redirectoDashBoard(
+                                  account.account_number,
+                                  account.id
+                                )
+                              "
+                              data-toggle="tooltip"
+                              data-placement="top"
+                              title="{{ 'view' | translate }}"
+                              ><i class="fa fa-eye"></i></a
+                            ><a
+                              *ngIf="account.is_primary == 0"
+                              class="blue-btn delete-btn action-sm-btn"
+                              (click)="deleteAccount(account.id)"
+                              style="cursor: pointer;"
+                              data-toggle="tooltip"
+                              data-placement="top"
+                              title="{{ 'Unlinked' | translate }}"
+                              ><i class="fa fa-chain-broken"></i
+                            ></a>
+                          </td>
+                          <!-- <td colspan="2" width="20%">
+                            <table width="100%" cellpadding="0" cellspacing="0">
+                              <tr>
+                                <td width="50%">
+                                  <label class="lbl-checkbox">
+                                    <input
+                                      type="checkbox"
+                                      [checked]="account.ebill == 1"
+                                      #ebill[i]
+                                      value="{{ account.ebill }}"
+                                      (click)="
+                                        changeSubscribtion(
+                                          $event,
+                                          'ebill',
+                                          account.id,
+                                          account.account_number
+                                        )
+                                      "
+                                    />
+                                    <span class="checkmark"></span>
+                                  </label>
+                                </td>
+                                <td width="50%">
+                                  <label class="lbl-checkbox">
+                                    <input
+                                      type="checkbox"
+                                      [checked]="account.mobilebill == 1"
+                                      #mbill[i]
+                                      value="{{ account.mobilebill }}"
+                                      (click)="
+                                        changeSubscribtion(
+                                          $event,
+                                          'mobile',
+                                          account.id,
+                                          account.account_number
+                                        )
+                                      "
+                                    />
+                                    <span class="checkmark"></span>
+                                  </label>
+                                </td>
+                              </tr>
+                            </table>
+                          </td> -->
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                  <div
+                    class="loderHeight accountData"
+                    [ngClass]="{ 'loderHeight accountData': loder == true }"
+                    *ngIf="loder == true"
+                  >
+                    <div
+                      class="spinner box-spinner"
+                      style="margin-top:30px; padding-top:20px;"
+                      *ngIf="loder == true"
+                    >
+                      <div class="bounce1"></div>
+                      <div class="bounce2"></div>
+                      <div class="bounce3"></div>
+                    </div>
+                  </div>
+                  <div
+                    style="margin-top: 2;"
+                    class="text-center font-12  field_not_found"
+                    *ngIf="loder == false && isDataFound == false"
+                  >
+                    <img src="/assets/images/no_data.png" />{{
+                      "Currently no data
+                    found for accounts"
+                        | translate
+                    }}<br />
+                    <!-- Please click on add account button in order to add your
+                    account or contact . <br /> -->
+                  </div>
+                  <div class="vice-versa-case rows">
+                    {{
+                      "If you opt for e-bill then paper billing will not be
+                    available and vice versa"
+                        | translate
+                    }}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="main-menu-bg"></div>
+    </div>
+    <div
+      class="modal fade add-account-modal"
+      id="add-account-modal"
+      tabindex="-1"
+      role="dialog"
+      aria-labelledby="myLargeModalLabel"
+    >
+      <div class="modal-dialog modal-md" role="document">
+        <div class="modal-content">
+          <div class="modal-body" *ngIf="ShowOtpVerifyFrm == false">
+            <button
+              type="button"
+              class="close"
+              data-dismiss="modal"
+              aria-label="Close"
+            >
+              <span aria-hidden="true">&times;</span>
+            </button>
+            <h4 class="modal-title" id="gridSystemModalLabel">
+              {{ "Add Account" | translate }}
+            </h4>
+            <form
+              class="form  custom-form"
+              [formGroup]="addAccountFrm"
+              (ngSubmit)="addAccountFunc()"
+            >
+              <div class="row">
+                <div class="col-sm-12">
+                  <div class="form-group">
+                    <input
+                      type="text"
+                      formControlName="account_number"
+                      name="account_number"
+                      class="form-control"
+                      placeholder="{{'Account Number'|translate}} {{'or'|translate}} {{'billnumber'|translate}}"
+                    />
+                    <div
+                      *ngIf="
+                        f.account_number.touched && f.account_number.invalid
+                      "
+                    >
+                      <span
+                        class="error-msg"
+                        *ngIf="f.account_number.errors?.required"
+                        >{{'Account Number'|translate}} {{'or'|translate}} {{'billnumber'|translate}} {{'required'|translate}}</span
+                      >
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-sm-12">
+                  <div
+                    class="form-group text-center margin_top15 no-margin-b"
+                    [ngClass]="{ 'pos-rel': accountProcesLoader }"
+                  >
+                    <div class="spinner" *ngIf="accountProcesLoader">
+                      <div class="bounce1"></div>
+                      <div class="bounce2"></div>
+                      <div class="bounce3"></div>
+                    </div>
+                    <button
+                      class="btn btn-primary submit-btn"
+                      [disabled]="
+                        !addAccountFrm.valid || accountProcesLoader == true
+                      "
+                    >{{ "submit" | translate }}
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+          <div class="modal-body" *ngIf="ShowOtpVerifyFrm == true">
+            <button
+              type="button"
+              class="close"
+              data-dismiss="modal"
+              aria-label="Close"
+            >
+              <span aria-hidden="true">&times;</span>
+            </button>
+            <h4 class="modal-title" id="gridSystemModalLabel">
+              {{ "OTP Verification" | translate }}
+            </h4>
+            <div class="box-title">
+              <div
+                class="text-title text-transform-none"
+                style="margin-top: 15px;"
+              >
+                {{"OTP has been sent to your registered mobile number and
+                email. please enter it below to verify"
+                    | translate
+                }}
+              </div>
+            </div>
+            <form
+              class="form  custom-form"
+              [formGroup]="OtpVerificationFrm"
+              (ngSubmit)="verifyOtp()"
+            >
+              <div class="row">
+                <div class="col-sm-12">
+                  <div class="form-group">
+                    <input
+                      required
+                      formControlName="verifyOtp"
+                      name="verifyOtp"
+                      type="text"
+                      class="form-control"
+                      placeholder="{{ 'otp' | translate }}"
+                    />
+
+                    <div
+                      *ngIf="
+                        OtpVerificationFields.verifyOtp.touched &&
+                        OtpVerificationFields.verifyOtp.invalid
+                      "
+                    >
+                      <span
+                        class="error-msg"
+                        *ngIf="OtpVerificationFields.verifyOtp.errors?.required"
+                        >{{ 'otp' | translate }} {{ "required"|translate }}</span
+                      >
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-sm-12">
+                  <div
+                    class="form-group text-center no-margin-b"
+                    [ngClass]="{ 'pos-rel': Otoploder }"
+                  >
+                    <div class="spinner" *ngIf="Otoploder">
+                      <div class="bounce1"></div>
+                      <div class="bounce2"></div>
+                      <div class="bounce3"></div>
+                    </div>
+                    <button
+                      class="btn btn-primary submit-btn"
+                      [disabled]="
+                        !OtpVerificationFrm.valid || Otoploder == true
+                      "
+                    >{{ "Submit" | translate }}
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    <app-footer></app-footer>
+  </div>
+</div>

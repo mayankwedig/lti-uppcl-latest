@@ -1,0 +1,133 @@
+<!-- <ngx-loading
+      [show]="redirectLoding"
+      [config]="{
+        primaryColour: primaryColour,
+        secondaryColour: secondaryColour,
+        tertiaryColour: primaryColour,
+        backdropBorderRadius: '3px'
+      }"
+    ></ngx-loading> -->
+<div id="main-wrapper" class="no-sidebar">
+	<app-header></app-header>
+	<div class="main-container-sec">
+		<div class="row">
+			<div class="col-sm-12 col-md-9 no-padding-r">
+				<div class="main-slide-bar home-main-slider">
+					<home-page-slider [content]="sliderContent"></home-page-slider>
+				</div>
+			</div>
+
+			<div class="col-sm-12 col-md-3 no-padding-l">
+				<div class="bannar-sidebar">
+					<div class="latest-update" *ngIf="latestNewsLoader == false">
+						<div class="box-title">
+							<span class="title-icon" *ngIf="setIconeImage(5) != null"><img [src]="setIconeImage(5)" alt=""></span>
+							<div class="text-title">{{'Latest Updates' | translate}}</div>
+						</div>
+						<div class="marquee-slide">
+							<app-latest-news-marquee [latestNews]="latestNews"></app-latest-news-marquee>
+						</div>
+						<div class="rows" *ngIf="latestNewsLoader == true">
+							<div class="spinner box-spinner latest-spin">
+								<div class="bounce1"></div>
+								<div class="bounce2"></div>
+								<div class="bounce3"></div>
+							</div>
+						</div>
+
+					</div>
+					<div class="c-m-message" *ngIf="ministerLoader == false && ministerDataFound == true ">
+
+						<div class="box-title">
+							<span class="title-icon" *ngIf="setIconeImage(6) != null"><img [src]="setIconeImage(6)" alt=""></span>
+							<div class="text-title">{{ministermsg.title |translate}}</div>
+						</div>
+
+						<div class="msg-detail">
+							<div class="cm-img">
+								<!-- {{ministermsg.display_picture}} -->
+								<img [src]="getImages(ministermsg)" alt="{{ministermsg.name}}">
+							</div>
+							<div class="cm-msg-box">
+								<p>
+									{{ministermsg.description}}
+								</p>
+								<div class="cm-name">
+									{{ministermsg.name}}
+								</div>
+								<div class="degination">
+									{{ministermsg.designation}}
+								</div>
+							</div>
+						</div>
+					</div>
+					<div style="margin-top: 66px;" class="text-center font-12  field_not_found" *ngIf="ministerLoader == false && ministerDataFound == false">
+						<img src="../assets/images/no_data.png" />{{'Data not found'|translate}}
+					</div>
+					<div class="rows" *ngIf="ministerLoader == true">
+						<div class="spinner box-spinner" style="top: 135%;">
+							<div class="bounce1"></div>
+							<div class="bounce2"></div>
+							<div class="bounce3"></div>
+						</div>
+					</div>
+
+				</div>
+			</div>
+		</div>
+		<div class="mission-section" >
+			<div class="row" *ngIf="missionVisionFound == true">
+				<div class="col-sm-4" *ngFor="let missionData of missionVisionData">
+					<div class="mission-vision">
+						<img [src]="getImages(missionData)" alt="" class="image">
+						<div class="overlay">
+							<div class="title">
+								<img src="../assets/images/mission-icon.png" alt="">
+								{{missionData.title|translate}}
+							</div>
+							<div class="text">
+								{{missionData.description|translate}}
+								<a routerLink="/about" *ngIf="missionData.id != 4"  class="konw-more-link">{{'Know More'|translate}}</a>
+								<a routerLink="/energy-tips" *ngIf="missionData.id == 4"  class="konw-more-link">{{'Know More'|translate}}</a>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- <div class="col-sm-4">
+					<div class="mission-vision">
+						<img src="../assets/images/mission-img-1.jpg" alt="" class="image">
+						<div class="overlay">
+							<div class="title">
+								<img src="../assets/images/vission-icon.png" alt="">
+								{{'ourvision'|translate}}
+							</div>
+							<div class="text">
+								To make network development and investment plans for an Intra-state transmission system that is reliable,
+								economical, develop best-in-class system study and system planning capacities within the organization.
+								<a href="#" class="konw-more-link">{{'knowmore'|translate}}</a>
+							</div>
+						</div>
+					</div>
+				</div>-->
+			</div>
+		</div>
+		<div class="important-links" [ngClass]="{ impLinkLoaderMinHeight:impLinkLoader == true }">
+			<div class="title">
+				{{'Important Links'|translate}}
+			</div>
+			<div class="row">
+				<div class="col-sm-10 col-sm-offset-1">
+						<div class="rows impLinkLoderMargin" *ngIf="impLinkLoader == true">
+							<div class="spinner box-spinner important-spiner" >
+								<div class="bounce1"></div>
+								<div class="bounce2"></div>
+								<div class="bounce3"></div>
+							</div>
+						 </div>
+					<home-imp-link-slider [impLinks]="impLinks" *ngIf="impLinkLoader == false && impLinks.length > 0"></home-imp-link-slider>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<app-footer></app-footer>

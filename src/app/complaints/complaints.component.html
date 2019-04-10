@@ -1,0 +1,805 @@
+<div id="main-wrapper"  [ngClass]="{'no-sidebar': !isLoggedIn()}">
+  <app-header></app-header>
+  <span *ngIf="isLoggedIn()">
+    <app-side-bar [displayUserInfo]="dispString"></app-side-bar>
+  </span>
+  
+  <div id="content-wrapper"  [ngClass]="{'complaint-wrapeer-bg': !isLoggedIn()}">
+    <div  [ngClass]="{'col-sm-10 col-sm-offset-1': !isLoggedIn()}">
+      <div class="page-heading">{{'Complaints'|translate}}</div>
+      <div class="billing-sec complaints-page">
+        <div class="row margin_top20 margin_bottom20">
+          <div class="col-sm-12">
+            <div class="service-box" *ngIf="showTrackingNo == true">
+              <div class="panel-body">
+                <div class="title">Complaint registration</div>
+                <div class="req-success-msg">
+                {{'Thank You For Registering Your Complaint.'|translate}}
+                </div>
+                <div class="req-number">
+                  {{'Your complaint no. is:'| translate}} <span>{{ trackingNo }}</span>
+                </div>
+                <div class="team-contact">{{'Our Team Will Contact You Shortly.'|translate}}</div>
+                <div class="text-center padding_top50">
+                  {{'Page will be redirect automatically after 30 second.'|translate}}
+                </div>
+              </div>
+            </div>
+            <div class="panel-body pos-rel" *ngIf="showTrackingNo == false">
+              
+                <button (click)="trackComplaints()" class="btn btn-primary submit-btn trackrequest-btn"type="submit" *ngIf="!isLoggedIn()">
+                Track Request
+                   </button>
+              <div class="row">
+                <div
+                  class="col-sm-6 col-sm-offset-3 profile-right-content padding_top50"
+                  *ngIf="isLoggedIn()"
+                >
+                  <form
+                    class="form top-label-form"
+                    [formGroup]="complaintsFrm"
+                    (ngSubmit)="submitComplaintFrm()"
+                  >
+                    <div class="row">
+                      <div class="col-xs-12">
+                        <div class="form-group">
+                          <label>{{'Account Number'|translate}}*</label>
+                          <select
+                            required
+                            *ngIf="!userAccountsLoder && userAccounts.length > 0"
+                            formControlName="accountNumber"
+                            name="accountNumber"
+                            class="form-control"
+                          >
+                            <option value="" selected
+                              > {{'Select Account Number'|translate}}</option
+                            >
+                            <option
+                              value="{{ user.account_number }}"
+                              *ngFor="let user of userAccounts"
+                              >{{ user.account_number }}</option
+                            >
+                          </select>
+                          <select
+                            required
+                            *ngIf="!userAccountsLoder && userAccounts.length == 0"
+                            formControlName="accountNumber"
+                            name="accountNumber"
+                            class="form-control"
+                          >
+                            <option value="" selected
+                              >{{'Select Account Number'|translate}}</option
+                            >
+                          </select>
+                          <div *ngIf="userAccountsLoder" class="fieldLoding">
+                            Loding...
+                          </div>
+                          <div
+                            *ngIf="
+                              f.accountNumber.touched && f.accountNumber.invalid
+                            "
+                          >
+                            <span
+                              class="error-msg"
+                              *ngIf="f.accountNumber.errors?.required"
+                              >{{'Account Number is required.'|translate}} 
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="col-xs-12">
+                        <div class="form-group">
+                          <!--  {{complaintCaseTypes }} -->
+                          <label>{{'Case type'|translate}}*</label>
+                          <select
+                            *ngIf="
+                              !complaintCaseTypeLoder &&
+                              complaintCaseTypes.length > 0
+                            "
+                            required
+                            formControlName="caseType"
+                            name="caseType"
+                            class="form-control"
+                            (change)="
+                              initComplaintsFrm(complaintsFrm.value.caseType)
+                            "
+                          >
+                            <option value="" selected>{{'Select Case Type'|translate}}</option>
+                            <option
+                              value="{{ complaintCaseType.case_type }}"
+                              *ngFor="let complaintCaseType of complaintCaseTypes"
+                              >{{ complaintCaseType.case_type }}</option
+                            >
+                          </select>
+                          <select
+                            *ngIf="
+                              !complaintCaseTypeLoder &&
+                              complaintCaseTypes.length == 0
+                            "
+                            required
+                            formControlName="caseType"
+                            name="caseType"
+                            class="form-control"
+                          >
+                            <option value="" selected>{{'Select Case Type'|translate}}</option>
+                          </select>
+                          <div *ngIf="complaintCaseTypeLoder" class="fieldLoding">
+                            Loding...
+                          </div>
+                          <div *ngIf="f.caseType.touched && f.caseType.invalid">
+                            <span
+                              class="error-msg"
+                              *ngIf="f.caseType.errors?.required"
+                              >{{'Case type is required.'|translate}} </span
+                            >
+                          </div>
+                        </div>
+                      </div>
+                      <!-- {{billingData|json}} -->
+                      <div
+                        class="col-xs-12"
+                        *ngIf="complaintsFrm.value.caseType == 'Bill Related'"
+                      >
+                        <div class="form-group">
+                          <label>{{'Bill Id'|translate}}*</label>
+                          <select
+                            required
+                            *ngIf="
+                              billingDataLoder == false &&
+                              isbillingDataFound == true
+                            "
+                            formControlName="billId"
+                            name="billId"
+                            class="form-control"
+                          >
+                            <option value="" selected>{{'Select Bill Id'|translate}}</option>
+                            <option
+                              value="{{ bill.receipt_no }}"
+                              *ngFor="let bill of billingData"
+                              >{{ bill.receipt_no }} ({{
+                                bill.meter_reading_date | date: "MMMM"
+                              }})</option
+                            >
+                          </select>
+                          <select
+                            required
+                            *ngIf="
+                              billingDataLoder == false &&
+                              isbillingDataFound == false
+                            "
+                            formControlName="billId"
+                            name="billId"
+                            class="form-control"
+                          >
+                            <option value="" selected>{{'Select Bill Id'|translate}}</option>
+                          </select>
+                          <div *ngIf="billingDataLoder">Loding...</div>
+                          <div *ngIf="f.billId.touched && f.billId.invalid">
+                            <span
+                              class="error-msg"
+                              *ngIf="f.billId.errors?.required"
+                              >{{'Bill Id is required.'|translate}} </span
+                            >
+                          </div>
+                        </div>
+                      </div>
+                      <div
+                        class="col-xs-12"
+                        *ngIf="complaintsFrm.value.caseType == 'Bill Related'"
+                      >
+                        <div class="form-group">
+                          <label>{{'Reason'|translate}}*</label>
+                          <select
+                            *ngIf="
+                              !complaintBillRelatedReasonLoder &&
+                              complaintBillRelatedReasons.length > 0
+                            "
+                            required
+                            formControlName="reason"
+                            name="reason"
+                            class="form-control"
+                          >
+                            <option value="" selected>{{'Select Reason'|translate}}</option>
+                            <option
+                              value="{{ complaintBillRelatedReason.reason }}"
+                              *ngFor="
+                                let complaintBillRelatedReason of complaintBillRelatedReasons
+                              "
+                              >{{ complaintBillRelatedReason.reason }}</option
+                            >
+                          </select>
+                          <select
+                            *ngIf="
+                              !complaintBillRelatedReasonLoder &&
+                              complaintBillRelatedReasons.length == 0
+                            "
+                            required
+                            formControlName="reason"
+                            name="reason"
+                            class="form-control"
+                          >
+                            <option value="" selected>{{'Select Reason'|translate}}</option>
+                          </select>
+                          <div
+                            *ngIf="complaintBillRelatedReasonLoder"
+                            class="fieldLoding"
+                            style="left: 93px;"
+                          >
+                            Loding...
+                          </div>
+                          <div *ngIf="f.reason.touched && f.reason.invalid">
+                            <span
+                              class="error-msg"
+                              *ngIf="f.reason.errors?.required"
+                              >{{'Reason is required.'|translate}}</span
+                            >
+                          </div>
+                        </div>
+                      </div>
+                      <div
+                        class="col-xs-12"
+                        *ngIf="complaintsFrm.value.caseType == 'Supply Related'"
+                      >
+                        <div class="form-group">
+                          <label>{{'Service Requests'|translate}}*</label>
+                          <select
+                            *ngIf="
+                              !complaintSupplyServiceRequestLoder &&
+                              complaintSupplyServiceRequests.length > 0
+                            "
+                            required
+                            formControlName="serviceRequest"
+                            name="serviceRequest"
+                            class="form-control"
+                          >
+                            <option value="" selected>{{'Select Request'|translate}}</option>
+                            <option
+                              value="{{
+                                complaintSupplyServiceRequest.service_request
+                              }}"
+                              *ngFor="
+                                let complaintSupplyServiceRequest of complaintSupplyServiceRequests
+                              "
+                              >{{
+                                complaintSupplyServiceRequest.service_request
+                              }}</option
+                            >
+                          </select>
+                          <select
+                            *ngIf="
+                              !complaintSupplyServiceRequestLoder &&
+                              complaintSupplyServiceRequests.length == 0
+                            "
+                            required
+                            formControlName="serviceRequest"
+                            name="serviceRequest"
+                            class="form-control"
+                          >
+                            <option value="" selected>{{'Select Request'|translate}}</option>
+                          </select>
+                          <div
+                            *ngIf="complaintSupplyServiceRequestLoder"
+                            class="fieldLoding"
+                          >
+                            Loding...
+                          </div>
+                          <div
+                            *ngIf="
+                              f.serviceRequest.touched && f.serviceRequest.invalid
+                            "
+                          >
+                            <span
+                              class="error-msg"
+                              *ngIf="f.serviceRequest.errors?.required"
+                              >{{'Service Requests is required.'|translate}}</span
+                            >
+                          </div>
+                        </div>
+                      </div>
+                      <div
+                        class="col-xs-12"
+                        *ngIf="complaintsFrm.value.caseType == 'Supply Related'"
+                      >
+                        <div class="form-group">
+                          <label>{{'Problem'|translate}}*</label>
+                          <select
+                            *ngIf="
+                              !complaintSupplyProblemLoder &&
+                              complaintSupplyProblems.length > 0
+                            "
+                            required
+                            formControlName="problem"
+                            name="problem"
+                            class="form-control"
+                          >
+                            <option value="" selected>{{'Select Problem'|translate}}</option>
+                            <option
+                              value="{{ complaintSupplyProblem.problems }}"
+                              *ngFor="
+                                let complaintSupplyProblem of complaintSupplyProblems
+                              "
+                              >{{ complaintSupplyProblem.problems }}</option
+                            >
+                          </select>
+                          <select
+                            *ngIf="
+                              !complaintSupplyProblemLoder &&
+                              complaintSupplyProblems.length == 0
+                            "
+                            required
+                            formControlName="problem"
+                            name="problem"
+                            class="form-control"
+                          >
+                            <option value="" selected>{{'Select Problem'|translate}}</option>
+                          </select>
+                          <div
+                            *ngIf="complaintSupplyProblemLoder"
+                            class="fieldLoding"
+                          >
+                            Loding...
+                          </div>
+                          <div *ngIf="f.problem.touched && f.problem.invalid">
+                            <span
+                              class="error-msg"
+                              *ngIf="f.problem.errors?.required"
+                              >{{'Problem is required.'|translate}}</span
+                            >
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-xs-12">
+                        <div class="form-group">
+                          <label>{{'Comments'|translate}}*</label>
+                          <textarea
+                            required
+                            formControlName="comments"
+                            name="comments"
+                            class="form-control"
+                            name=""
+                            id=""
+                            rows="4"
+                            placeholder="{{'Add comments here'|translate}}"
+                          ></textarea>
+                          <div *ngIf="f.comments.touched && f.comments.invalid">
+                            <span
+                              class="error-msg"
+                              *ngIf="f.comments.errors?.required"
+                              >{{'Comment is required'|translate}}</span
+                            >
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div
+                      class="form-group text-center no-margin-b"
+                      [ngClass]="{ 'pos-rel': submitComplaingLoder }"
+                    >
+                      <div
+                        class="spinner"
+                        *ngIf="submitComplaingLoder"
+                        style="top: 80%;"
+                      >
+                        <div class="bounce1"></div>
+                        <div class="bounce2"></div>
+                        <div class="bounce3"></div>
+                      </div>
+                      <button
+                        [disabled]="submitComplaingLoder == true"
+                        class="btn btn-primary submit-btn full-btn"
+                        type="submit"
+                      >
+                        {{'submit'|translate}}
+                      </button>
+                    </div>
+                    <!-- {{complaintsFrm.value | json}} -->
+                  </form>
+                </div>
+                <div
+                  class="col-sm-6 col-sm-offset-3 profile-right-content padding_top50"
+                  *ngIf="!isLoggedIn()"
+                >
+                  <form
+                    class="form top-label-form"
+                    [formGroup]="complaintsFrm"
+                    (ngSubmit)="submitComplaintFrmbeforeLogin()"
+                  >
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <div class="form-group">
+                              <!--  {{complaintCaseTypes }} -->
+                              <label>{{'Complaint Type'|translate}}*</label>
+                              <select
+                                *ngIf="
+                                  !complaintCaseTypeLoder &&
+                                  complaintCaseTypes.length > 0
+                                "
+                                required
+                                formControlName="caseType"
+                                name="caseType"
+                                class="form-control"
+                                (change)="
+                                initComplaintsFrmWithoutLoggedIn(complaintsFrm.value.caseType)
+                                "
+                              >
+                                <option value="" selected>{{'Select Complaint Type'|translate}}</option>
+                                <option
+                                  value="{{ complaintCaseType.case_type }}"
+                                  *ngFor="let complaintCaseType of complaintCaseTypes"
+                                  >{{ complaintCaseType.case_type }}</option
+                                >
+                              </select>
+                              <select
+                                *ngIf="
+                                  !complaintCaseTypeLoder &&
+                                  complaintCaseTypes.length == 0
+                                "
+                                required
+                                formControlName="caseType"
+                                name="caseType"
+                                class="form-control"
+                              >
+                                <option value="" selected>{{'Select Case type'|translate}}</option>
+                              </select>
+                              <div *ngIf="complaintCaseTypeLoder" class="fieldLoding">
+                                Loding...
+                              </div>
+                              <div *ngIf="f.caseType.touched && f.caseType.invalid">
+                                <span
+                                  class="error-msg"
+                                  *ngIf="f.caseType.errors?.required"
+                                  >{{'Case type is required.'|translate}} </span
+                                >
+                              </div>
+                            </div>
+                          </div>
+                      <div class="col-xs-12">
+                        <div class="form-group rightButtonBlock">
+                          <label>{{'Account Number'|translate}}*</label>
+                          <input
+                          type="text"
+                          required
+                          formControlName="accountNumber"
+                          name="accountNumber"
+                          class="form-control"
+                          placeholder="{{'Account Number'|translate}}"
+                          />
+                          <div
+                            *ngIf="
+                              f.accountNumber.touched && f.accountNumber.invalid
+                            "
+                          >
+                            <span
+                              class="error-msg"
+                              *ngIf="f.accountNumber.errors?.required"
+                              >{{'Account Number is required.'|translate}} </span
+                            >
+                          </div>
+                          <button
+                          [disabled]="f.accountNumber.invalid"
+                        class="btn btn-primary submit-btn "
+                        type="button"
+                        (click)="getDatails()"
+                      >Get Details
+                      </button>
+                      <div
+                        class="spinner"
+                       style="top:50%;left: 107%;"
+                       *ngIf="verifyAccountLoader == true"
+                      >
+                        <div class="bounce1"></div>
+                        <div class="bounce2"></div>
+                        <div class="bounce3"></div>
+                      </div>
+                        </div>
+                        
+                      </div>
+                      <div class="col-xs-12">
+                          <div class="form-group">
+                              <label>{{'Mobile number'|translate}}*</label>
+                              <input
+                          type="text"
+                          required
+                            
+                          formControlName="mobile"
+                          name="mobile"
+                          class="form-control"
+                          placeholder="{{'Mobile number'|translate}}"
+                          disabled
+                          />
+                          <div
+                            *ngIf="
+                              f.mobile.touched && f.mobile.invalid
+                            "
+                          >
+                          <span
+                              class="error-msg"
+                              *ngIf="f.mobile.errors?.required"
+                              >{{'Mobile number is required.'|translate}} </span
+                            >
+                            </div>
+                          </div>
+                          
+                        </div>
+                        <div class="col-xs-12">
+                            <div class="form-group">
+                                <label>{{'E-mail address'|translate}}*</label>
+                            <input
+                            type="email"
+                            required
+                            formControlName="email"
+                            name="email"
+                            class="form-control"
+                            placeholder="{{'E-mail address'|translate}}"
+                            disabled
+                            />
+                            <div
+                            *ngIf="
+                              f.email.touched && f.email.invalid
+                            "
+                          >
+                            <span
+                              class="error-msg"
+                              *ngIf="f.email.errors?.required"
+                              >{{'Email is required.'|translate}} </span
+                            ></div>
+                            </div>
+                          </div>
+                          <div class="complaints-border-t col-xs-12"></div>
+                      
+                      <!-- {{billingData|json}} -->
+                      <div
+                        class="col-xs-12"
+                        *ngIf="complaintsFrm.value.caseType == 'Bill Related'"
+                      >
+                        <div class="form-group">
+                          <label>{{'Bill Id'|translate}}*</label>
+                          <input 
+                          type="text"
+                          required
+                          formControlName="billId"
+                          name="billId"
+                          class="form-control"
+                          />
+                          <div *ngIf="f.billId.touched && f.billId.invalid">
+                            <span
+                              class="error-msg"
+                              *ngIf="f.billId.errors?.required"
+                              >{{'Bill Id is required.'|translate}} </span
+                            >
+                          </div>
+                        </div>
+                      </div>
+                      <div
+                        class="col-xs-12"
+                        *ngIf="complaintsFrm.value.caseType == 'Bill Related'"
+                      >
+                        <div class="form-group">
+                          <label>{{'Reason'|translate}}*</label>
+                          <select
+                            *ngIf="
+                              !complaintBillRelatedReasonLoder &&
+                              complaintBillRelatedReasons.length > 0
+                            "
+                            required
+                            formControlName="reason"
+                            name="reason"
+                            class="form-control"
+                          >
+                            <option value="" selected>{{'Select Reason'|translate}}</option>
+                            <option
+                              value="{{ complaintBillRelatedReason.reason }}"
+                              *ngFor="
+                                let complaintBillRelatedReason of complaintBillRelatedReasons
+                              "
+                              >{{ complaintBillRelatedReason.reason }}</option
+                            >
+                          </select>
+                          <select
+                            *ngIf="
+                              !complaintBillRelatedReasonLoder &&
+                              complaintBillRelatedReasons.length == 0
+                            "
+                            required
+                            formControlName="reason"
+                            name="reason"
+                            class="form-control"
+                          >
+                            <option value="" selected>{{'Select Reason'|translate}}</option>
+                          </select>
+                          <div
+                            *ngIf="complaintBillRelatedReasonLoder"
+                            class="fieldLoding"
+                            style="left: 93px;"
+                          >
+                            Loding...
+                          </div>
+                          <div *ngIf="f.reason.touched && f.reason.invalid">
+                            <span
+                              class="error-msg"
+                              *ngIf="f.reason.errors?.required"
+                              >{{'Reason is required.'|translate}}</span
+                            >
+                          </div>
+                        </div>
+                      </div>
+                      <div
+                        class="col-xs-12"
+                        *ngIf="complaintsFrm.value.caseType == 'Supply Related'"
+                      >
+                        <div class="form-group">
+                          <label>{{'Service Requests'|translate}}*</label>
+                          <select
+                            *ngIf="
+                              !complaintSupplyServiceRequestLoder &&
+                              complaintSupplyServiceRequests.length > 0
+                            "
+                            required
+                            formControlName="serviceRequest"
+                            name="serviceRequest"
+                            class="form-control"
+                          >
+                            <option value="" selected>{{'Select Request'|translate}}</option>
+                            <option
+                              value="{{
+                                complaintSupplyServiceRequest.service_request
+                              }}"
+                              *ngFor="
+                                let complaintSupplyServiceRequest of complaintSupplyServiceRequests
+                              "
+                              >{{
+                                complaintSupplyServiceRequest.service_request
+                              }}</option
+                            >
+                          </select>
+                          <select
+                            *ngIf="
+                              !complaintSupplyServiceRequestLoder &&
+                              complaintSupplyServiceRequests.length == 0
+                            "
+                            required
+                            formControlName="serviceRequest"
+                            name="serviceRequest"
+                            class="form-control"
+                          >
+                            <option value="" selected>{{'Select Request'|translate}}</option>
+                          </select>
+                          <div
+                            *ngIf="complaintSupplyServiceRequestLoder"
+                            class="fieldLoding"
+                          >
+                            Loding...
+                          </div>
+                          <div
+                            *ngIf="
+                              f.serviceRequest.touched && f.serviceRequest.invalid
+                            "
+                          >
+                            <span
+                              class="error-msg"
+                              *ngIf="f.serviceRequest.errors?.required"
+                              >{{'Service Requests is required.'|translate}}</span
+                            >
+                          </div>
+                        </div>
+                      </div>
+                      <div
+                        class="col-xs-12"
+                        *ngIf="complaintsFrm.value.caseType == 'Supply Related'"
+                      >
+                        <div class="form-group">
+                          <label>{{'Problem'|translate}}*</label>
+                          <select
+                            *ngIf="
+                              !complaintSupplyProblemLoder &&
+                              complaintSupplyProblems.length > 0
+                            "
+                            required
+                            formControlName="problem"
+                            name="problem"
+                            class="form-control"
+                          >
+                            <option value="" selected>{{'Select Problem'|translate}}</option>
+                            <option
+                              value="{{ complaintSupplyProblem.problems }}"
+                              *ngFor="
+                                let complaintSupplyProblem of complaintSupplyProblems
+                              "
+                              >{{ complaintSupplyProblem.problems }}</option
+                            >
+                          </select>
+                          <select
+                            *ngIf="
+                              !complaintSupplyProblemLoder &&
+                              complaintSupplyProblems.length == 0
+                            "
+                            required
+                            formControlName="problem"
+                            name="problem"
+                            class="form-control"
+                          >
+                            <option value="" selected>{{'Select Problem'|translate}}</option>
+                          </select>
+                          <div
+                            *ngIf="complaintSupplyProblemLoder"
+                            class="fieldLoding"
+                          >
+                            Loding...
+                          </div>
+                          <div *ngIf="f.problem.touched && f.problem.invalid">
+                            <span
+                              class="error-msg"
+                              *ngIf="f.problem.errors?.required"
+                              >{{'Problem is required.'|translate}}</span
+                            >
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-xs-12">
+                        <div class="form-group">
+                          <label>{{'Comments'|translate}}*</label>
+                          <textarea
+                            required
+                            formControlName="comments"
+                            name="comments"
+                            class="form-control"
+                            name=""
+                            id=""
+                            rows="4"
+                            placeholder="Add comments here"
+                          ></textarea>
+                          <div *ngIf="f.comments.touched && f.comments.invalid">
+                            <span
+                              class="error-msg"
+                              *ngIf="f.comments.errors?.required"
+                              >{{'Comment is required.'|translate}}</span
+                            >
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div
+                      class="form-group text-center no-margin-b"
+                      [ngClass]="{ 'pos-rel': submitComplaingLoder }"
+                    >
+                      <div
+                        class="spinner"
+                        *ngIf="submitComplaingLoder"
+                        style="top: 80%;"
+                      >
+                        <div class="bounce1"></div>
+                        <div class="bounce2"></div>
+                        <div class="bounce3"></div>
+                      </div>
+                      <button
+                        [disabled]="submitComplaingLoder == true || !isCompAcNoVerified"
+                        class="btn btn-primary submit-btn full-btn"
+                        type="submit"
+                      >
+                        {{'submit'|translate}}
+                      </button>
+                    </div>
+                    <!-- {{complaintsFrm.value | json}} -->
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+       
+          <div class="electricity-consumption-box">
+            <img src="../assets/images/electricity-icon.png" /> {{'Your last month
+            consumption is'|translate}} <span>3250</span> units. Learn tips how to save
+            electricity.
+            <a href="#"
+              >Read more <img src="../assets/images/read-more-icon.png"
+            /></a>
+          </div>
+          <app-advertisement [adQuery]="fetchAdQuery"></app-advertisement>
+        </div>
+    </div>
+    <div *ngIf="isLoggedIn()" id="main-menu-bg"></div>
+  </div>
+  <app-footer></app-footer>
+</div>

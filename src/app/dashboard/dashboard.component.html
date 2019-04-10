@@ -1,0 +1,988 @@
+<div id="main-wrapper">
+  <app-header></app-header>
+  <app-side-bar [displayUserInfo]="dispString"></app-side-bar>
+  <div id="content-wrapper">
+    <ng-container *ngFor="let drows of filterBy('sort')">
+      <ng-container *ngIf="drows.row_name == 1">
+        <ul class="dash-box-list dash-top-block">
+          <!-- {{drows.cols|json}} -->
+          <ng-container *ngIf="drows.cols.length > 0">
+            <ng-container *ngFor="let dcol of filterColsBy(drows.cols, 'sort')">
+              <!--  {{dcol|json}} -->
+              <li
+                class="dash-box-li width-9"
+                *ngIf="
+                  widgets[3]?.Name == 'Widget 1' &&
+                  widgets[3]?.Status == 'Enabled' &&
+                  dcol.col_name == 1
+                "
+              >
+                <div class="panel-body et-first-box">
+                  <div class="row">
+                    <div class="col-sm-6 col-xs-12 border-divider">
+                      <div class="">
+                        <div
+                          class="box-title max-content-title title-min-height"
+                        >
+                          <span class="title-icon" *ngIf="setIconeImage(7) != null"
+                            ><img [src]="setIconeImage(7)" alt=""
+                          /></span>
+                          <div class="text-title">
+                            {{ "Yesterdays Consumption" | translate }}
+                          </div>
+                        </div>
+                        <div *ngIf="!yesterDayConsumptionLoder" class="amount">
+                          {{ yesterdayReading }}&nbsp;<span>KWH</span>
+                        </div>
+                        <div
+                          class="rows"
+                          style="margin-top: 31px; position: relative;"
+                          *ngIf="yesterDayConsumptionLoder"
+                        >
+                          <div class="spinner box-spinner">
+                            <div class="bounce1"></div>
+                            <div class="bounce2"></div>
+                            <div class="bounce3"></div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-sm-6 col-xs-12">
+                      <div class="rows">
+                        <div
+                          class="box-title max-content-title title-min-height"
+                        >
+                          <span class="title-icon" *ngIf="setIconeImage(8) != null"
+                            ><img [src]="setIconeImage(8)" alt=""
+                          /></span>
+                          <div class="text-title">
+                            {{ "Cumulative Consumption" | translate }} ({{
+                              currentYear
+                            }})
+                          </div>
+                        </div>
+                        <div class="amount" *ngIf="!yesterDayConsumptionLoder">
+                          {{ yetToDateReading }}&nbsp;<span>KWH</span>
+                        </div>
+                        <div
+                          class="rows"
+                          style="margin-top: 31px; position: relative;"
+                          *ngIf="yesterDayConsumptionLoder"
+                        >
+                          <div class="spinner box-spinner">
+                            <div class="bounce1"></div>
+                            <div class="bounce2"></div>
+                            <div class="bounce3"></div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-sm-4 col-xs-12" style="display:none;">
+                      <div class="box-title max-content-title title-min-height">
+                        <span class="title-icon" *ngIf="setIconeImage(9) != null"
+                          ><img [src]="setIconeImage(9)" alt=""
+                        /></span>
+                        <div class="text-title">
+                          {{ "Current Meter Reading" | translate }}
+                        </div>
+                      </div>
+
+                      <div class="amount cmr-amount">
+                        {{ onDemandReadData.latestConsumption | number: "2.2" }}
+                        <span *ngIf="onDemandReadData != ''">{{
+                          onDemandReadData.unitOfMeasure
+                        }}</span>
+                        &nbsp;
+                        <a
+                          *ngIf="
+                            onDemandReadLoder == false &&
+                            showGetReadButton == true
+                          "
+                          (click)="getOnDemandRead()"
+                          style="cursor:pointer;"
+                          class="blue-btn pay-now-btn"
+                          >{{ "Get Read" | translate }}</a
+                        >
+
+                        <a
+                          class="cmr-refresh"
+                          *ngIf="
+                            onDemandReadLoder == false &&
+                            showGetReadButton == false
+                          "
+                          (click)="getOnDemandRead()"
+                          style="cursor:pointer;"
+                          ><img width="20" src="assets/images/refresh.png"
+                        /></a>
+                        <div class="rows" *ngIf="onDemandReadLoder">
+                          <div class="spinner_odr spinner box-spinner">
+                            <div class="bounce1"></div>
+                            <div class="bounce2"></div>
+                            <div class="bounce3"></div>
+                          </div>
+                        </div>
+                        <div
+                          class="dashboardTimeStapm"
+                          style="padding-bottom:2px;"
+                          *ngIf="onDemandReadData != ''"
+                        >
+                          {{ onDemandReadData.createdOn }}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="scroll-div" *ngIf="energyTipsFound == true">
+                    <ul>
+                      <li class="no-style">
+                        <div class="page-heading energy-title no-padding-l">
+                          <img src="assets/images/energy-icon1.png" /> &nbsp;{{
+                            "Energy Tips" | translate
+                          }}
+                        </div>
+                      </li>
+                      <li *ngFor="let tips of energyTips">
+                        {{ tips.content }}
+                      </li>
+                      <!--
+                            <li>
+                              Preheat combustion air with waste heat (22 <sup>0</sup>C
+                              reduction in flue gas temperature increases boiler efficiency by
+                              1%).
+                            </li>
+                          -->
+                      <!--
+                            <li>
+                              Use variable speed drives on large boiler combustion air fans
+                              with variable flows.
+                            </li>
+                          -->
+                      <!--
+                            <li>Burn wastes if permitted.</li>
+                            <li>Insulate exposed heated oil tanks.</li>
+                            <li>Clean burners, nozzles, strainers, etc.</li>
+                            <li>Inspect oil heaters for proper oil temperature.</li>
+                            <li>
+                              Close burner air and/or stack dampers when the burner is off to
+                              minimize heat loss up the stack.
+                            </li>
+                          -->
+                    </ul>
+                  </div>
+                </div>
+              </li>
+              <li
+                class="dash-box-li width-3"
+                *ngIf="
+                  widgets[2]?.Name == 'Alerts and Notifications' &&
+                  widgets[2]?.Status == 'Enabled' &&
+                  dcol.col_name == 2
+                "
+              >
+                <div class="panel-body">
+                  <div class="row">
+                    <div class="col-sm-12">
+                      <div class="scroll-div no-border">
+                        <div class="box-title">
+                          <span class="title-icon" *ngIf="getWedgetIcone(widgets[2].image) != null"
+                            ><img
+                              [src]="getWedgetIcone(widgets[2].image)"
+                              alt=""
+                          /></span>
+                          <div class="text-title">
+                            {{ "Alert & Notifications" | translate }}
+                          </div>
+                        </div>
+                        <ul
+                          class="notification-listing"
+                          *ngIf="
+                            isAlertDataFound == true && alertDataLoader == false
+                          "
+                        >
+                          <li *ngFor="let alerts of alertData">
+                            <img
+                              *ngIf="alerts.type == 'billing'"
+                              src="assets/images/rupee-icon-hover.png"
+                              alt=""
+                            />
+
+                            <img
+                              *ngIf="alerts.type == 'peak_load'"
+                              src="assets/images/power-icon.png"
+                              alt=""
+                            />
+                            <img
+                              *ngIf="alerts.type == 'info'"
+                              src="assets/images/save-icon.png"
+                              alt=""
+                            />
+                            <img
+                              *ngIf="alerts.type == 'announcement'"
+                              src="assets/images/loud-icon.png"
+                              alt=""
+                            />
+                            <div>
+                              {{ alerts.alertText }} -
+                              {{
+                                alerts.eventCreateDateTime | date: "dd/MM/yyyy"
+                              }}
+                              <a
+                                *ngIf="alerts.type == 'billing'"
+                                class="blue-btn pay-now-btn"
+                                href="#"
+                                >{{ "Pay Now" | translate }}</a
+                              >
+                            </div>
+                          </li>
+                        </ul>
+                        <div
+                          style="margin-top: 2;"
+                          class="text-center font-12  field_not_found"
+                          *ngIf="
+                            isAlertDataFound == false &&
+                            alertDataLoader == false
+                          "
+                        >
+                          <img src="/assets/images/no_data.png" />
+                          {{
+                            "Currently no data found in this section"
+                              | translate
+                          }}.
+                        </div>
+                        <div
+                          class="rows"
+                          *ngIf="alertDataLoader == true"
+                          [ngClass]="{
+                            alertLoderHeight: alertDataLoader == true
+                          }"
+                        >
+                          <div class="spinner box-spinner">
+                            <div class="bounce1"></div>
+                            <div class="bounce2"></div>
+                            <div class="bounce3"></div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </li>
+            </ng-container>
+          </ng-container>
+        </ul>
+      </ng-container>
+      <ng-container *ngIf="drows.row_name == 2">
+        <ul class="dash-box-list">
+          <ng-container *ngIf="drows.cols.length > 0">
+            <ng-container *ngFor="let dcol of filterColsBy(drows.cols, 'sort')">
+              <li
+                class="dash-box-li"
+                *ngIf="
+                  widgets[1]?.Name == 'Consumption' &&
+                  widgets[1]?.Status == 'Enabled' &&
+                  dcol.col_name == 1
+                "
+              >
+                <div class="panel-body">
+                  <div class="row">
+                    <div class="col-sm-12">
+                      <div class="chart-box">
+                        <div class="box-title">
+                         
+                          <span class="title-icon" *ngIf="getWedgetIcone(widgets[1].image) != null"
+                            ><img [src]="getWedgetIcone(widgets[1].image)" alt=""
+                          /></span>
+                          <div class="text-title">
+                            {{
+                              "Your Consumption - Last 12 Months" | translate
+                            }}
+                          </div>
+                          <div class="pull-right lti-ddl">
+                            <a
+                              (click)="downloadGraphExcelConsumption()"
+                              style="cursor: pointer;"
+                              title="{{ 'Download' | translate }}"
+                            >
+                              <div class="download-circle" *ngIf="setIconeImage(4) != null">
+                                <img [src]="setIconeImage(4)" />
+                              </div>
+                            </a>
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="col-sm-12">
+                            <div class="graph-container  modal-graph-label">
+                              <div class="label-left">
+                                {{ "Units" | translate }} <span>(KWH)</span>
+                              </div>
+                              <canvas
+                                baseChart
+                                [chartType]="'bar'"
+                                [datasets]="consumptionchartData"
+                                [labels]="consumptionlabels"
+                                [options]="consumptionchartOptions"
+                                [legend]="true"
+                                [colors]="consumptioncolors"
+                                (chartClick)="goToConsoumption($event, 2)"
+                              >
+                              </canvas>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="text-center bottom-link">
+                    <div style="    position: relative;top: 9px;">
+                      {{
+                        "Click on any bar above to view more details of respective month"
+                          | translate
+                      }}
+                    </div>
+                  </div>
+                </div>
+              </li>
+              <li
+                class="dash-box-li"
+                *ngIf="
+                  widgets[0]?.Name == 'Billing' &&
+                  widgets[0]?.Status == 'Enabled' &&
+                  dcol.col_name == 2
+                "
+              >
+                <div class="panel-body">
+                  <div class="row">
+                    <div class="col-sm-12">
+                      <div class="chart-box">
+                        <div class="box-title">
+                          <span class="title-icon"
+                          *ngIf="getWedgetIcone(widgets[0].image) != null"
+                            >
+                            <img [src]="getWedgetIcone(widgets[0].image)" alt=""/>
+                          </span>
+                          <div class="text-title">
+                            {{ "Your Billing - Last 12 Months" | translate }}
+                          </div>
+                          <div class="pull-right lti-ddl">
+                            <a
+                              (click)="downloadGraphExcelBilling()"
+                              style="cursor: pointer;"
+                              title="{{ 'Download' | translate }}"
+                            >
+                              <div class="download-circle" *ngIf="setIconeImage(4) != null">
+                                <img [src]="setIconeImage(4)" />
+                              </div>
+                            </a>
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="col-sm-12">
+                            <div class="graph-container modal-graph-label">
+                              <div class="label-left">
+                                {{ "Units" | translate }} <span>({{'Rs'|translate}})</span>
+                              </div>
+                              <canvas
+                                baseChart
+                                [chartType]="'bar'"
+                                [datasets]="billingchartData"
+                                [labels]="billinglabels"
+                                [options]="billingchartOptions"
+                                [legend]="true"
+                                [colors]="billingcolors"
+                                (chartClick)="goToBilling($event, 2)"
+                              >
+                              </canvas>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="text-center bottom-link">
+                    <div style="    position: relative;top: 9px;">
+                      {{
+                        "Click on any bar above to view more details of respective month"
+                          | translate
+                      }}
+                    </div>
+                  </div>
+                </div>
+              </li>
+            </ng-container>
+          </ng-container>
+        </ul>
+      </ng-container>
+      <ng-container *ngIf="drows.row_name == 3">
+        <div
+          class="consumer-account-basic-detail"
+          *ngIf="
+            widgets[4]?.Name == 'ACCOUNT INFORMATION' &&
+            widgets[4]?.Status == 'Enabled'
+          "
+        >
+          <ul class="dash-box-list">
+            <li class="dash-box-li">
+              <div
+                class="panel-body"
+                [ngClass]="{
+                  dashboardManageAccount: accountDetailsLoder == true
+                }"
+              >
+                <div class="box-title margin_bottom10">
+                  <span class="title-icon" *ngIf="getWedgetIcone(widgets[4].image) != null">
+                    <img width="15" [src]="getWedgetIcone(widgets[4].image)" />
+                  </span>
+                  <div class="text-title">
+                    {{ "Account Information" | translate }}
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-sm-12 ">
+                    <div
+                      style="margin-top: 2;"
+                      class="text-center font-12  field_not_found"
+                      *ngIf="
+                        AccountDetailsFound == false &&
+                        accountDetailsLoder == false
+                      "
+                    >
+                      <img src="/assets/images/no_data.png" />
+                      {{ "Currently no data found for accounts" | translate }}
+                      <!-- Currently no data
+                        found for accounts. -->
+                      <br />
+                      <!--  Please go to the manage account section and click on add
+                        account button in order to verify and add your account or
+                        contact . -->
+                      <br />
+                    </div>
+                    <div class="consumer-table-scroll">
+                      <table
+                        class="table consumer-basic-table"
+                        *ngIf="
+                          AccountDetailsFound == true &&
+                          accountDetailsLoder == false
+                        "
+                      >
+                        <tbody class="consumer-tb">
+                          <tr class="consumer-tr">
+                            <td
+                              class="consumer-td"
+                              style="width: 45%; padding: 0px 15px;"
+                            >
+                              <table width="100%">
+                                <tr>
+                                  <th>{{ "Account Number" | translate }}</th>
+                                  <th *ngIf="accountData.account_number == ''">
+                                    -
+                                  </th>
+                                  <th *ngIf="accountData.account_number != ''">
+                                    {{ accountData.account_number }}
+                                  </th>
+                                </tr>
+                                <tr>
+                                  <th>{{ "Name" | translate }}</th>
+                                  <th *ngIf="accountData.account_name == ''">
+                                    -
+                                  </th>
+                                  <th *ngIf="accountData.account_name != ''">
+                                    {{ accountData.account_name }}
+                                  </th>
+                                </tr>
+                                <tr>
+                                  <th>{{ "Sanctioned Load" | translate }}</th>
+                                  <th *ngIf="accountData.sanctioned_load != ''">
+                                    {{ accountData.sanctioned_load }} KW
+                                  </th>
+                                  <th *ngIf="accountData.sanctioned_load == ''">
+                                    -
+                                  </th>
+                                </tr>
+                                <tr>
+                                  <th>{{ "Supply Type" | translate }}</th>
+                                  <th *ngIf="accountData.supply_type == ''">
+                                    -
+                                  </th>
+                                  <th *ngIf="accountData.supply_type != ''">
+                                    {{ accountData.supply_type }}
+                                  </th>
+                                </tr>
+                                <tr>
+                                  <th>{{ "Division" | translate }}</th>
+                                  <th *ngIf="accountData.division == null">
+                                    -
+                                  </th>
+                                  <th *ngIf="accountData.division != null">
+                                    {{ accountData.division }}
+                                  </th>
+                                </tr>
+                                <tr>
+                                  <th>{{ "Sub Division" | translate }}</th>
+                                  <th *ngIf="accountData.subdivision == null">
+                                    -
+                                  </th>
+                                  <th *ngIf="accountData.subdivision != null">
+                                    {{ accountData.subdivision }}
+                                  </th>
+                                </tr>
+                              </table>
+                            </td>
+                            <td
+                              class="consumer-td"
+                              style="width: 55%; padding: 0px 15px 0 40px; border-left: 2px solid #f7ecec;"
+                            >
+                              <table width="100%">
+                                <tr>
+                                  <th>{{ "Mobile Number" | translate }}</th>
+                                  <th *ngIf="accountData.mobile == ''">-</th>
+                                  <th *ngIf="accountData.mobile != ''">
+                                    {{ accountData.mobile }}
+                                  </th>
+                                </tr>
+                                <tr>
+                                  <th>{{ "Email ID" | translate }}</th>
+                                  <th *ngIf="accountData.email == ''">-</th>
+                                  <th *ngIf="accountData.email != ''">
+                                    {{ accountData.email }}
+                                  </th>
+                                </tr>
+                                <tr>
+                                  <th>{{ "Bill Route" | translate }}</th>
+                                  <th *ngIf="accountData.bill_route == null">
+                                    -
+                                  </th>
+                                  <th *ngIf="accountData.bill_route != null">
+                                    {{ accountData.bill_route }}
+                                  </th>
+                                </tr>
+                                <tr>
+                                  <th>{{ "Discom" | translate }}</th>
+                                  <th *ngIf="accountData.discom == null">-</th>
+                                  <th *ngIf="accountData.discom != null">
+                                    {{ accountData.discom }}
+                                  </th>
+                                </tr>
+                                <!-- <tr>
+                                    <th>Account Status</th>
+                                    <th *ngIf="accountData.status == ''">-</th>
+                                    <th *ngIf="accountData.status != ''">
+                                      <span *ngIf="accountData.status == 1">Active</span>
+                                      <span *ngIf="accountData.status != 1">Inactive</span>
+                                    </th>
+                                  </tr> -->
+                                <tr>
+                                  <th>{{ "Premise Address" | translate }}</th>
+                                  <th *ngIf="accountData.premise_address == ''">
+                                    -
+                                  </th>
+                                  <th *ngIf="accountData.premise_address != ''">
+                                    {{ accountData.premise_address }}
+                                  </th>
+                                </tr>
+                                <tr>
+                                  <th>{{ "Billing Address" | translate }}</th>
+                                  <th *ngIf="accountData.billing_address == ''">
+                                    -
+                                  </th>
+                                  <th *ngIf="accountData.billing_address != ''">
+                                    {{ accountData.billing_address }}
+                                  </th>
+                                </tr>
+                              </table>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+                <div class="rows" *ngIf="accountDetailsLoder == true">
+                  <div class="spinner box-spinner">
+                    <div class="bounce1"></div>
+                    <div class="bounce2"></div>
+                    <div class="bounce3"></div>
+                  </div>
+                </div>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </ng-container>
+      <ng-container *ngIf="drows.row_name == 4">
+        <div
+          class="col-sm-12"
+          *ngIf="
+            widgets[5]?.Name == 'BILLING INFORMATION' &&
+            widgets[5]?.Status == 'Enabled'
+          "
+        >
+          <div
+            class="billing-sec margin_top20 padding_bottom10 no-padding-l no-padding-r"
+          >
+            <div
+              class="panel-body "
+              [ngClass]="{ dashboardManageAccount: billingDataLoder == true }"
+            >
+              <div class="box-title margin_bottom10">
+                <span class="title-icon" *ngIf="getWedgetIcone(widgets[5].image) != null">
+                  <img width="15" [src]="getWedgetIcone(widgets[5].image)" />
+                </span>
+                <div class="text-title">
+                  {{ "Billing Information" | translate }}
+                </div>
+              </div>
+              <div class="table-wrapper no-padding">
+                <div class="dash-billing-scroll-hori">
+                  <table
+                    class="fl-table tb-header table-fixed table-dashboard-billing"
+                    *ngIf="
+                      isbillingDataFound == true && billingDataLoder == false
+                    "
+                  >
+                    <thead>
+                      <tr>
+                        <th width="11%">
+                          <span class="center-pos"
+                            >{{ "Meter Reading Date" | translate }}</span
+                          >
+                        </th>
+                        <th width="9%">
+                          <span class="center-pos"
+                            >{{ "Reading" | translate }}<br />
+                            <span style="font-size:11px;"
+                              >({{ "In KWH" | translate }})</span
+                            ></span
+                          >
+                        </th>
+                        <th width="9%">
+                          <span class="center-pos"
+                            >{{ "Consumption" | translate }} <br />
+                            <span style="font-size:11px;"
+                              >({{ "In KWH" | translate }})</span
+                            ></span
+                          >
+                        </th>
+                        <th width="9%">
+                          <span class="center-pos">{{
+                            "Number of Days" | translate
+                          }}</span>
+                        </th>
+                        <th width="10%">
+                          <span class="center-pos"
+                            >{{ "Total Bill Amount" | translate }}
+                            <i class="fa fa-inr" aria-hidden="true"></i
+                          ></span>
+                        </th>
+                        <th width="12%">
+                          <span class="center-pos">{{
+                            "Due Date" | translate
+                          }}</span>
+                        </th>
+                        <th width="10%">
+                          <span class="center-pos"
+                            >{{ "Bill Paid" | translate }}
+                            <i class="fa fa-inr" aria-hidden="true"></i
+                          ></span>
+                        </th>
+                        <th width="10%">
+                          <span class="center-pos">{{
+                            "Receipt No." | translate
+                          }}</span>
+                        </th>
+                        <th width="9%">
+                          <span class="center-pos">{{
+                            "Payment Date" | translate
+                          }}</span>
+                        </th>
+                        <th width="11%">
+                          <span class="center-pos">{{
+                            "Download" | translate
+                          }}</span>
+                        </th>
+                      </tr>
+                    </thead>
+                    <!-- <perfect-scrollbar style="max-height: 400px;" [config]="scrollConfig"> -->
+                    <tbody
+                      class=""
+                      *ngIf="
+                        isbillingDataFound == true && billingDataLoder == false
+                      "
+                    >
+                      <tr *ngFor="let billing of billingData">
+                        <td width="11%">
+                          {{ billing.meter_reading_date | date: "dd/MM/yyyy" }}
+                        </td>
+                        <td width="9%">{{ billing.meter_reading }}</td>
+                        <td width="9%">{{ billing.consumption_units }}</td>
+                        <td width="9%">{{ billing.numberOfDays }}</td>
+                        <td width="10%">&nbsp;{{ billing.bill_amount }}</td>
+                        <td width="12%">
+                          {{ billing.due_date | date: "dd/MM/yyyy" }}
+                        </td>
+                        <td width="10%">
+                          <span *ngIf="billing.bill_paid != ''">{{
+                            billing.bill_paid
+                          }}</span>
+                          <span *ngIf="billing.bill_paid == ''">---</span>
+                        </td>
+                        <td width="10%">
+                          <span *ngIf="billing.receipt_no != ''">{{
+                            billing.receipt_no
+                          }}</span
+                          ><span *ngIf="billing.receipt_no == ''">---</span>
+                        </td>
+                        <td width="10%">
+                          <span *ngIf="billing.payment_date != ''">{{
+                            billing.payment_date | date: "dd/MM/yyyy"
+                          }}</span
+                          ><span *ngIf="billing.payment_date == ''">---</span>
+                        </td>
+                        <td width="10%">
+                          <a
+                            class="pdf-btn action-sm-btn"
+                            data-toggle="tooltip"
+                            data-placement="top"
+                            (click)="downloadPDFfile(billing.billUrl)"
+                            title="{{ 'Download Bill PDF' | translate }}"
+                            style="cursor: pointer"
+                            ><i class="fa fa-file-pdf-o" aria-hidden="true"></i
+                          ></a>
+                        </td>
+                      </tr>
+                    </tbody>
+                    <!--  </perfect-scrollbar> -->
+                  </table>
+                </div>
+
+                <div
+                  style="margin-top: 2;"
+                  class="text-center font-12  field_not_found"
+                  *ngIf="
+                    isbillingDataFound == false && billingDataLoder == false
+                  "
+                >
+                  <img src="/assets/images/no_data.png" />{{
+                    "Currently no data found in billing section" | translate
+                  }}
+                </div>
+              </div>
+              <div class="rows" *ngIf="billingDataLoder == true">
+                <div class="spinner box-spinner">
+                  <div class="bounce1"></div>
+                  <div class="bounce2"></div>
+                  <div class="bounce3"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </ng-container>
+      <ng-container *ngIf="drows.row_name == 5">
+        <ng-container *ngIf="drows.cols.length > 0">
+          <ul class="dash-box-list">
+            <ng-container *ngFor="let dcol of filterColsBy(drows.cols, 'sort')">
+              <li
+                class="dash-box-li track-complain"
+                *ngIf="
+                  widgets[6]?.Name == 'TRACK A COMPLAINT' &&
+                  widgets[6]?.Status == 'Enabled' &&
+                  dcol.col_name == 1
+                "
+              >
+                <div class="panel-body">
+                  <!-- Loder Section Starts Here -->
+                  <div class="rows" *ngIf="complaintsLoder == true">
+                    <div class="spinner box-spinner">
+                      <div class="bounce1"></div>
+                      <div class="bounce2"></div>
+                      <div class="bounce3"></div>
+                    </div>
+                  </div>
+                  <!-- Loder Section Ends Here -->
+
+                  <!-- Complaint section starts here -->
+
+                  <div class="row" *ngIf="complaintsLoder == false">
+                    <div class="col-sm-12">
+                      <div class="chart-box">
+                        <div class="box-title">
+                          <span class="title-icon" *ngIf="getWedgetIcone(widgets[6].image) != null"
+                            ><img [src]="getWedgetIcone(widgets[6].image)" alt=""
+                          /></span>
+                          <div class="text-title">
+                            {{ "Track A Complaint" | translate }}
+                          </div>
+                        </div>
+                        <!-- If Complaints not found -->
+
+                        <div
+                          class="text-center font-12  field_not_found"
+                          *ngIf="complaintsFound == false"
+                        >
+                          <img src="/assets/images/no_complaints.png" />{{
+                            "You dont have any complaint, You are happy with us"
+                              | translate
+                          }}..!!
+                        </div>
+
+                        <!-- Complaints not found Section Ends Here -->
+
+                        <!-- Complaint sections statrs here -->
+                        <div class="row" *ngIf="complaintsFound == true">
+                          <div class="col-sm-12 text-center">
+                            <div class="track-label">
+                              {{ "Complaint id" | translate }}
+                            </div>
+                          </div>
+                        </div>
+                        <div
+                          class="row text-center"
+                          *ngIf="complaintsFound == true"
+                        >
+                          <div class="col-sm-8 col-sm-offset-2">
+                            <ngx-select-dropdown
+                              [config]="complaintReqDropDownconfig"
+                              [options]="complaints"
+                              [(value)]="selectedComplaintNo"
+                              [multiple]="false"
+                            ></ngx-select-dropdown>
+                            <!-- <input
+                            type="text"
+                            name=""
+                            class="form-control btn btn-default margin_bottom10 dash-input"
+                          />
+                          <div class="text-center or-text">OR</div>
+                          <select
+                            class="form-control btn btn-default margin_bottom20 dash-input"
+                          >
+                            <option value="" selected>Select Tracking No.</option>
+                            <option
+                              *ngFor="let complaint of complaints"
+                              value="{{complaint.tracking_number}}"
+                              >{{ complaint.tracking_number }}</option
+                            >
+                          </select> -->
+                            <a
+                              class="blue-btn"
+                              style="margin-top:15px; cursor: pointer;"
+                              (click)="redirectoComplaintDetails()"
+                              title="Track"
+                              >{{ "Track" | translate }}</a
+                            >
+                          </div>
+                        </div>
+                        <!-- Complaint sections Endes here -->
+                      </div>
+                    </div>
+                  </div>
+                  <!-- Complaint section ends here -->
+                </div>
+              </li>
+              <li
+                class="dash-box-li track-complain"
+                *ngIf="
+                  widgets[7]?.Name == 'TRACK A SERVICE REQUEST' &&
+                  widgets[7]?.Status == 'Enabled' &&
+                  dcol.col_name == 2
+                "
+              >
+                <div class="panel-body">
+                  <!-- Loder Section Starts Here -->
+                  <div class="rows" *ngIf="serviceRequestLoder == true">
+                    <div class="spinner box-spinner">
+                      <div class="bounce1"></div>
+                      <div class="bounce2"></div>
+                      <div class="bounce3"></div>
+                    </div>
+                  </div>
+                  <!-- Loder Section Ends Here -->
+                  <!-- Service request section starts here -->
+                  <div class="row" *ngIf="serviceRequestLoder == false">
+                    <div class="col-sm-12">
+                      <div class="chart-box">
+                        <div class="box-title">
+                          <span class="title-icon" *ngIf="getWedgetIcone(widgets[6].image) != null"
+                            ><img [src]="getWedgetIcone(widgets[6].image)" alt=""
+                          /></span>
+                          <div class="text-title">
+                            {{ "Track A Service Request" | translate }}
+                          </div>
+                        </div>
+                        <!-- If service request not found -->
+
+                        <div
+                          class="text-center font-12  field_not_found"
+                          *ngIf="ServiceRequestFound == false"
+                        >
+                          <img src="/assets/images/no_data.png" />{{
+                            "Currently no service request found" | translate
+                          }}..!!
+                        </div>
+
+                        <!-- Service request not found Section Ends Here -->
+
+                        <div class="row" *ngIf="ServiceRequestFound == true">
+                          <div class="col-sm-12 text-center">
+                            <div class="track-label">
+                              {{ "Service Request ID" | translate }}
+                            </div>
+                          </div>
+                        </div>
+                        <div
+                          class="row text-center"
+                          *ngIf="ServiceRequestFound == true"
+                        >
+                          <div class="col-sm-8 col-sm-offset-2">
+                            <ngx-select-dropdown
+                              [config]="serviceReqDropDownconfig"
+                              [options]="ServiceRequests"
+                              [(value)]="selectedServiceReqNo"
+                              [multiple]="false"
+                            ></ngx-select-dropdown>
+                            <!--  <input
+                            type="text"
+                            name=""
+                            class="form-control btn btn-default margin_bottom10 dash-input"
+                          />
+                          <div class="text-center or-text">OR</div>
+                          <select
+                            class="form-control btn btn-default margin_bottom20 dash-input"
+                          >
+                            <option value="" selected
+                              >Select Service Request Tracking No.</option
+                            >
+                            <option
+                              *ngFor="let ServiceRequest of ServiceRequests"
+                              value="{{ServiceRequest.tracking_number}}"
+                              >{{ ServiceRequest.tracking_number }}</option
+                            >
+                            <div *ngIf="serviceRequestLoder == true">Loding...</div>
+                          </select> -->
+                            <!--   {{SelectedServiceReq}} -->
+                            <a
+                              class="blue-btn"
+                              style="margin-top:15px; cursor: pointer;"
+                              title="{{ 'Track' | translate }}"
+                              (click)="redirectoRequestDetails()"
+                              >{{ "Track" | translate }}</a
+                            >
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- Service request section ends here -->
+                </div>
+              </li>
+            </ng-container>
+          </ul>
+        </ng-container>
+      </ng-container>
+      <ng-container *ngIf="drows.row_name == 6">
+        <app-advertisement [adQuery]="fetchAdQuery"></app-advertisement>
+      </ng-container>
+    </ng-container>
+    <div id="main-menu-bg"></div>
+  </div>
+  <app-footer></app-footer>
+</div>

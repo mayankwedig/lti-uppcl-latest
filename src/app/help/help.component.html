@@ -1,0 +1,56 @@
+<div id="main-wrapper" class="no-sidebar">
+  <app-header></app-header>
+  
+		<div class="main-container-sec">
+			<div class="container">
+				<div class="help-banner inner-page-banner" *ngIf="banner != ''">
+					<img [src]="banner" alt="banner">
+				</div>
+				<div class="main-page-wrapper">
+					<div class="main-heading">{{contentTitle|translate}}</div>
+					<div [innerHtml]="content" *ngIf="contentLoader == false && isContentFound == true">
+					</div>
+					<div class="spinner box-spinner important-spiner" *ngIf="contentLoader"  >
+							<div class="bounce1"></div>
+							<div class="bounce2"></div>
+							<div class="bounce3"></div>
+						  </div>
+				<div style="text-transform: capitalize;" class="text-center font-12  field_not_found" *ngIf="contentLoader == false && isContentFound  == false">
+                <img src="../assets/images/no_data.png" />{{'Data not found for help and support'|translate}}
+              </div>
+
+					<!-- <div class="description">
+						<p>This website includes some content that is available in non-HTML format. They might not be visible properly if your browser does not have the required plug-ins.</p>
+
+						<p>For example, Acrobat Reader software is required to view Adobe Acrobat PDF files. In case your system does not have this software, you can download it from the Internet for free. The following table lists some of the required plug- ins.</p>
+					</div>
+					<div class="help-table-sec">
+						<table cellspacing="0" cellpadding="0" border="0" width="100%" class="help-table">
+							<tr>
+								<th>{{'Document type'| translate}}</th>
+								<th>{{'Downloads'| translate}}</th>
+							</tr>
+							<tr>
+								<td>PDF content</td>
+								<td><a href="#">Adobe Acrobat Reader (External website that opens in a new window/tab)</a></td>
+							</tr>
+							<tr>
+								<td>Word, Excel and PPT</td>
+								<td><a href="#">Apache Open Office for Word, Excel and PPT (External website that opens in a new window/tab)</a></td>
+							</tr>
+							<tr>
+								<td>Input Tools</td>
+								<td><a href="#">Google Input Tools on Windows (External website that opens in a new window/tab)</a></td>
+							</tr>
+						</table>
+					</div> -->
+				</div>
+				<!-- <div class="energy-conservation">
+	            	<div class="content">Energy conservation, a key to sustainable development</div> <a href="" class="pull-right">View more <img src="assets/images/blue-right-arrow.png" alt=""></a>
+							</div> -->
+							<app-advertisement [adQuery]="fetchAdQuery"></app-advertisement>
+			</div>
+			<app-disclamider></app-disclamider>
+		</div>
+ </div>
+ <app-footer></app-footer>

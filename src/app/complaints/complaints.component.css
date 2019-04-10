@@ -1,0 +1,32 @@
+.rightButtonBlock {
+    position:relative;
+}
+.rightButtonBlock .submit-btn {   
+    position: absolute;
+    max-width: 101px;
+    right: -107px;
+    top: 7px;
+    padding: 11px 10px 9px;
+}
+.submit-btn.trackrequest-btn {   
+position: absolute;
+right: 15px;
+top: 15px;
+padding: 11px 10px 9px;
+border: 0px;
+background: #0571d7;
+border-radius: 0;
+font-size: 14px;
+text-transform: uppercase;
+float: left;
+margin: 0 auto;
+float: none;
+border-radius: 5px;
+box-shadow: 0px 3px 8px rgba(5, 113, 215, 0.45);
+display: block;
+}
+
+.complaints-border-t {
+    border-top: solid 1px #f0f0f0;
+    padding-top: 40px;
+}

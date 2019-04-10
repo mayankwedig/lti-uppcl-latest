@@ -1,0 +1,68 @@
+<footer class="main-footer">
+		<div class="footer-container">
+		   <ul class="navigation-ul">
+			  <li class="title-heading">{{"Navigation"| translate}}</li>
+			  <li>
+				 <a routerLink="" routerLinkActive="footer-menu-active" [routerLinkActiveOptions]="{exact: true}">{{'Home'|translate}}</a>
+			  </li>
+			  <li>
+				 <a  routerLink="/sitemap"  routerLinkActive="footer-menu-active" [routerLinkActiveOptions]="{exact: true}">{{'Site Map'|translate}}</a>
+			  </li>
+			  <li *ngIf="!isLoggedIn()">
+				 <a routerLink="/login" routerLinkActive="footer-menu-active">{{'Consumption'|translate}}</a>
+			  </li>
+			  <li *ngIf="isLoggedIn()">
+				<a routerLink="/consumption" routerLinkActive="footer-menu-active">{{'Consumption'|translate}}</a>
+			 </li>
+			 <!--  <li>
+				 <a  routerLink="/settings"  routerLinkActive="footer-menu-active" [routerLinkActiveOptions]="{exact: true}">{{'Settings'|translate}}</a>
+			  </li> -->
+		   </ul>
+		   <ul class="link-ul">
+			  <li class="title-heading">{{'Links'| translate}}</li>
+			  <li>
+				<a  routerLink="/new-service-connection"  routerLinkActive="footer-menu-active" [routerLinkActiveOptions]="{exact: true}">{{'New Connection'|translate}}</a>
+			 </li>
+			 <li>
+				<a  routerLink="/usage"  routerLinkActive="footer-menu-active" [routerLinkActiveOptions]="{exact: true}">{{'Usage'|translate}}</a>
+			 </li>
+			 <li>
+				<a routerLink="/news-media"  routerLinkActive="footer-menu-active" [routerLinkActiveOptions]="{exact: true}">{{'News / Media'|translate}}</a>
+			 </li>
+		   </ul>
+		   <ul class="help-ul">
+			  <li class="title-heading">{{'Help and support'|translate}}</li>
+			  <li>
+				 
+				<a  routerLink="/contact-us"  routerLinkActive="footer-menu-active">{{'Contact'| translate}}</a> 
+			 </li>
+			 <li>
+				<a  routerLink="/faqs"  routerLinkActive="footer-menu-active">{{'Frequently asked questions'|translate}}</a>
+			 </li>
+			 <li>
+				<a  routerLink="/help"  routerLinkActive="footer-menu-active">{{'Help and support'|translate}}</a>
+			 </li>
+			 <!-- <li>
+				<a  routerLink="/customers-service"  routerLinkActive="active-menu">Customers Service</a>
+			 </li> -->
+		   </ul>
+		   <ul class="need-help-ul">
+			  <li class="title-heading">{{'Need Help'| translate}}?</li>
+			  <form  class="form top-label-form" >
+				  <!-- [formGroup]="need_help" -->
+			  <li>
+				 <textarea name="" rows="3" placeholder="{{'Help Text'|translate}}"></textarea>
+			  </li>
+			  <li>
+				 <button class="btn btn-primary submit-btn">{{'submit'|translate}}</button>
+				
+				 <div class="btn-group" *ngIf="socialLinks != null">
+				<ng-container *ngIf="socialLinks.facebook_link !=''"><button type="button" class="btn facebook"><a [href]="socialLinks.facebook_link" target="_blank" style="color:#ffffff;"><i class="menu-icon fa fa-facebook"></i></a></button></ng-container>	
+				<ng-container *ngIf="socialLinks.twitter !=''"><button type="button" class="btn twitter" ><a [href]="socialLinks.twitter" target="_blank" style="color:#ffffff;"><i class="menu-icon fa fa-twitter"></i></a></button></ng-container>
+				<ng-container *ngIf="socialLinks.google_plus !=''"><button type="button" class="btn google-plus"><a [href]="socialLinks.google_plus" target="_blank" style="color:#ffffff;"><i class="menu-icon fa fa-google-plus"></i></a></button></ng-container>
+				 </div>
+			  </li>
+			</form>
+		   </ul>
+		</div>
+	 </footer>

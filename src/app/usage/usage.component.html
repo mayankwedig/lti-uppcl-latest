@@ -1,0 +1,32 @@
+<div id="main-wrapper" class="no-sidebar">
+    <app-header></app-header>
+    <div class="main-container-sec">
+      <div class="container" style="margin-bottom:200px;">
+        <div class="about-text-sec">
+          <div class="title">
+            {{ contentTitle | translate }}
+          </div>
+          <div
+              style="text-transform: capitalize;"
+              class="text-center font-12  field_not_found"
+              *ngIf="contentLoader == false && isContentFound == false"
+            ><img src="../assets/images/no_data.png" />{{"Data not found for news media" | translate}}
+            </div>
+            <div [innerHtml]="content"  *ngIf="contentLoader == false && isContentFound == true"></div>
+            
+          <div
+            class="spinner box-spinner important-spiner"
+            *ngIf="contentLoader == true"
+          >
+            <div class="bounce1"></div>
+            <div class="bounce2"></div>
+            <div class="bounce3"></div>
+          </div>
+        </div>
+      </div>
+  
+      <app-disclamider></app-disclamider>
+    </div>
+  </div>
+  <app-footer></app-footer>
+  

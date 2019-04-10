@@ -1,0 +1,349 @@
+<div id="main-wrapper" [ngClass]="{ 'no-sidebar': !isLoggedIn() }">
+  <app-header></app-header>
+  <span *ngIf="isLoggedIn()">
+    <app-side-bar [displayUserInfo]="dispString"></app-side-bar>
+  </span>
+
+  <div
+    id="content-wrapper"
+    [ngClass]="{ 'complaint-wrapeer-bg': !isLoggedIn() }"
+  >
+    <div [ngClass]="{ 'col-sm-10 col-sm-offset-1': !isLoggedIn() }">
+      <div class="page-heading">
+        {{ "COMPLAINT Details" | translate }}
+      </div>
+      <div class="billing-sec complaints-page">
+        <div class="row margin_top20">
+          <div class="col-sm-12">
+            <div class="panel-body">
+              <div class="service-request-dtl">
+                <div class="service-dtl-block no-padding-t">
+                  <div class="row">
+                    <div class="col-xs-6">
+                      <div class="form-group">
+                        <div
+                          class="dtl-status"
+                          *ngIf="complaintsDetails.status == 0"
+                        >
+                          Status:
+                          <span class="status-box status-open">{{
+                            "Open" | translate
+                          }}</span>
+                        </div>
+                        <div
+                          class="dtl-status"
+                          *ngIf="complaintsDetails.status == 1"
+                        >
+                          Status:
+                          <span class="status-box status-resolved">{{
+                            "Resolved" | translate
+                          }}</span>
+                        </div>
+                        <div
+                          class="dtl-status"
+                          *ngIf="complaintsDetails.status == 2"
+                        >
+                          Status:
+                          <span class="status-box status-pending">{{
+                            "Pending" | translate
+                          }}</span>
+                        </div>
+                        <div
+                          class="dtl-status"
+                          *ngIf="complaintsDetails.status == 3"
+                        >
+                          Status:
+                          <span class="status-box status-rejected">{{
+                            "Rejected" | translate
+                          }}</span>
+                        </div>
+                        <div
+                          class="dtl-status"
+                          *ngIf="complaintsDetails.status == 4"
+                        >
+                          Status:
+                          <span class="status-box status-closed">{{
+                            "Closed" | translate
+                          }}</span>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-xs-6">
+                      <div class="form-group">
+                        <label>{{ "Tracking Number" | translate }}</label>
+                        <div class="dtl-value">
+                          {{ complaintsDetails.tracking_number }}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="service-dtl-block">
+                  <div class="row">
+                    <div class="col-sm-6">
+                      <div class="form-group">
+                        <label>{{ "Account Number" | translate }}</label>
+                        <div class="dtl-value">
+                          {{ complaintsDetails.account_number }}
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-sm-6">
+                      <div class="form-group">
+                        <label>{{ "Case type" | translate }}</label>
+                        <div class="dtl-value">
+                          {{ complaintsDetails.complaint_type }}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="service-dtl-block">
+                  <div class="sr-heading">
+                    {{ "Consumer Information" | translate }}
+                  </div>
+                  <div class="row">
+                    <div class="col-sm-6">
+                      <div class="form-group">
+                        <label>{{ "Name" | translate }}</label>
+                        <div class="dtl-value">{{ name }}</div>
+                      </div>
+                    </div>
+                    <div class="col-sm-6">
+                      <div class="form-group">
+                        <label>{{ "Supply Type" | translate }}</label>
+                        <div class="dtl-value">{{ supplyType }}</div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-sm-6">
+                      <div class="form-group">
+                        <label>{{ "Installation Address" | translate }}</label>
+                        <div class="dtl-value">{{ installationAddress }}</div>
+                      </div>
+                    </div>
+                    <div class="col-sm-6">
+                      <div class="form-group">
+                        <label>{{ "Mobile Number" | translate }}</label>
+                        <div class="dtl-value" *ngIf="mobileNumber != null">
+                          +91{{ mobileNumber }}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-sm-6">
+                      <div class="form-group">
+                        <label>{{ "Current Load" | translate }}</label>
+                        <div class="dtl-value">{{ currentLoad }}KW</div>
+                      </div>
+                    </div>
+                    <div class="col-sm-6">
+                      <div class="form-group">
+                        <label>{{ "Email ID" | translate }}</label>
+                        <div class="dtl-value">{{ emailId }}</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="service-dtl-block"
+                  *ngIf="complaintsDetails.complaint_type == 'Bill Related'"
+                >
+                  <div class="row">
+                    <div class="col-sm-6">
+                      <div class="form-group">
+                        <label>{{ "Bill Id" | translate }}</label>
+                        <div class="dtl-value">
+                          {{ complaintsDetails.billId }}
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-sm-6">
+                      <div class="form-group">
+                        <label>{{ "Reason" | translate }}</label>
+                        <div class="dtl-value">
+                          {{ complaintsDetails.reason }}
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-sm-6">
+                      <div class="form-group">
+                        <label>{{ "Comments" | translate }}</label>
+                        <div class="dtl-value">
+                          {{ complaintsDetails.comments }}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="service-dtl-block"
+                  *ngIf="complaintsDetails.complaint_type == 'Meter Related'"
+                >
+                  <div class="row">
+                    <div class="col-sm-6">
+                      <div class="form-group">
+                        <label>{{ "Comments" | translate }}</label>
+                        <div class="dtl-value">
+                          {{ complaintsDetails.comments }}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div
+                  class="service-dtl-block"
+                  *ngIf="complaintsDetails.complaint_type == 'Supply Related'"
+                >
+                  <div class="row">
+                    <div class="col-sm-6">
+                      <div class="form-group">
+                        <label>{{ "Service Request" | translate }}</label>
+                        <div class="dtl-value">
+                          {{ complaintsDetails.service_request }}
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-sm-6">
+                      <div class="form-group">
+                        <label>{{ "Problem" | translate }}</label>
+                        <div class="dtl-value">
+                          {{ complaintsDetails.problem }}
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-sm-6">
+                      <div class="form-group">
+                        <label>{{ "Comments" | translate }}</label>
+                        <div class="dtl-value">
+                          {{ complaintsDetails.comments }}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- <div
+                  class="service-dtl-block"
+                  *ngIf="
+                    requestServicesFrm.value.serviceRequestType ==
+                    'Permanent Disconnection Request'
+                  "
+                >
+                  <div class="row">
+                    <div class="col-lg-6 col-sm-6 col-xs-12">
+                      <div class="form-group">
+                        <label for="exampleFormControlSelect1"
+                          >Enclosed Identification Document<span class="red"
+                            >*</span
+                          ></label
+                        >
+                        <select
+                          required
+                          formControlName="enclosedIdentificationDocument"
+                          *ngIf="
+                            !servReqEnclosedIdentifDocLoder &&
+                            servReqEnclosedIdentifDocs.length > 0
+                          "
+                          name="enclosedIdentificationDocument"
+                          class="form-control"
+                          id="exampleFormControlSelect1"
+                        >
+                          <option value=""
+                            >Select Enclosed Identification Document</option
+                          >
+                          <option
+                            value="{{
+                              servReqEnclosedIdentifDoc.enclosed_identification_documents
+                            }}"
+                            *ngFor="
+                              let servReqEnclosedIdentifDoc of servReqEnclosedIdentifDocs
+                            "
+                            >{{
+                              servReqEnclosedIdentifDoc.enclosed_identification_documents
+                            }}</option
+                          >
+                        </select>
+                        <select
+                        required
+                        formControlName="enclosedIdentificationDocument"
+                        *ngIf="
+                          !servReqEnclosedIdentifDocLoder &&
+                          servReqEnclosedIdentifDocs.length == 0
+                        "
+                        name="enclosedIdentificationDocument"
+                        class="form-control"
+                        id="exampleFormControlSelect1"
+                      >
+                        <option value=""
+                          >Select Enclosed Identification Document</option
+                        >
+                      </select>
+                        <div *ngIf="servReqEnclosedIdentifDocLoder" class="fieldLodingServiceReq">
+                          Loding...
+                        </div>
+                        <div
+                          *ngIf="
+                            f.enclosedIdentificationDocument.touched &&
+                            f.enclosedIdentificationDocument.invalid
+                          "
+                        >
+                          <span
+                            class="error-msg"
+                            *ngIf="
+                              f.enclosedIdentificationDocument.errors?.required
+                            "
+                            >Enclosed Identification Document is required.</span
+                          >
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-lg-6 col-sm-6 col-xs-12">
+                      <div class="form-group">
+                        <label for="exampleInputEmail1"
+                          >Comments<span class="red">*</span></label
+                        >
+                        <textarea
+                          required
+                          formControlName="comments"
+                          name="comments"
+                          class="form-control"
+                          id="exampleFormControlTextarea1"
+                          rows="6"
+                          placeholder="Add comments here"
+                        ></textarea>
+                        <div *ngIf="f.comments.touched && f.comments.invalid">
+                          <span
+                            class="error-msg"
+                            *ngIf="f.comments.errors?.required"
+                            >Comments is required.</span
+                          >
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div> -->
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- <ul class="dash-box-list">
+        <li class="dash-box-li rows offer-li no-padding">
+          <div class="offer-section">
+            <div class="offer-content">
+              <img src="images/offer-icon.png" alt="">
+              <div class="text-content">We have a lot more to <a href="#">OFFER</a>. Choose from a wide range of products</div>
+              <a class="blue-btn" href="#">Explore</a>
+            </div>
+          </div>
+        </li>
+      </ul>  -->
+      </div>
+    </div>
+    <div *ngIf="isLoggedIn()" id="main-menu-bg"></div>
+  </div>
+  <app-footer></app-footer>
+</div>

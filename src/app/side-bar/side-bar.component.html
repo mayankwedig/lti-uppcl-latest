@@ -1,0 +1,186 @@
+<div id="main-menu" role="navigation">
+  <div id="main-menu-inner">
+    <div class="dropdown account-dropdown user-account-no">
+      <button
+        class="btn btn-primary dropdown-toggle"
+        type="button"
+        data-toggle="dropdown"
+      >
+        {{ displayUserInfo }} <span class="caret"></span>
+      </button>
+      <ul class="dropdown-menu" *ngIf="isAccountDataFound == true">
+        <li
+          *ngFor="let acc of accountData"
+          [ngClass]="{ active: acc.account_number == accountNumber }"
+        >
+          <a
+            style="cursor:pointer;"
+            (click)="redirectoDashBoard(acc.account_number, acc.id)"
+            >{{ acc.account_number }}</a
+          >
+        </li>
+      </ul>
+    </div>
+    <ng-template #showLoader>
+      <div class="spinner box-spinner latest-spin">
+        <div class="bounce1"></div>
+        <div class="bounce2"></div>
+        <div class="bounce3"></div>
+      </div>
+    </ng-template>
+    <ng-container
+      *ngIf="
+        isSidebarMenusFound == true && sideBarMenuLoader == false;
+        else showLoader
+      "
+    >
+      <div class="scroll-div">
+        <ul class="navigation">
+          <ng-container *ngFor="let menu of filterBy('display_order')">
+            <ng-container *ngIf="menu.subMenu.length > 0">
+              <li
+                class="m-dropdown mm-dropdown"
+                id="li{{ menu.id }}"
+                (click)="removeCss(menu.id)"
+                [ngClass]="{
+                  openDropdown: currentUrl == menu.slug
+                }"
+              >
+                <a href="javascript:void(0);">
+                  <div class="menu-icons i-service-request">
+                    <img
+                      *ngIf="menu.image != null"
+                      class="icon-normal"
+                      [src]="getIconeImage(menu, 'normal')"
+                    />
+                    <img
+                      *ngIf="menu.hover_image != null"
+                      class="icon-hover"
+                      [src]="getIconeImage(menu, 'hover')"
+                    />
+                  </div>
+                  <span class="mm-text" id="{{ menu.id }}">{{
+                    menu.name | translate
+                  }}</span>
+                </a>
+                <ul
+                  class="mmc-dropdown-delay1 animated fadeInLeft"
+                  *ngIf="menu.subMenu.length > 0"
+                >
+                  <li class="dropdown-title-menu"><div class="dropdown-title">{{
+                    menu.name | translate
+                  }}</div></li>
+                  <li *ngFor="let subMenu of menu.subMenu">
+                    <ng-container
+                      *ngIf="subMenu.slug != '' && subMenu.url == null"
+                    >
+                      <a
+                        tabindex="-1"
+                        routerLink="/{{ subMenu.slug }}"
+                        routerLinkActive="DropdownActive"
+                        [routerLinkActiveOptions]="{ exact: true }"
+                        ><span class="mm-text">{{
+                          subMenu.name | translate
+                        }}</span></a
+                      >
+                    </ng-container>
+                    <ng-container
+                      *ngIf="subMenu.slug == '' && subMenu.url != null"
+                    >
+                      <a
+                        tabindex="-1"
+                        href="{{ subMenu.url }}"
+                        target="_blank"
+                        routerLinkActive="DropdownActive"
+                        [routerLinkActiveOptions]="{ exact: true }"
+                        ><span class="mm-text">{{
+                          subMenu.name | translate
+                        }}</span></a
+                      >
+                    </ng-container>
+                  </li>
+                </ul>
+              </li>
+            </ng-container>
+            <ng-container *ngIf="menu.subMenu.length == 0">
+              <li
+                id="li{{ menu.id }}"
+                (click)="removeCss($event)"
+                [ngClass]="{ openDropdown: currentUrl == menu.slug }"
+                *ngIf="isDispalyable(menu)"
+              >
+                <ng-container
+                  *ngIf="
+                    menu.slug != '' && menu.url == null && menu.slug != 'logout'
+                  "
+                >
+                  <a routerLink="/{{ menu.slug }}">
+                    <div class="menu-icons i-service-request">
+                      <img
+                        *ngIf="menu.image != null"
+                        class="icon-normal"
+                        [src]="getIconeImage(menu, 'normal')"
+                      />
+                      <img
+                        *ngIf="menu.hover_image != null"
+                        class="icon-hover"
+                        [src]="getIconeImage(menu, 'hover')"
+                      />
+                    </div>
+                    <span class="mm-text" id="{{ menu.id }}">{{
+                      menu.name | translate
+                    }}</span>
+                  </a>
+                </ng-container>
+                <ng-container
+                  *ngIf="
+                    menu.slug == '' && menu.url != null && menu.slug != 'logout'
+                  "
+                >
+                  <a href="{{ menu.url }}" target="_blank">
+                    <div class="menu-icons i-service-request">
+                      <img
+                        *ngIf="menu.image != null"
+                        class="icon-normal"
+                        [src]="getIconeImage(menu, 'normal')"
+                      />
+                      <img
+                        *ngIf="menu.hover_image != null"
+                        class="icon-hover"
+                        [src]="getIconeImage(menu, 'hover')"
+                      />
+                    </div>
+                    <span class="mm-text" id="{{ menu.id }}">{{
+                      menu.name | translate
+                    }}</span>
+                  </a>
+                </ng-container>
+                <a
+                  href="javascript:void(0);"
+                  *ngIf="menu.slug == 'logout'"
+                  (click)="logout()"
+                >
+                  <div class="menu-icons i-service-request">
+                    <img
+                      *ngIf="menu.image != null"
+                      class="icon-normal"
+                      [src]="getIconeImage(menu, 'normal')"
+                    />
+                    <img
+                      *ngIf="menu.hover_image != null"
+                      class="icon-hover"
+                      [src]="getIconeImage(menu, 'hover')"
+                    />
+                  </div>
+                  <span class="mm-text" id="{{ menu.id }}">{{
+                    menu.name | translate
+                  }}</span>
+                </a>
+              </li>
+            </ng-container>
+          </ng-container>
+        </ul>
+      </div>
+    </ng-container>
+  </div>
+</div>

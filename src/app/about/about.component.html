@@ -1,0 +1,207 @@
+<div id="main-wrapper" class="no-sidebar">
+  <app-header></app-header>
+  <div class="main-container-sec">
+    <div class="container">
+      <div class="about-banner inner-page-banner" *ngIf="aboutImage != ''">
+        <img [src]="aboutImage" alt="inner-page-banner" />
+        <!-- <div class="content">
+          Changing The <span>Power</span> <br />That Changes The World
+        </div> -->
+      </div>
+      <div class="about-text-sec">
+          <div class="spinner box-spinner important-spiner" *ngIf="contentLoader == true">
+              <div class="bounce1"></div>
+              <div class="bounce2"></div>
+              <div class="bounce3"></div>
+            </div>
+           <!--  {{isContentFound == true && contentLoader == false}} -->
+            <div *ngIf="isContentFound == true && contentLoader == false">
+                <div class="title">{{ contentTitle | translate }}</div>
+                <div class="text-p" [innerHtml]="content">
+                <!--  {{content}} -->
+                </div>
+            </div>
+        
+        <!-- <mat-tab-group>
+          <mat-tab label="First"> Content 1 </mat-tab>
+          <mat-tab label="Second"> Content 2 </mat-tab>
+          <mat-tab label="Third"> Content 3 </mat-tab>
+        </mat-tab-group> -->
+      </div>
+      <div class="tab-section rows">
+        <ul class="nav nav-tabs about-tabs" role="tablist">
+          <li role="presentation" class="active abt-tbs-li" *ngIf="missionVisionFound && missionVisionLoader == false">
+            <a
+              class="v-m-tab"
+              href="#vision-mission"
+              aria-controls="vision-mission"
+              role="tab"
+              data-toggle="tab"
+            >
+              <span></span> {{ "Vision and mission" | translate
+              }}<!-- Vision & <br/>Mission --></a
+            >
+          </li>
+          <li role="presentation" class="abt-tbs-li" *ngIf="boardDirectorsFound && contentLoader == false">
+            <a
+              class="dir-tab"
+              href="#directors"
+              aria-controls="profile"
+              role="tab"
+              data-toggle="tab"
+              ><span></span>{{ "Board of directors" | translate }}</a
+            >
+          </li>
+          <li role="presentation" class="abt-tbs-li" >
+            <a
+              class="org-tab"
+              href="#organisation"
+              aria-controls="messages"
+              role="tab"
+              data-toggle="tab"
+              ><span></span>{{ "Organisation structure" | translate }}</a
+            >
+          </li>
+        </ul>
+
+        <div class="tab-content rows abt-tab-container">
+          <div role="tabpanel" class="tab-pane active" id="vision-mission">
+              <div class="spinner box-spinner important-spiner" style="top: 83%;" *ngIf="missionVisionLoader == true">
+                  <div class="bounce1"></div>
+                  <div class="bounce2"></div>
+                  <div class="bounce3"></div>
+                </div>
+            <div class="row" *ngIf="missionVisionFound && missionVisionLoader == false">
+              <div class="col-sm-4">
+                <div class="img-box">
+                  <img [src]="visionImage" alt="" />
+                </div>
+              </div>
+              <div class="col-sm-8">
+                <div class="content-box">
+                  <div class="box-title">
+                    <span class="title-icon"
+                      ><img src="../assets/images/vission-icon.png" alt=""
+                    /></span>
+                  </div>
+                  <div class="heading">{{ missionVisionData[0].title | translate }}</div>
+                  <div class="p-text" [innerHtml]="missionVisionData[0].description">
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row reverse" *ngIf="missionVisionFound && missionVisionLoader == false">
+              <div class="col-sm-4 col-sm-push-8">
+                <div class="img-box">
+                  <img [src]="missionImage" alt="" />
+                </div>
+              </div>
+              <div class="col-sm-8 col-sm-pull-4">
+                <div class="content-box">
+                  <div class="box-title">
+                    <span class="title-icon"
+                      ><img src="../assets/images/mission-w-icon.png" alt=""
+                    /></span>
+                  </div>
+                  <div class="heading">{{ missionVisionData[1].title | translate }}</div>
+                  <div class="p-text" [innerHtml]="missionVisionData[1].description">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div role="tabpanel" class="tab-pane" id="directors">
+              <div class="spinner box-spinner important-spiner" style="top: 83%;" *ngIf="dloader == true">
+                  <div class="bounce1"></div>
+                  <div class="bounce2"></div>
+                  <div class="bounce3"></div>
+                </div>
+            <table class="directors-table responsive-table" *ngIf="boardDirectorsFound && dloader == false">
+              <thead>
+                <tr>
+                  <th align="left">{{ "Board of directors" | translate }}</th>
+                  <th align="center">{{ "Name" | translate }}</th>
+                  <th align="center">{{ "Contact no" | translate }}</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let boardDirector of boardDirectors">
+                  <td data-title="Board of Directors" width="230" align="left">
+                    <b>{{boardDirector.board_of_directors}}</b>
+                  </td>
+                  <td data-title="Name" align="center" [innerHtml]="boardDirector.name">
+                   <!--  Shri Alok Kumar <br />
+                    Shakti Bhawan 14 Ashok Marg, <br />
+                    Lucknow -->
+                  </td>
+                  <td data-title="Contact No." align="center" [innerHtml]="boardDirector.contact"></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div role="tabpanel" class="tab-pane" id="organisation" >
+            <div class="table-responsive orgnization" [innerHtml]="orgChart">
+            </div>
+          </div>
+        </div>
+      </div>
+     <!--  <div class="energy-conservation">
+        <div class="content">
+          Energy conservation, a key to sustainable development
+        </div>
+        <a href="" class="pull-right"
+          >View more <img alt="" src="assets/images/blue-right-arrow.png"
+        /></a>
+      </div> -->
+    </div>
+    <app-disclamider></app-disclamider>
+    <!-- <div class="important-links">
+      <div class="title">Important Linksss</div>
+      <div class="row">
+        <div class="col-sm-10 col-sm-offset-1">
+          <div class="owl-carousel owl-theme important-links-slide">
+            <div class="item">
+              <a class="item-link" href="#">
+                <span><i class="fa fa-mobile"></i></span>
+                <div class="title-link">Mobile Registration</div>
+              </a>
+            </div>
+            <div class="item">
+              <a class="item-link" href="#">
+                <span><i class="fa fa-globe"></i></span>
+                <div class="title-link">Website Directory</div>
+              </a>
+            </div>
+            <div class="item">
+              <a class="item-link" href="#">
+                <span><i class="fa fa-user"></i></span>
+                <div class="title-link">Contacts Directory</div>
+              </a>
+            </div>
+            <div class="item">
+              <a class="item-link" href="#">
+                <span><i class="fa fa-android"></i></span>
+                <div class="title-link">Android App</div>
+              </a>
+            </div>
+            <div class="item">
+              <a class="item-link" href="#">
+                <span><i class="fa fa-apple"></i></span>
+                <div class="title-link">iOS App</div>
+              </a>
+            </div>
+            <div class="item">
+              <a class="item-link" href="#">
+                <span><i class="fa fa-apple"></i></span>
+                <div class="title-link">iOS App</div>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div> -->
+  </div>
+</div>
+<app-footer></app-footer>

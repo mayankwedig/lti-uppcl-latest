@@ -1,0 +1,69 @@
+<div id="main-wrapper">
+  <app-header></app-header>
+  <app-side-bar [displayUserInfo]="dispString"></app-side-bar>
+  <div id="content-wrapper">
+    <div class="page-heading">
+      {{'Complaints'|translate}}
+    </div>
+    <div class="complaints view-all-complaints">
+      <div class="row margin_top10">
+        <div class="col-sm-12">
+          <div class="panel-body">
+            <div class="complaint-tb-scroll">
+              <div class="table-wrapper">
+                <table class="fl-table complaints-table" *ngIf="complaintsDataLoader == false && isComplaintsDataFound == true">
+                  <thead>
+                    <tr>
+                      <th>{{'Tracking ID'|translate}}</th>
+                      <th>{{'Request Date'|translate}}</th>
+                      <th>{{'Complaint request type'|translate}}</th>
+                      <th>{{'Status'|translate}}</th>
+                      <th>{{'View'|translate}}</th>
+                    </tr>
+                  </thead>
+                  <tbody *ngIf="complaintsDataLoader == false && isComplaintsDataFound == true">
+                    <tr *ngFor="let serviceRequest of complaintsData">
+                      <td>{{serviceRequest.tracking_number}}</td>
+                      <td *ngIf="serviceRequest.created !='0000-00-00 00:00:00'">{{serviceRequest.created | date: "d/M/yyyy" }}</td>
+                      <td *ngIf="serviceRequest.created =='0000-00-00 00:00:00'">-</td>
+                      <td>{{serviceRequest.complaint_type}}</td>
+                      <td>
+                        <span class="status-box status-open" *ngIf="serviceRequest.status == 0"> {{'Open'|translate}} </span>
+                        <span class="status-box status-pending" *ngIf="serviceRequest.status == 2">{{'Pending'|translate}}</span>
+                        <span class="status-box status-resolved" *ngIf="serviceRequest.status == 1">{{'Resolved'|translate}}</span>
+                        <span class="status-box status-rejected" *ngIf="serviceRequest.status == 3">{{'Rejected'|translate}}</span>
+                        <span class="status-box status-closed" *ngIf="serviceRequest.status == 4">{{'Closed'|translate}}</span>
+                      </td>
+                      <td>
+                        <a class="blue-btn edit-btn action-sm-btn" style="cursor: pointer;" (click)="redirectoRequestDetails(serviceRequest.id)"
+                          data-toggle="tooltip" data-placement="top" title="" data-original-title="View">
+                          <i class="fa fa-eye"></i>
+                        </a>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+                <div class="loderHeight accountData" [ngClass]="{ 'loderHeight accountData': complaintsDataLoader == true }"
+                  *ngIf="complaintsDataLoader == true">
+                  <div class="spinner box-spinner">
+                    <div class="bounce1"></div>
+                    <div class="bounce2"></div>
+                    <div class="bounce3"></div>
+                  </div>
+                </div>
+                <!-- <div style="margin-top: 2;" class="text-center font-12  field_not_found" *ngIf="complaintsDataLoader == false && isComplaintsDataFound == false">
+                  <img src="/assets/images/no_data.png" />Currently there is no service request registered. <br />
+                </div> -->
+                <div class="text-center font-12  field_not_found" *ngIf="complaintsDataLoader == false && isComplaintsDataFound == false" style="margin-top: 2;">
+                  <img src="/assets/images/no_complaints.png" />You
+                  don't have any complaint, You are happy with us..!!
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="main-menu-bg"></div>
+  </div>
+  <app-footer></app-footer>

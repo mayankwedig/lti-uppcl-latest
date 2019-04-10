@@ -1,0 +1,181 @@
+<div id="main-wrapper">
+  <app-header></app-header>
+  <app-side-bar [displayUserInfo]="dispString"></app-side-bar>
+  <div id="content-wrapper">
+    <div class="page-heading">{{'Billing'| translate}}</div>
+      <div class="col-sm-12">
+        <div
+          class="billing-sec billing-table-scroll margin_top20 padding_bottom10 no-padding-l no-padding-r"
+          >
+          <div
+            class="panel-body"
+            [ngClass]="{ dashboardManageAccount: billingDataLoder == true }"
+          >
+            <div class="table-wrapper no-padding">
+              <table
+                class="fl-table table-fixed tb-header"
+                *ngIf="isbillingDataFound == true && billingDataLoder == false"
+              >
+                <thead>
+                  <tr>
+                    <th width="11%"><span class="center-pos">{{'Meter Reading Date'| translate}}</span></th>
+                    <th width="11%">
+                      <span class="center-pos">{{'Reading'|translate}} <br />
+                      <span style="font-size:11px;">({{'In KWH'|translate}})</span></span>
+                    </th>
+                    <th width="11%">
+                      <span class="center-pos">{{'Consumption'|translate}} <br />
+                      <span style="font-size:11px;">({{'In KWH'|translate}})</span></span>
+                    </th>
+                    <th width="6%"><span class="center-pos">{{'Number of Days'|translate}}</span></th>
+                    <th width="10%">
+                      <span class="center-pos">{{'Total Bill Amount'|translate}} <br /><i
+                        class="fa fa-inr"
+                        aria-hidden="true"
+                      ></i></span>
+                    </th>
+                    <th width="11%"><span class="center-pos">{{'Due Date'|translate}}</span></th>
+                    <th width="10%">
+                      <span class="center-pos">{{'Bill Paid'|translate}} <br />
+                      <i class="fa fa-inr" aria-hidden="true"></i></span>
+                    </th>
+                    <th width="10%"><span class="center-pos">{{'Receipt No.'|translate}}</span></th>
+                    <th width="10%"><span class="center-pos">{{'Payment Date'|translate}}</span></th>
+                    <th width="10%"><span class="center-pos">{{'Download'|translate}}</span></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let billing of billingData">
+                    <td width="11%">
+                      {{ billing.meter_reading_date | date: "dd/MM/yyyy" }}
+                    </td>
+                    <td width="11%">{{ billing.meter_reading }}</td>
+                    <td width="11%">{{ billing.consumption_units }}</td>
+                    <td width="6%">{{ billing.numberOfDays }}</td>
+                    <td width="10%">&nbsp;{{ billing.bill_amount }}</td>
+                    <td width="11%">{{ billing.due_date | date: "dd/MM/yyyy" }}</td>
+                    <td width="10%">
+                      <span *ngIf="billing.bill_paid != ''">{{
+                        billing.bill_paid
+                      }}</span>
+                      <span *ngIf="billing.bill_paid == ''">---</span>
+                    </td>
+                    <td width="10%">
+                      <span *ngIf="billing.receipt_no != ''">{{
+                        billing.receipt_no
+                      }}</span
+                      ><span *ngIf="billing.receipt_no == ''">---</span>
+                    </td>
+                    <td width="10%">
+                      <span *ngIf="billing.payment_date != ''">{{
+                        billing.payment_date | date: "dd/MM/yyyy"
+                      }}</span
+                      ><span *ngIf="billing.payment_date == ''">---</span>
+                    </td>
+                    <td width="10%">
+                      <a
+                        class="pdf-btn action-sm-btn"
+                        data-toggle="tooltip"
+                        data-placement="top"
+                        (click)="downloadPDFfile(billing.billUrl)"
+                        title="{{'Download Bill PDF'|translate}}"
+                        style="cursor: pointer"
+                        ><i class="fa fa-file-pdf-o" aria-hidden="true"></i
+                      ></a>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+
+              <div
+                style="margin-top: 2;"
+                class="text-center font-12  field_not_found"
+                *ngIf="isbillingDataFound == false && billingDataLoder == false"
+              >
+                <img src="/assets/images/no_data.png" />{{'Currently no data found in billing section'|translate}}
+              </div>
+              <div *ngIf="billingDataLoder == true">
+                <div class="spinner box-spinner" style="top: 25%;">
+                  <div class="bounce1"></div>
+                  <div class="bounce2"></div>
+                  <div class="bounce3"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div
+          class="billing-sec margin_top20 no-padding-l no-padding-r no-padding-b"
+          >
+          <div class="panel">
+            <div class="panel-heading">
+              <div class="row">
+                <div class="col-sm-4">
+                  <div class="page-heading">{{'Billing History'|translate}}</div>
+                </div>
+                <!-- <div class="week-month-btn-sec pull-right">
+                    <a style="cursor: pointer;" (click)="showchart('Weekly')" title="Weekly" class="blue-btn">Weekly</a>
+                    <a style="cursor: pointer;" (click)="showchart('daily')" title="Monthly" class="blue-btn" *ngIf="chartToShow == 'hourly' || chartToShow == 'Weekly'">Monthly</a>
+                </div>  -->
+                <!-- <div class="col-sm-8 text-right">
+                  <div class="date-picker-block">
+                    <select class="form-control dash-input">
+                      <option>Years</option>
+                      <option>Months</option>
+                    </select>
+                  </div>
+                </div> -->
+              </div>
+            </div>
+            <div class="panel-body">
+              <!--  <div class="pull-right lti-ddl">
+                <a href="#">
+                  <div class="download-circle">
+                    <img src="images/download.png" />
+                  </div>
+                </a>
+              </div> -->
+
+              <div class="row margin_top40">
+                <div class="col-sm-12">
+                  <div
+                    class="panel-body "
+                    [ngClass]="{ dashboardManageAccount: graphLoader == true }"
+                  >
+                    <div *ngIf="graphLoader == true">
+                      <div class="spinner box-spinner">
+                        <div class="bounce1"></div>
+                        <div class="bounce2"></div>
+                        <div class="bounce3"></div>
+                      </div>
+                    </div>
+                    <div
+                      class="graph-container modal-graph-label"
+                      *ngIf="graphLoader != true"
+                    >
+                      <div class="label-left">{{'Units'|translate}} <span>({{'Rs'|translate}})</span></div>
+                      <canvas
+                        baseChart
+                        [chartType]="'bar'"
+                        [datasets]="billingchartData"
+                        [labels]="billinglabels"
+                        [options]="billingchartOptions"
+                        [legend]="true"
+                        [colors]="billingcolors"
+                        (chartClick)="goToBilling($event, 2)"
+                      >
+                      </canvas>
+                      <div class="label-bottom">{{'Months'|translate}}</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    <div id="main-menu-bg"></div>
+  </div>
+  <app-footer></app-footer>
+</div>

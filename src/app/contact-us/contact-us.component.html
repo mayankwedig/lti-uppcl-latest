@@ -1,0 +1,61 @@
+<div id="main-wrapper" class="no-sidebar">
+  <app-header></app-header>
+  <div class="main-container-sec about-main-container">
+    <div class="container">
+      <div class="contact-banner inner-page-banner" *ngIf="contactUsBanner != ''">
+        <img alt="" [src]="contactUsBanner" />
+        <div class="content">
+          Changing The <span>Power</span> <br />That Changes The World
+        </div>
+      </div>
+    </div>
+    <div class="main-page-wrapper">
+      <div class="container">
+        <div class="main-heading">{{ "Contact" | translate }}</div>
+        <div class="spinner box-spinner important-spiner" *ngIf="contentLoader">
+          <div class="bounce1"></div>
+          <div class="bounce2"></div>
+          <div class="bounce3"></div>
+        </div>
+        <div *ngIf="contentLoader == false && isContentDataFound == true">
+          <div
+            class="contact-table"
+            [innerHtml]="contactUsConent.description"
+          ></div>
+				</div>
+				<div *ngIf="contentLoader == false && isContentDataFound == false">
+						<div style="text-transform: capitalize;" class="text-center font-12  field_not_found">
+                <img src="../assets/images/no_data.png" />{{'Data not found for contact'|translate}}
+              </div>
+				</div>
+      </div>
+      <div class="important-links">
+        <div class="title">
+          {{'Important Links'|translate}}
+        </div>
+        <div class="row">
+          <div class="col-sm-10 col-sm-offset-1">
+            <div class="rows impLinkLoderMargin" *ngIf="impLinkLoader == true">
+              <div class="spinner box-spinner important-spiner">
+                <div class="bounce1"></div>
+                <div class="bounce2"></div>
+                <div class="bounce3"></div>
+              </div>
+            </div>
+            <home-imp-link-slider
+              [impLinks]="impLinks"
+              *ngIf="impLinkLoader == false && impLinks.length > 0"
+            ></home-imp-link-slider>
+          </div>
+        </div>
+      </div>
+      <!-- <div class="container">
+	            <div class="energy-conservation">
+	              <div class="content">Energy conservation, a key to sustainable development</div> <a href="" class="pull-right">View more <img alt="" src="assets/images/blue-right-arrow.png"></a>
+	            </div>
+	        </div> -->
+      <app-disclamider></app-disclamider>
+    </div>
+  </div>
+</div>
+<app-footer></app-footer>

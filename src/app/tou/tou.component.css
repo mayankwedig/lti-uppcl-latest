@@ -1,0 +1,32 @@
+.tou-label{
+    padding: 0;
+    margin: 5px 0 0;
+    list-style: none;
+    text-align: center;
+}
+.tou-label li{
+    padding: 0;
+    margin: 0 10px 0;
+    list-style: none;
+    display: inline-block;
+}
+.tou-label li .color-box{
+width: 16px;
+height: 10px;
+display:inline-block;
+margin-right: 5px;
+}
+.touHours {
+    position: absolute;
+    bottom: 11px;
+    width: 100%;
+    text-align: center;
+}
+.touTabularColour{
+    width: 15px;
+    height: 15px;
+    background-color: #09b4aa;
+    margin: 0 auto;
+    display: inline-block;
+    vertical-align: -2px;
+}

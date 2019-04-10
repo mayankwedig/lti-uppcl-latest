@@ -1,0 +1,95 @@
+<div id="main-wrapper" [ngClass]="{ 'no-sidebar': !isLoggedIn() }">
+    <app-header></app-header>
+    <span *ngIf="isLoggedIn()">
+      <app-side-bar [displayUserInfo]="dispString"></app-side-bar>
+    </span>
+    <div
+      id="content-wrapper"
+      [ngClass]="{ 'complaint-wrapeer-bg': !isLoggedIn() }"
+    >
+      <div [ngClass]="{ 'col-sm-10 col-sm-offset-1': !isLoggedIn() }">
+        <div class="page-heading">{{ "Track Service Request" | translate }}</div>
+        <div class="billing-sec complaints-page">
+          <div class="row margin_top20 margin_bottom20">
+            <div class="col-sm-12">
+              <div class="panel-body pos-rel">
+                <div class="row">
+                  <div
+                    class="col-sm-6 col-sm-offset-3 profile-right-content padding_top50"
+                  >
+                    <form
+                      class="form top-label-form"
+                      [formGroup]="serviceRequestFrm"
+                      (ngSubmit)="serviceRequestfunc()"
+                    >
+                      <div class="row">
+                        <div class="col-xs-12">
+                          <div class="form-group rightButtonBlock">
+                            <label>{{ "Service Request Number" | translate }}*</label>
+                            <input
+                              type="text"
+                              required
+                              formControlName="serviceReqNo"
+                              name="serviceReqNo"
+                              class="form-control"
+                              placeholder="{{ 'Service Request Number' | translate }}"
+                            />
+                            <div
+                              *ngIf="
+                                f.serviceReqNo.touched && f.serviceReqNo.invalid
+                              "
+                            >
+                              <span
+                                class="error-msg"
+                                *ngIf="f.serviceReqNo.errors?.required"
+                                >{{ "Service Request is required" | translate }}
+                              </span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div
+                        class="form-group text-center no-margin-b"
+                        [ngClass]="{ 'pos-rel': trackServiceReqLoader }"
+                      >
+                        <div
+                          class="spinner"
+                          *ngIf="trackServiceReqLoader"
+                          style="top: 80%;"
+                        >
+                          <div class="bounce1"></div>
+                          <div class="bounce2"></div>
+                          <div class="bounce3"></div>
+                        </div>
+                        <button
+                          [disabled]="trackServiceReqLoader == true"
+                          class="btn btn-primary submit-btn full-btn"
+                          type="submit"
+                        >
+                          {{'submit'|translate}}
+                        </button>
+                      </div>
+                      <!-- {{serviceRequestFrm.value | json}} -->
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+  
+          <div class="electricity-consumption-box">
+            <img src="../assets/images/electricity-icon.png" /> Your last month
+            consumption is <span>3250</span> units. Learn tips how to save
+            electricity.
+            <a href="#"
+              >Read more <img src="../assets/images/read-more-icon.png"
+            /></a>
+          </div>
+          <app-advertisement [adQuery]="fetchAdQuery"></app-advertisement>
+        </div>
+      </div>
+      <div *ngIf="isLoggedIn()" id="main-menu-bg"></div>
+    </div>
+    <app-footer></app-footer>
+  </div>
+  

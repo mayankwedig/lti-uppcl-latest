@@ -1,0 +1,175 @@
+<div id="main-wrapper">
+  <app-header></app-header>
+  <app-side-bar [displayUserInfo]="dispString"></app-side-bar>
+  <div id="content-wrapper">
+    <div class="page-heading ">{{'Net Metering'|translate}}</div>
+    <div class="billing-sec margin_top20">
+      <div class="panel">
+        <div class="row">
+          <div
+            class="col-sm-1 pull-right margin_top20"
+            style="margin-right: -36px; "
+          >
+            <a
+              (click)="downloadGraphExcelNetmetering()"
+              style="cursor: pointer;"
+              title="Download"
+            >
+              <div class="download-circle">
+                <img src="assets/images/download.png" />
+              </div>
+            </a>
+          </div>
+          <div
+            class="col-sm-2 pull-right margin_top20"
+            style=" margin-right:5px;"
+          >
+            <div class="input-group">
+              <!--  (focus)="dp.clearDate()" -->
+              <input
+                class="form-control"
+                style="float:none"
+                placeholder="Select a date"
+                ngx-mydatepicker
+                name="mydate"
+                [(ngModel)]="selectedDateCalc"
+                [options]="myOptions"
+                #dp="ngx-mydatepicker"
+                (dateChanged)="onDateChanged($event)"
+              />
+
+              <span class="input-group-btn">
+                <button
+                  type="button"
+                  class="btn btn-default"
+                  (click)="dp.clearDate()"
+                >
+                  <i class="glyphicon glyphicon-remove"></i>
+                </button>
+                <button
+                  type="button"
+                  class="btn btn-default"
+                  (click)="dp.toggleCalendar()"
+                >
+                  <i class="glyphicon glyphicon-calendar"></i>
+                </button>
+              </span>
+            </div>
+          </div>
+        </div>
+        <div
+          class="page-heading text-center margin_top20"
+          style="color:#635b5b;"
+        >
+          {{'NET METERING AS ON Month date, year'|translate}} {{ dispSelectedMonth }} {{ dispSelectedDay }},
+          {{ dispSelectedYear }}
+        </div>
+        <div
+          class="panel-body"
+          [ngClass]="{ consumptionPanalLoader: loder == true }"
+        >
+          <div
+            class="graph-container modal-graph-label"
+            *ngIf="loder == false && isDataFound == true"
+          >
+            <div class="label-left">{{'Units'|translate}} <span>{{'(KWH)'|translate}}</span></div>
+            <div class="consumption-canvas" *ngIf="chartToShow == 'hourly'">
+              <canvas
+                class=""
+                baseChart
+                [chartType]="chartType"
+                [datasets]="netMeteringChartData"
+                [labels]="netMeteringlabels"
+                [options]="netMeteringChartOptions"
+                [legend]="true"
+                [colors]="netMeteringcolors"
+              >
+              </canvas>
+            </div>
+            <div class="label-bottom" *ngIf="chartToShow == 'hourly'">
+              {{'Hours'|translate}}
+            </div>
+          </div>
+          <div class="rows" *ngIf="loder == true">
+            <div class="spinner box-spinner">
+              <div class="bounce1"></div>
+              <div class="bounce2"></div>
+              <div class="bounce3"></div>
+            </div>
+          </div>
+          <div
+            style="margin-top: 2;"
+            class="text-center font-12  field_not_found"
+            *ngIf="isDataFound == false && loder == false"
+          >
+            <img src="/assets/images/no_data.png" /> {{'Currently no data found for net metering section'|translate}} <br />
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="rows no-padding-l no-padding-r">
+      <div
+        class="panel-body"
+        [ngClass]="{ 'net-metering-loder-panel': tabularDataloader == true }"
+      >
+        <div class="table-wrapper no-padding">
+          <table
+            class="fl-table tb-header table-fixed"
+            *ngIf="isTabularDataFound == true && tabularDataloader == false"
+          >
+            <thead>
+              <tr>
+                <th width="50%">&nbsp;</th>
+                <th width="50%">
+                  <span class="center-pos">{{'In KWH'|translate}}</span><br />
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td width="50%">
+                  <div class="metering-table-box">
+                    <div
+                      class="touTabularColour"
+                      [style.background-color]="consumptionColour"
+                    ></div>
+                    <span>{{'Consumption'|translate}}</span>
+                  </div>
+                </td>
+                <td width="50%">{{ tabularData.total }}</td>
+              </tr>
+              <tr>
+                <td width="50%">
+                  <div class="metering-table-box">
+                    <div
+                      class="touTabularColour"
+                      [style.background-color]="genrationColour"
+                    ></div>
+                    <span>{{'Generation'|translate}}</span>
+                  </div>
+                </td>
+                <td width="50%">{{ tabularData.totalGeneration }}</td>
+              </tr>
+            </tbody>
+          </table>
+          <div
+            style="margin-top: 2;"
+            class="text-center font-12  field_not_found"
+            *ngIf="isTabularDataFound == false && tabularDataloader == false"
+          >
+            <img src="/assets/images/no_data.png" /> {{'Currently no data found in this section'|translate}}
+          </div>
+          <div *ngIf="tabularDataloader == true">
+            <div class="spinner box-spinner" style="top: 60%;">
+              <div class="bounce1"></div>
+              <div class="bounce2"></div>
+              <div class="bounce3"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="main-menu-bg"></div>
+  </div>
+  <app-footer></app-footer>
+</div>

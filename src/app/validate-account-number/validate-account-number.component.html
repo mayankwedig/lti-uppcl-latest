@@ -1,0 +1,120 @@
+<div id="main-wrapper" class="no-sidebar">
+  <app-header></app-header>
+  <div class="main-container-sec signup-form-page">
+    <div class="row login-table blue-tabs-relative">
+
+      <div class="col-sm-4 col-sm-push-8">
+        <div class="login-signup-bottom-sec">
+          <div class="right-sec signup-form-page login-form login-width">
+            <div class="right-sec-inner-sec">
+              <div class="right-sec-inner signup-form-box">
+                <div class="box-title">
+                  <div class="text-title text-transform-none">
+                    {{ "Please enter your Account Number" | translate }}
+                  </div>
+                </div>
+                <form
+                  class="form no-padding"
+                  [formGroup]="accountVerificationFrm"
+                  (ngSubmit)="validateAccountNumber()"
+                >
+                  <div class="row">
+                    <div class="col-sm-12">
+                      <div class="form-group">
+                        <input
+                          required
+                          formControlName="account_number"
+                          name="account_number"
+                          type="text"
+                          class="form-control"
+                          placeholder="{{'Account Number OR Bill Number'| translate}}"
+                          autocomplete="off"
+                        />
+                        <div
+                          *ngIf="
+                            f.account_number.touched && f.account_number.invalid
+                          "
+                        >
+                          <span
+                            class="error-msg"
+                            *ngIf="f.account_number.errors?.required"
+                            >{{'Account Number OR Bill Number is required'|translate}}</span
+                          >
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-sm-12">
+                      <div
+                        class="form-group text-center no-margin-b"
+                        [ngClass]="{ 'pos-rel': loder }"
+                      >
+                        <div class="spinner" *ngIf="loder">
+                          <div class="bounce1"></div>
+                          <div class="bounce2"></div>
+                          <div class="bounce3"></div>
+                        </div>
+                        <button
+                          class="btn btn-primary submit-btn"
+                          [disabled]="!accountVerificationFrm.valid"
+                        >
+                          {{ "Next" | translate }}
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-sm-12">
+                      <div class="dont-account">
+                        {{ "Already have an account" | translate }}?
+                        <a class="" routerLink="/login">{{
+                          "Login" | translate
+                        }}</a>
+                      </div>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-8">
+        <div class="main-slide-bar">
+          <home-page-slider [content]="sliderContent"></home-page-slider>
+          <!-- <div class="blue-tabs-sec">
+                        <ul class="menu-listing">
+                            <li>
+                                <a class="credit-card-icon" href="JavaScript:Void(0);">
+                                    <div class="title">Pay Online</div>
+                                </a>
+                            </li>
+                            <li>
+                                <a class="register-icon" href="JavaScript:Void(0);">
+                                    <div class="title">Complaints <br>(Register / Track)</div>
+                                </a>
+                            </li>
+                            <li>
+                                <a class="bulb-icon" href="JavaScript:Void(0);">
+                                    <div class="title">Energy Tips</div>
+                                </a>
+                            </li>
+                            <li>
+                                <a class="sevice-register-icon" href="JavaScript:Void(0);">
+                                    <div class="title">Service Requests <br>(Register / Track)</div>
+                                </a>
+                            </li>
+                            <li>
+                                <a class="connection-icon" href="JavaScript:Void(0);">
+                                    <div class="title">New <br>Connection</div>
+                                </a>
+                            </li>
+                        </ul>
+                    </div> -->
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<app-footer></app-footer>

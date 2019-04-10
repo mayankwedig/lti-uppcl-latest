@@ -1,0 +1,297 @@
+<div id="main-wrapper">
+  <app-header></app-header>
+  <app-side-bar [displayUserInfo]="dispString"></app-side-bar>
+  <ngx-loading
+    [show]="redirectLoding"
+    [config]="{
+      primaryColour: primaryColour,
+      secondaryColour: secondaryColour,
+      tertiaryColour: primaryColour,
+      backdropBorderRadius: '3px'
+    }"
+  ></ngx-loading>
+  <div id="content-wrapper">
+    <div class="row">
+      <div class="col-sm-6">
+        <div class="page-heading">{{ "Recharge History" | translate }}</div>
+      </div>
+      <div class="col-sm-6">
+        <a
+          (click)="openRechargeAmount()"
+          class="blue-btn pull-right"
+          style="margin-top: -6px; cursor: pointer;"
+          ><!-- <span><i class="fa fa-inr"></i></span> --> Recharge Now</a
+        >
+      </div>
+    </div>
+    <div
+      class="billing-sec margin_top20 padding_bottom10 no-padding-l no-padding-r"
+    >
+      <div
+        class="panel-body"
+        [ngClass]="{ dashboardManageAccount: rechargeDataLoder == true }"
+      >
+        <div
+          class="rows"
+          *ngIf="isrechargeDataFound == true && rechargeDataLoder == false"
+        >
+          <div class="pull-right present-balance">
+            {{ "Units Remaining" | translate }}
+            <span
+              >{{ present_balance
+              }}<span style="font-size:15px;">{{
+                "KWH" | translate
+              }}</span></span
+            >&nbsp;&nbsp;&nbsp;{{
+              "Present
+                                    Balance" | translate
+            }}
+            <span><i class="fa fa-inr"></i>{{ present_balance }}</span>
+          </div>
+        </div>
+        <div class="recharge-history-table-scroll">
+          <div class="table-wrapper no-padding">
+            <table
+              class="fl-table tb-header table-fixed"
+              *ngIf="isrechargeDataFound == true && rechargeDataLoder == false"
+            >
+              <thead>
+                <tr>
+                  <th width="20%">
+                    <span class="center-pos"
+                      >{{
+                        "Recharge
+                                                                  Amount"
+                          | translate
+                      }}
+                      <i class="fa fa-inr"></i
+                    ></span>
+                  </th>
+                  <th width="20%">
+                    <span class="center-pos">{{
+                      "Recharge
+                                                                  Date"
+                        | translate
+                    }}</span>
+                  </th>
+                  <th width="20%">
+                    <span class="center-pos">{{
+                      "Recharge Reference
+                                                                  No."
+                        | translate
+                    }}</span>
+                  </th>
+                  <th width="20%">
+                    <span class="center-pos">{{
+                      "Recharge
+                                                                  Mode"
+                        | translate
+                    }}</span>
+                  </th>
+                  <th width="20%">
+                    <span class="center-pos">{{
+                      "Units
+                                                                  Received"
+                        | translate
+                    }}</span
+                    ><br />
+                    <span style="font-size:11px;">{{
+                      "(In KWH)" | translate
+                    }}</span>
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let recharge of rechargeData">
+                  <td width="20%">
+                    {{ recharge.recharge_amount }}
+                  </td>
+                  <td width="20%">
+                    {{ recharge.recharge_date | date: "dd/MM/yyyy" }}
+                  </td>
+                  <td width="20%">
+                    {{ recharge.recharge_refno }}
+                  </td>
+                  <td width="20%">
+                    {{ recharge.recharge_mode }}
+                  </td>
+                  <td width="20%">
+                    {{ recharge.units_received }}
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+
+            <div
+              style="margin-top: 2;"
+              class="text-center font-12  field_not_found"
+              *ngIf="isrechargeDataFound == false && rechargeDataLoder == false"
+            >
+              <img src="/assets/images/no_data.png" />Currently no data found in
+              recharge history section.
+            </div>
+            <div *ngIf="rechargeDataLoder == true">
+              <div class="spinner box-spinner" style="top: 35%;">
+                <div class="bounce1"></div>
+                <div class="bounce2"></div>
+                <div class="bounce3"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div
+    class="modal fade add-account-modal"
+    id="recharge-pay"
+    tabindex="-1"
+    role="dialog"
+    aria-labelledby="myLargeModalLabel"
+  >
+    <div class="modal-dialog modal-md" role="document">
+      <div class="modal-content">
+        <div class="modal-body">
+          <div class="panel-body bil-pay-panel">
+            <div class="service-box">
+              <div class="title">{{ "Recharge Payment" | translate }}</div>
+              <!-- <div class="req-success-msg">
+            {{'Thank You for pay your bill'|translate}}
+          </div> -->
+              <div class="req-number">
+                {{
+                  "Please do not press back button or refresh this page"
+                    | translate
+                }}
+              </div>
+              <div class="team-contact">
+                {{ "Your payment will process shortly" | translate }}
+              </div>
+              <div class="text-center padding_top50">
+                {{
+                  "Page will be redirect automatically to the payment gateway"
+                    | translate
+                }}
+              </div>
+              <form
+                method="post"
+                action="{{ payMentDetails.url }}"
+                name="f1"
+                id="payMentFrm"
+              >
+                <input type="hidden" name="MID" [value]="payMentDetails.MID" />
+                <input
+                  type="hidden"
+                  name="WEBSITE"
+                  [value]="payMentDetails.WEBSITE"
+                />
+                <input
+                  type="hidden"
+                  name="CHANNEL_ID"
+                  [value]="payMentDetails.CHANNEL_ID"
+                />
+                <input
+                  type="hidden"
+                  name="INDUSTRY_TYPE_ID"
+                  [value]="payMentDetails.INDUSTRY_TYPE_ID"
+                />
+                <input
+                  type="hidden"
+                  name="ORDER_ID"
+                  [value]="payMentDetails.ORDER_ID"
+                />
+                <input
+                  type="hidden"
+                  name="CUST_ID"
+                  [value]="payMentDetails.CUST_ID"
+                />
+                <input
+                  type="hidden"
+                  name="TXN_AMOUNT"
+                  [value]="payMentDetails.TXN_AMOUNT"
+                />
+                <input
+                  type="hidden"
+                  name="CALLBACK_URL"
+                  [value]="payMentDetails.CALLBACK_URL"
+                />
+                <input
+                  type="hidden"
+                  name="EMAIL"
+                  [value]="payMentDetails.EMAIL"
+                />
+                <input
+                  type="hidden"
+                  name="MOBILE_NO"
+                  [value]="payMentDetails.MOBILE_NO"
+                />
+                <input
+                  type="hidden"
+                  name="CHECKSUMHASH"
+                  [value]="payMentDetails.CHECKSUMHASH"
+                />
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div
+    class="modal fade add-account-modal"
+    id="recharge-amount"
+    tabindex="-1"
+    role="dialog"
+    aria-labelledby="myLargeModalLabel"
+  >
+    <div class="modal-dialog modal-md" role="document">
+      <div class="modal-content">
+        <div class="modal-body">
+            <button
+            type="button"
+            class="close"
+            data-dismiss="modal"
+            aria-label="Close"
+          >
+            <span aria-hidden="true">&times;</span>
+          </button>
+          <h4 class="modal-title" id="gridSystemModalLabel">
+            {{ "Prepaid Recharge" | translate }}
+          </h4>
+          <form class="form custom-form">
+          <div class="row">
+            <div class="col-sm-12">
+              <div class="form-group">
+                <input
+                  required
+                  [(ngModel)]="rechargeAmount"
+                  name="rechargeAmount"
+                  type="text"
+                  class="form-control"
+                  placeholder="{{ 'Recharge Amount' | translate }}"
+                />
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-12">
+              
+              <div
+                class="form-group text-center no-margin-b"
+              >
+                <button
+                  class="btn btn-primary submit-btn"
+                  (click)="getPaymentChecksm()"
+                >{{ "Recharge" | translate }}
+                </button>
+              </div>
+            </div>
+          </div>
+        </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div id="main-menu-bg"></div>
+  <app-footer></app-footer>
+</div>

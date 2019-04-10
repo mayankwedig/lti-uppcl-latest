@@ -1,0 +1,9 @@
+<div class="owl-carousel owl-theme important-links-slide">
+    <!-- {{impLinks |json}} -->
+    <div class="item" *ngFor ="let impLink of impLinks" >
+     <a class="item-link" href="{{impLink.link}}" target="_bank"  title="{{impLink.title}}">
+            <span><img [src]="getIcons(impLink)" alt="{{impLink.title}}" ></span>      
+             <div class="title-link">{{impLink.title}}</div>
+     </a>
+    </div>
+ </div>

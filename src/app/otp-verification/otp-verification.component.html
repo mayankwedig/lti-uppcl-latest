@@ -1,0 +1,169 @@
+<div id="main-wrapper" class="no-sidebar">
+  <app-header></app-header>
+  <div class="main-container-sec signup-form-page">
+    <div class="row login-table blue-tabs-relative">
+      <div class="col-sm-8">
+        <div class="main-slide-bar">
+          <home-page-slider [content]="sliderContent"></home-page-slider>
+        </div>
+      </div>
+      <div class="col-sm-4">
+        <div class="login-signup-bottom-sec">
+          <div class="right-sec signup-form-page login-form login-width">
+            <div class="right-sec-inner-sec">
+              <div class="right-sec-inner signup-form-box" *ngIf="!isOtpVerified">
+                <div class="box-title">
+                  <div class="text-title text-transform-none">
+                    {{'OTP has been sent to your registered mobile number and email. please enter it below to verify'|translate}}
+                  </div>
+                </div>
+                <form
+                  class="form no-padding"
+                  [formGroup]="OtpVerificationFrm"
+                  (ngSubmit)="verifyOtp()"
+                >
+                  <div class="row">
+                    <div class="col-sm-12">
+                      <div class="form-group">
+                        <!--
+                          <input type="text" name="" class="form-control" placeholder="Enter OTP">
+                        -->
+
+                        <input
+                          required
+                          formControlName="otp"
+                          name="otp"
+                          type="text"
+                          class="form-control"
+                          placeholder="{{'OTP'|translate}}"
+                        />
+
+                        <div
+                          *ngIf="
+                            OtpVerificationFields.otp.touched &&
+                            OtpVerificationFields.otp.invalid
+                          "
+                        >
+                          <span
+                            class="error-msg"
+                            *ngIf="OtpVerificationFields.otp.errors?.required"
+                            >{{'OTP is required'|translate}}.</span
+                          >
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-sm-12">
+                      <div
+                        class="form-group text-center no-margin-b"
+                        [ngClass]="{ 'pos-rel': loder }"
+                      >
+                        <div class="spinner" *ngIf="loder">
+                          <div class="bounce1"></div>
+                          <div class="bounce2"></div>
+                          <div class="bounce3"></div>
+                        </div>
+                        <button
+                          class="btn btn-primary submit-btn"
+                          [disabled]="!OtpVerificationFrm.valid"
+                        >
+                          {{'Submit'|translate}}
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-sm-12">
+                      <div class="dont-account">
+                       {{'Already have an account?' | translate}}
+                        <a class="" routerLink="/login"> {{'Login' | translate}}</a>
+                      </div>
+                    </div>
+                  </div>
+                </form>
+              </div>
+              <div class="right-sec-inner signup-form-box" *ngIf="isOtpVerified">
+                <div class="box-title">
+                    
+                  <div class="text-title">{{'Reset password'|translate}}</div>
+                </div>
+                <form class="form no-padding" 
+                  class="form no-padding"
+                  [formGroup]="ChangePasswordFrm"
+                  (ngSubmit)="changePassFunc()">
+                  <div class="row">
+                      <div class="form-hint"> <span style="color:red"> <strong>{{'Note'|translate}}:</strong> </span> {{'Conform with our Strong Password policy, you are required to use a sufficiently strong password. Password must contain more than 8 characters, 1 upper case letter, and 1 special character'|translate}}</div>
+                    </div>
+                  <div class="row">
+                    <div class="col-sm-12">
+                      <div class="form-group">
+                        <input
+                          required
+                          formControlName="password"
+                          name="password"
+                          type="password"
+                          name=""
+                          class="form-control"
+                          placeholder="{{'New password'|translate}}"
+                        />
+                        <div *ngIf="changePassFields.password.touched && changePassFields.password.invalid">
+                            <span class="error-msg" *ngIf="changePassFields.password.errors?.required"> {{'New password is required'|translate}}</span>
+                          </div>
+                      </div>
+                    </div>
+                    <div class="col-sm-12">
+                      <div class="form-group">
+                        <input
+                          required
+                          formControlName="cpassword"
+                          name="cpassword"
+                          type="password"
+                          name=""
+                          class="form-control"
+                          placeholder="{{'Confirm password'|translate}}"
+                        />
+                        <div *ngIf="changePassFields.cpassword.touched && changePassFields.cpassword.invalid">
+                            <span class="error-msg" *ngIf="changePassFields.cpassword.errors?.required">{{'Confirm password is required'|translate}}</span>
+                          </div>
+                          <div *ngIf="(ChangePasswordFrm.hasError('notSame')) && (changePassFields.cpassword.touched && changePassFields.password.touched &&  changePassFields.cpassword.value != '')">
+                            <span class="error-msg">{{'Password and confirm password do not match'|translate}}</span>
+                          </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-sm-12">
+                      <div class="form-group text-center no-margin-b" [ngClass]="{ 'pos-rel': changePassFuncLoader }">
+                          <div class="spinner" *ngIf="changePassFuncLoader">
+                              <div class="bounce1"></div>
+                              <div class="bounce2"></div>
+                              <div class="bounce3"></div>
+                            </div>
+                        <button
+                          class="btn btn-primary submit-btn"
+                          [disabled]="!ChangePasswordFrm.valid"
+                        >
+                          {{'Submit'|translate}}
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-sm-12">
+                      <div class="dont-account">
+                          {{'Already have an account?'|translate}}
+                        <a class="" routerLink="/login">{{'Login'|translate}}</a>
+                      </div>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<app-footer></app-footer>

@@ -1,0 +1,88 @@
+<div id="main-wrapper">
+  <app-header></app-header>
+  <app-side-bar [displayUserInfo]="dispString"></app-side-bar>
+  <div id="content-wrapper">
+    <div class="page-heading ">{{'Consumption Estimator'|translate}}</div>
+    <div class="billing-sec margin_top10 padding_bottom10 ">
+      <div class="panel ">
+        <!--  <div class="row">
+          <div
+            class="col-lg-3 col-md-4 col-sm-6 col-xs-12 pull-right tou-filter"
+          >
+            <div class="input-group">
+              <input
+                class="form-control"
+                style="float:none"
+                placeholder="Select a date"
+                ngx-mydatepicker
+                name="mydate"
+                [(ngModel)]="selectedDateCalc"
+                [options]="myOptions"
+                #dp="ngx-mydatepicker"
+                (dateChanged)="onDateChanged($event)"
+              />
+              <span class="input-group-btn">
+                <button
+                  type="button"
+                  class="btn btn-default"
+                  (click)="dp.clearDate()"
+                >
+                  <i class="glyphicon glyphicon-remove"></i>
+                </button>
+                <button
+                  type="button"
+                  class="btn btn-default"
+                  (click)="dp.toggleCalendar()"
+                >
+                  <i class="glyphicon glyphicon-calendar"></i>
+                </button>
+              </span>
+            </div>
+          </div>
+        </div> -->
+        <div
+          class="page-heading text-center margin_top50 margin_bottom20"
+          style="color:#635b5b;"
+        > {{'Estimated Consumption As On Month date, year'|translate}} {{ dispSelectedMonth }}
+          {{ dispSelectedDay }}, {{ dispSelectedYear }}
+        </div>
+        <div class="panel-body" [ngClass]="{ touLoader: loder == true }">
+          <div
+            class="graph-container modal-graph-label showChart"
+            style="display: none;"
+          >
+            <div class="label-left">{{'Units'|translate}} <span>{{'(KWH)'|translate}}</span></div>
+            <div class="consumption-canvas pos-rel">
+              <div id="chartdiv"></div>
+              <div class="label-bottom touHours">
+                {{'Days'|translate}}
+              </div>
+            </div>
+          </div>
+          <div class="rows estimator-avg-text" *ngIf="isDataFound == true && loder == false">
+            <div class="averageText">{{'Average consumption for'|translate}} <span>{{ dispSelectedMonth }} {{ dispSelectedYear }}</span><strong>{{daily_avg_consumption}} <span class="kwh-text-black">{{'KWH'|translate}}</span></strong></div>
+            <div class="averageText">{{'Your estimated consumption for'|translate}} {{ dispSelectedMonth }} {{ dispSelectedYear }} (based on average consumption) is <!-- (value)  --><strong>{{estimatedMonthConsumption}} <span class="kwh-text-black">{{'KWH'|translate}}</span></strong></div>
+          </div>
+          <div class="rows" *ngIf="loder == true">
+            <div class="spinner box-spinner">
+              <div class="bounce1"></div>
+              <div class="bounce2"></div>
+              <div class="bounce3"></div>
+            </div>
+          </div>
+          <div
+            style="margin-top: 2;"
+            class="text-center font-12  field_not_found"
+            *ngIf="isDataFound == false && loder == false"
+          >
+         
+            <img src="/assets/images/no_data.png" />{{'Currently no data found in this section'|translate}} <br />
+          </div>
+         
+        </div>
+      </div>
+    </div>
+    <div id="main-menu-bg"></div>
+  </div>
+  <app-footer></app-footer>
+</div>

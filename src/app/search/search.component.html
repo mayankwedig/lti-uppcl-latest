@@ -1,0 +1,101 @@
+<div id="main-wrapper" class="pdl-0">
+  <app-header></app-header>
+  <!-- Download Section -->
+  <div id="content-wrapper">
+    <div class="page-heading pdl-0">{{'Search' | translate}}</div>
+    <div class="row" *ngIf="searchLoader == true">
+      <div class="spinner box-spinner">
+        <div class="bounce1"></div>
+        <div class="bounce2"></div>
+        <div class="bounce3"></div>
+      </div>
+    </div>
+    <div
+      class="billing-sec margin_top20 padding_bottom10 no-padding-l no-padding-r"
+      *ngIf="searchLoader == false && resultFound == true"
+    >
+      <div class="panel-body download-panel search-result-panel">
+        <div class="row">
+          <div class="col-sm-12">
+            <div class="page-heading search-result-heading">
+              {{'Search results for'|translate}} <strong>‘{{searchKeyWord}}’</strong>
+            </div>
+            <div class="download-list-box">
+              <div class="header">{{'Modules' | translate}}</div>
+              <div class="content-body">
+                <ul  *ngIf="searchResponse.module.length > 0">
+                  <li *ngFor="let moduleContent of searchResponse.module">
+                    <a routerLink="/{{moduleContent.slug}}"
+                      >{{moduleContent.title}}</a
+                    >
+                  </li>
+                  <!-- <li><a href="javascript:void(0);">Billing address</a></li>
+                  <li><a href="javascript:void(0);">Billing</a></li>
+                  <li><a href="javascript:void(0);">Biling history</a></li> -->
+                </ul>
+                <div *ngIf="searchResponse.module.length == 0">
+                    <div class="text-center font-12  field_not_found">
+                    <img src="/assets/images/no_data.png" />{{
+                      "Data not found" | translate
+                    }}<br />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-12">
+            <div class="download-list-box">
+              <div class="header">{{'Content'|translate}}</div>
+              <div class="content-body">
+                <ul *ngIf="searchResponse.content.length > 0">
+                  <li *ngFor="let content of searchResponse.content">
+                    <a routerLink="/{{content.slug}}">{{content.title}}</a>
+                  </li>
+                 <!--  <li>
+                    <a href="javascript:void(0);"
+                      >Billing address - J-12, G2, Subhash Marg, C-Scheme
+                      Jaipur, 302 001 Rajasthan, India</a
+                    >
+                  </li>
+                  <li>
+                    <a href="javascript:void(0);"
+                      >Tips on how to save energy and reduce the bill</a
+                    >
+                  </li>
+                  <li>
+                    <a href="javascript:void(0);"
+                      >Your service request status for change billing address
+                      has been accepted</a
+                    >
+                  </li> -->
+                </ul>
+                <div *ngIf="searchResponse.content.length == 0">
+                    <div class="text-center font-12  field_not_found">
+                    <img src="/assets/images/no_data.png" />{{
+                      "Data not found" | translate
+                    }}<br />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      class="billing-sec margin_top20 padding_bottom10 no-padding-l no-padding-r"
+      *ngIf="searchLoader == false && resultFound == false"
+    >
+      <div class="panel-body download-panel search-result-panel">
+        <div class="row">
+            <div class="text-center font-12  field_not_found">
+              <img src="/assets/images/no_data.png" />{{
+                "Data not found" | translate
+              }}<br />
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <app-footer></app-footer>
+</div>

@@ -1,0 +1,75 @@
+<div id="main-wrapper" class="no-sidebar">
+    <app-header></app-header>
+      <div id="content-wrapper" class="gray-wrapeer-bg">
+         <div class="container">
+            <div class="contact-banner inner-page-banner no-margin-t" *ngIf="banner != ''">
+               <img alt="" [src]="banner">
+            </div>
+            <div class="row">
+               <div class="col-xs-12 padding_top30">
+                  <div class="page-heading no-padding-l text-center">
+                    {{ contentTitle | translate }}
+                  </div>
+                  <div class="rows consumptionDesktopBackButton" style="margin-bottom:15px;">
+                     <div class="week-month-btn-sec pull-right">
+                         <a [routerLink]="['/tou']" routerLinkActive="router-link-active"  title="{{'Back to TOU'|translate}}" class="blue-btn"  ><<{{'Back to TOU'|translate}}</a>
+                    </div> 
+                  </div>
+                  <div class="spinner box-spinner important-spiner" *ngIf="contentLoader == true">
+                    <div class="bounce1"></div>
+                    <div class="bounce2"></div>
+                    <div class="bounce3"></div>
+                  </div>
+                  <div class="rows margin_top20 padding_bottom10 no-padding-l no-padding-r" *ngIf="isContentFound == true && contentLoader == false">
+                     <div class="panel-body">
+                        <div class="table-wrapper no-padding"  [innerHtml]="content">
+                           <!-- <table class="fl-table">
+                              <thead>
+                                 <tr>
+                                    <th width="33.33%"><span class="center-pos">TOU</span></th>
+                                    <th width="33.33%"><span class="center-pos">Time Frame</span></th>
+                                    <th width="33.33%"><span class="center-pos">Tariff</span></th>
+                                 </tr>
+                              </thead>
+                              <tbody>
+                                 <tr>
+                                    <td width="33.33%">TOU 1</td>
+                                    <td width="33.33%">12 AM - 6 AM</td>
+                                    <td width="33.33%"><i class="fa fa-inr"></i> 5 per unit</td>
+                                 </tr>
+                                 <tr>
+                                    <td width="33.33%">TOU 2</td>
+                                    <td width="33.33%">12 AM - 6 AM</td>
+                                    <td width="33.33%"><i class="fa fa-inr"></i> 7 per unit</td>
+                                 </tr>
+                                 <tr>
+                                    <td width="33.33%">TOU 3</td>
+                                    <td width="33.33%">12 AM - 6 AM</td>
+                                    <td width="33.33%"><i class="fa fa-inr"></i> 10 per unit</td>
+                                 </tr>
+                                 <tr>
+                                    <td width="33.33%">TOU 4</td>
+                                    <td width="33.33%">12 AM - 6 AM</td>
+                                    <td width="33.33%"><i class="fa fa-inr"></i> 4 per unit</td>
+                                 </tr>
+                              </tbody>
+                           </table> -->
+                        </div>
+                     </div>
+                  </div>
+                  <div class="rows margin_top20 padding_bottom10 no-padding-l no-padding-r" *ngIf="isContentFound == false && contentLoader == false">
+                    <div class="panel-body">
+                      <div class="table-wrapper no-padding">
+                        <div  class="text-center font-12  field_not_found" >
+                          <img src="../assets/images/no_data.png" />{{'Data not found for this section'|translate}}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+   <app-footer></app-footer>
+  

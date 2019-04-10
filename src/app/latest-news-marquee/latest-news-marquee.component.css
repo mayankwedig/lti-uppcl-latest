@@ -1,0 +1,63 @@
+/* Animating the UL 
+-_-_-_-_-_-_-_-_-_-_-_-_ 
+
+@keyframes "scroll" {
+ from {
+   top: 100px;
+ }
+ to {
+   top: -200px;
+ }
+
+}
+
+@-moz-keyframes scroll {
+ from {
+   top: 100px;
+ }
+ to {
+   top: -200px;
+ }
+
+}
+
+@-webkit-keyframes "scroll" {
+ from {
+   top: 100px;
+ }
+ to {
+   top: -200px;
+ }
+
+}
+
+@-ms-keyframes "scroll" {
+ from {
+   top: 100px;
+ }
+ to {
+   top: -200px;
+ }
+
+}
+
+@-o-keyframes "scroll" {
+ from {
+   top: 100px;
+ }
+ to {
+   top: -200px;
+ }
+
+}
+*/
+.scroll {
+    position: absolute;
+    height: 100%;
+
+	/*-webkit-animation: scroll 15s linear infinite;
+	-moz-animation: scroll 15s linear infinite;
+	-ms-animation: scroll 15s linear infinite;
+	-o-animation: scroll 15s linear infinite;
+	animation: scroll 15s linear infinite; */
+}

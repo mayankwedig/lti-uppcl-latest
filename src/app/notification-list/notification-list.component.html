@@ -1,0 +1,264 @@
+<div id="main-wrapper">
+  <app-header></app-header>
+  <app-side-bar [displayUserInfo]="dispString"></app-side-bar>
+  <div id="content-wrapper">
+    <div class="notifaction-page">
+      <div class="page-heading">{{'Notifications'|translate}}</div>
+      <div class="notifaction-block margin_top20">
+        <div
+          class="notifaction-box"
+          [ngClass]="{ NotificationLoaderBlock: notificationLoder == true }"
+        >
+          
+          <div class="tab-section rows blue-tabs">
+            
+            <ul class="nav nav-tabs" role="tablist">
+             
+              <li role="presentation" class="abt-tbs-li">
+                <a
+                  class="dir-tab"
+                  href="#notification-list-2"
+                  aria-controls="notification-list-2"
+                  role="tab"
+                  data-toggle="tab"
+                >
+                  {{'Notifications'|translate}}
+                </a>
+              </li>
+
+              <li role="presentation" class="active abt-tbs-li">
+                <a
+                  class="v-m-tab"
+                  href="#notification-list-1"
+                  aria-controls="notification-list-1"
+                  role="tab"
+                  data-toggle="tab"
+                >
+                  {{'Alerts'|translate}}
+                </a>
+              </li>
+
+            </ul>
+            <div class="tab-content rows abt-tab-container">
+              <div
+                role="tabpanel"
+                class="tab-pane active"
+                id="notification-list-1"
+              >
+              
+                <div class="notifaction-block">
+                    <div
+                    style="margin-top: 2;"
+                    class="text-center font-12  field_not_found"
+                    *ngIf="isAlertDataFound == false && alertDataLoader == false"
+                  >
+                    <img src="/assets/images/no_data.png" /> {{'Currently no new
+                    alert(s) found in this section.'|translate}}
+                  </div>
+                  <ul
+                    class="common-notification-lists alerts-tab-list"
+                    *ngIf="isAlertDataFound == true && alertDataLoader == false"
+                  >
+                  <li *ngFor="let alerts of alertData">
+                      <span class="notification-texts">
+                      <img *ngIf ="alerts.type == 'billing'" src="assets/images/rupee-icon-hover.png" alt="" />
+                      <img *ngIf ="alerts.type == 'peak_load'" src="assets/images/power-icon.png" alt="" />
+                      <img *ngIf ="alerts.type == 'info'" src="assets/images/save-icon.png" alt="" />
+                      <img *ngIf ="alerts.type == 'announcement'" src="assets/images/loud-icon.png" alt="" />  
+                        {{ alerts.alertText }} 
+                      </span>
+                      <a href="" class="blue-btn" *ngIf ="alerts.type == 'billing'">
+                        Pay Now
+                      </a>
+                      <span class="notification-date">
+                          {{ alerts.eventCreateDateTime | date: "dd/MM/yyyy" }}
+                      </span>
+                    </li>
+                    <div
+                      style="margin-top: 2;"
+                      class="text-center font-12  field_not_found"
+                      *ngIf="
+                        isAlertDataFound == false && alertDataLoader == false
+                      "
+                    >
+                      <img src="/assets/images/no_data.png" /> Currently there
+                      is no alerts found.
+                    </div>
+                    <div
+                      class="rows"
+                      *ngIf="alertDataLoader == true"
+                      [ngClass]="{ alertLoderHeight: alertDataLoader == true }"
+                    >
+                      <div class="spinner box-spinner">
+                        <div class="bounce1"></div>
+                        <div class="bounce2"></div>
+                        <div class="bounce3"></div>
+                      </div>
+                    </div>
+                    <!--   <li>
+                              <span class="notification-texts">
+                                Your account <strong>823749</strong> bill due on 26 Jan. 2019 
+                              </span>
+                              <a href="" class="blue-btn">
+                                Pay Now
+                              </a>
+                              <span class="notification-date">
+                                22 Jan 2019
+                              </span>
+                            </li>
+                            <li>
+                              <span class="notification-texts">
+                                Power voltage in your area on 23 Dec. 2018
+                              </span>
+                              <span class="notification-date">
+                                20 Jan 2019
+                              </span>
+                            </li>
+                            <li>
+                              <span class="notification-texts">
+                                Your service request status for load change has been accepted.
+                              </span>
+                              <span class="notification-date">
+                                18 Dec 2018
+                              </span>
+                            </li>
+                            <li>
+                              <span class="notification-texts">
+                                Tips on how to save energy and help have the world
+                              </span>
+                              <span class="notification-date">
+                                18 Dec 2018
+                              </span>
+                            </li>
+                            <li>
+                              <span class="notification-texts">
+                                Power voltage in your area on 23 Sep. 2018 
+                              </span>
+                              <span class="notification-date">
+                                23 Oct 2018
+                              </span>
+                            </li> -->
+                  </ul>
+                  
+                </div>
+              </div>
+              <div role="tabpanel" class="tab-pane" id="notification-list-2">
+                <div class="notifaction-block">
+                  <div
+                    style="margin-top: 2;"
+                    class="text-center font-12  field_not_found"
+                    *ngIf="
+                      isnotificationFound == false && notificationLoder == false
+                    "
+                  >
+                    <img src="/assets/images/no_data.png" /> {{'Currently no new
+                    notification(s) found in this section.'|translate}}
+                  </div>
+                  <ul
+                    class="common-notification-lists notify-tab-list"
+                    *ngIf="
+                      isnotificationFound == true && notificationLoder == false
+                    "
+                  >
+                  <li *ngFor="let notification of notifications">
+                      <span class="notification-texts">
+                       <div *ngIf="notification.type == 'text'">
+                         {{ notification.title }}
+                        </div>
+                        <div *ngIf="notification.type == 'link'">
+                            <a href="{{notification.value}}" title="{{ notification.title }}" target="_blank">
+                              {{ notification.title }}
+                            </a>
+                         </div>
+                         <div *ngIf="notification.type == 'image'">
+                              <a href="{{notification.value}}" title="{{ notification.title }}" target="_blank">
+                                {{ notification.title }}
+                              </a>
+                          </div>
+                      </span>
+                     
+                      <span class="notification-date">
+                        {{ notification.created | amTimeAgo }}
+                      </span>
+                    </li>
+                    <!-- <li>
+                              <span class="notification-texts">
+                                Power voltage in your area on 23 Dec. 2018
+                              </span>
+                              <span class="notification-date">
+                                20 Jan 2019
+                              </span>
+                            </li>
+                            <li>
+                              <span class="notification-texts">
+                                Your service request status for load change has been accepted.
+                              </span>
+                              <span class="notification-date">
+                                18 Dec 2018
+                              </span>
+                            </li>
+                            <li>
+                              <span class="notification-texts">
+                                Tips on how to save energy and help have the world
+                              </span>
+                              <span class="notification-date">
+                                18 Dec 2018
+                              </span>
+                            </li>
+                            <li>
+                              <span class="notification-texts">
+                                Power voltage in your area on 23 Sep. 2018 
+                              </span>
+                              <span class="notification-date">
+                                23 Oct 2018
+                              </span>
+                            </li> -->
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+          <nav aria-label="..." class="pagi hide">
+            <ul class="pagination">
+              <li class="page-item">
+                <span class="page-link prev"
+                  ><img src="/assets/images/prev-arrow.png"
+                /></span>
+              </li>
+              <li class="page-item"><a class="page-link" href="#">1</a></li>
+              <li class="page-item">
+                <a class="page-link dots" href="#">...</a>
+              </li>
+              <li class="page-item active">
+                <span class="page-link">
+                  3 <span class="sr-only">(current)</span>
+                </span>
+              </li>
+              <li class="page-item"><a class="page-link" href="#">4</a></li>
+              <li class="page-item"><a class="page-link" href="#">5</a></li>
+              <li class="page-item"><a class="page-link" href="#">6</a></li>
+              <li class="page-item">
+                <a class="page-link dots" href="#">...</a>
+              </li>
+              <li class="page-item"><a class="page-link" href="#">29</a></li>
+              <li class="page-item">
+                <a class="page-link next" href="#"
+                  ><img src="/assets/images/next-arrow.png"
+                /></a>
+              </li>
+            </ul>
+          </nav>
+          <div *ngIf="notificationLoder == true">
+            <div class="spinner box-spinner">
+              <div class="bounce1"></div>
+              <div class="bounce2"></div>
+              <div class="bounce3"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div id="main-menu-bg"></div>
+</div>
+<app-footer></app-footer>

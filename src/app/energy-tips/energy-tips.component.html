@@ -1,0 +1,185 @@
+<div id="main-wrapper" class="no-sidebar">
+  <app-header></app-header>
+  <div class="main-container-sec">
+    <div class="container">
+      <div class="about-text-sec">
+        <div class="title">
+          {{ "Energy Tips" | translate }}
+          <div
+            style="text-transform: capitalize;"
+            class="text-center font-12  field_not_found"
+            *ngIf="loader == false && isTipsfound == false"
+          >
+            <img src="../assets/images/no_data.png" />{{
+              "Data not found for energy tips" | translate
+            }}
+          </div>
+        </div>
+
+        <div
+          class="spinner box-spinner important-spiner"
+          style="top: 28%;"
+          *ngIf="loader == true"
+        >
+          <div class="bounce1"></div>
+          <div class="bounce2"></div>
+          <div class="bounce3"></div>
+        </div>
+      </div>
+      <div class="tab-section rows energy-tab-sec">
+        <ul
+          class="nav nav-tabs about-tabs"
+          role="tablist"
+          *ngIf="isTipsfound == true && loader == false"
+        >
+         
+          <li role="presentation" class="abt-tbs-li active">
+            <a
+              class="v-m-tab"
+              href="#tabs1"
+              aria-controls="vision-mission"
+              role="tab"
+              data-toggle="tab"
+              >{{ "Energy tips domestic" | translate }}</a
+            >
+          </li>
+          <li role="presentation" class="abt-tbs-li">
+              <a
+                class="v-m-tab"
+                href="#tabs2"
+                aria-controls="vision-mission"
+                role="tab"
+                data-toggle="tab"
+                >{{ "Energy tips industrial" | translate }}</a
+              >
+            </li>
+        </ul>
+
+        <div
+          class="margin_top0 tab-content rows abt-tab-container"
+          *ngIf="isTipsfound == true && loader == false"
+        >
+          
+            <div role="tabpanel" class="tab-pane active" id="tabs1">
+              <div class="faq-section enerytips-faqs">
+              <div
+                class="panel-group"
+                id="accordion"
+                role="tablist"
+                aria-multiselectable="true"
+                *ngIf="tips.energy_tips_domestic.length > 0"
+              >
+                <div
+                  class="panel panel-default"
+                  *ngFor="
+                    let tipData of tips.energy_tips_domestic;
+                    let i = index
+                  "
+                >
+                  
+                 
+
+                  <!-- Closed -->
+                  <div
+                   
+                    class="panel-heading"
+                    role="tab"
+                    id="headingTwo"
+                  >
+                    <h4 class="panel-title">
+                      <a
+                        class="collapsed"
+                        role="button"
+                        data-toggle="collapse"
+                        data-parent="#accordion"
+                        href="#collapseTwo"
+                        aria-expanded="false"
+                        aria-controls="collapseTwo"
+                      >
+                        {{ tipData.name }}
+                        <!-- <span class="heading-title-close"
+                          ><i class="fa fa-plus"></i
+                        ></span> -->
+                      </a>
+                    </h4>
+                  </div>
+                  <div
+                   
+                    id="collapseTwo"
+                    class="panel-collapse collapse"
+                    role="tabpanel"
+                    aria-labelledby="headingTwo"
+                  >
+                    <div class="panel-body">
+                      {{ tipData.description }}
+                    </div>
+                  </div>
+                </div>
+              </div>
+              </div>
+            </div><!-- sdsd -->
+            <div role="tabpanel" class="tab-pane" id="tabs2">
+                <div class="faq-section enerytips-faqs">
+              <div
+                class="panel-group"
+                id="accordion2"
+                role="tablist"
+                aria-multiselectable="true"
+                *ngIf="tips.energy_tips_industrial.length > 0"
+              >
+                <div
+                  class="panel panel-default"
+                  *ngFor="
+                    let tipData of tips.energy_tips_industrial;
+                    let i = index
+                  "
+                >
+                  
+                  <!-- Closed -->
+                  <div
+                   
+                    class="panel-heading"
+                    role="tab"
+                    id="headingTwo2"
+                  >
+                    <h4 class="panel-title">
+                      <a
+                        class="collapsed"
+                        role="button"
+                        data-toggle="collapse"
+                        data-parent="#accordion"
+                        href="#collapseTwo"
+                        aria-expanded="false"
+                        aria-controls="collapseTwo"
+                      >
+                        {{ tipData.name }}
+                       <!--  <span class="heading-title-close"
+                          ><i class="fa fa-plus"></i
+                        ></span> -->
+                      </a>
+                    </h4>
+                  </div>
+                  <div
+                  
+                    id="collapseTwo2"
+                    class="panel-collapse collapse"
+                    role="tabpanel"
+                    aria-labelledby="headingTwo"
+                  >
+                    <div class="panel-body">
+                      {{ tipData.description }}
+                    </div>
+                  </div>
+                </div>
+              </div>
+              </div>
+            </div><!-- weee -->
+          
+        </div>
+      </div>
+    </div>
+
+    <app-disclamider></app-disclamider>
+  </div>
+</div>
+<app-footer></app-footer>

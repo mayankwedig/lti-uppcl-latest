@@ -1,0 +1,25 @@
+<div id="main-wrapper" class="no-sidebar page-not-found-wrap">
+	<app-header></app-header>
+	<div class="main-container-sec">
+		<div class="page-not-found">
+           <div class="panel-body bil-pay-panel">
+           		<div class="not-found-top">
+					<div class="not-found-img">
+						<img src="assets/images/page-not-found.png" />
+					</div>
+					<div class="not-found-heading">{{'404'|translate}}</div>
+					<div class="not-found-subheading">{{'Page not found'|translate}}</div>
+				</div>
+           </div>
+           <div class="not-found-bottom-full">
+           		<div class="notfound-bottom-left"></div>
+				<div class="not-found-bottom">
+					<div class="not-found-text">{{'Sorry, the page you were looking for doesn’t exist.'|translate}}</div>
+					<a href="#" class="blue-goback-btn" (click)="goToHome()">{{'Go back to Home'|translate}}</a>
+				</div>
+           		<div class="notfound-bottom-right"></div>
+			</div>
+        </div>
+	</div> 	
+</div>	
+<app-footer></app-footer>

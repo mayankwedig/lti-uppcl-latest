@@ -1,0 +1,269 @@
+<div id="main-wrapper" class="no-sidebar">
+  <app-header></app-header>
+  <div class="main-container-sec faq-main-container" style="">
+    <div class="container">
+      <div class="important-banner inner-page-banner">
+        <img alt="" src="../assets/images/faqs-banner.jpg" />
+      </div>
+    </div>
+    <div class="faq-section">
+      <div class="main-heading">
+        {{ "Frequently asked questions" | translate }} (FAQs)
+      </div>
+      <div class="container">
+        <div class="row" *ngIf="faqLoader == true">
+          <div class="spinner box-spinner">
+            <div class="bounce1"></div>
+            <div class="bounce2"></div>
+            <div class="bounce3"></div>
+          </div>
+        </div>
+        <div
+          class="content-body"
+          *ngIf="faqDataFound == false && faqLoader == false"
+        >
+          <div
+            class="text-center font-12  field_not_found"
+            style="margin-top: 70px;"
+          >
+            <img src="/assets/images/no_data.png" />{{
+              "Data not found for FAQ section" | translate
+            }}
+            <br />
+          </div>
+        </div>
+        <div
+          class="panel-group"
+          id="accordion"
+          role="tablist"
+          aria-multiselectable="true"
+          *ngIf="faqDataFound == true && faqLoader == false"
+        >
+          <div
+            class="panel panel-default"
+            *ngFor="let faq of faQData; let i = index"
+          >
+            <!-- Opened -->
+            <div
+              *ngIf="i == 0"
+              class="panel-heading"
+              role="tab"
+              id="headingOne"
+            >
+              <h4 class="panel-title">
+                <a
+                  role="button"
+                  data-toggle="collapse"
+                  data-parent="#accordion"
+                  href="#collapseOne"
+                  aria-expanded="true"
+                  aria-controls="collapseOne"
+                >
+                  <!--  What can I do for converting my single phase service connection to three phase one? -->
+                  {{ faq.name }}
+                  <span class="heading-title-close"
+                    ><i class="fa fa-plus"></i
+                  ></span>
+                </a>
+              </h4>
+            </div>
+            <div
+              *ngIf="i == 0"
+              id="collapseOne"
+              class="panel-collapse collapse in"
+              role="tabpanel"
+              aria-labelledby="headingOne"
+            >
+              <div class="panel-body">
+                {{ faq.name }}
+              </div>
+            </div>
+
+            <!-- Closed -->
+            <div *ngIf="i > 0" class="panel-heading" role="tab" id="headingTwo">
+              <h4 class="panel-title">
+                <a
+                  class="collapsed"
+                  role="button"
+                  data-toggle="collapse"
+                  data-parent="#accordion"
+                  href="#collapseTwo"
+                  aria-expanded="false"
+                  aria-controls="collapseTwo"
+                >
+                  {{ faq.name }}
+                  <span class="heading-title-close"
+                    ><i class="fa fa-plus"></i
+                  ></span>
+                </a>
+              </h4>
+            </div>
+            <div
+              *ngIf="i > 0"
+              id="collapseTwo"
+              class="panel-collapse collapse"
+              role="tabpanel"
+              aria-labelledby="headingTwo"
+            >
+              <div class="panel-body">
+                {{ faq.name }}
+              </div>
+            </div>
+          </div>
+          <!-- <div class="panel panel-default">
+									 <div class="panel-heading" role="tab" id="headingTwo">
+											<h4 class="panel-title">
+												 <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+												 How can I get a new domestic service connection?
+												 <span class="heading-title-close"><i class="fa fa-plus"></i></span>
+												 </a>
+											</h4>
+									 </div>
+									 <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+											<div class="panel-body">
+												 Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+											</div>
+									 </div>
+								</div> -->
+          <!-- 	<div class="panel panel-default">
+									 <div class="panel-heading" role="tab" id="headingThree">
+											<h4 class="panel-title">
+												 <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+												 During Power failure , whom should I complain ?
+												 <span class="heading-title-close"><i class="fa fa-plus"></i></span>
+												 </a>
+											</h4>
+									 </div>
+									 <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
+											<div class="panel-body">
+												 Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+											</div>
+									 </div>
+								</div>
+								<div class="panel panel-default">
+									 <div class="panel-heading" role="tab" id="headingfour">
+											<h4 class="panel-title">
+												 <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapsefour" aria-expanded="false" aria-controls="collapsefour">
+												 What is the procedure for name transfer of service connection?
+												 <span class="heading-title-close"><i class="fa fa-plus"></i></span>
+												 </a>
+											</h4>
+									 </div>
+									 <div id="collapsefour" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingfour">
+											<div class="panel-body">
+												 Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+											</div>
+									 </div>
+								</div>
+								<div class="panel panel-default">
+									 <div class="panel-heading" role="tab" id="headingfive">
+											<h4 class="panel-title">
+												 <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapsefive" aria-expanded="false" aria-controls="collapsefive">
+												 When there is an error in meter recording, what should I do ?
+												 <span class="heading-title-close"><i class="fa fa-plus"></i></span>
+												 </a>
+											</h4>
+									 </div>
+									 <div id="collapsefive" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingfive">
+											<div class="panel-body">
+												 Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+											</div>
+									 </div>
+								</div>
+								<div class="panel panel-default">
+									 <div class="panel-heading" role="tab" id="headingsix">
+											<h4 class="panel-title">
+												 <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapsesix" aria-expanded="false" aria-controls="collapsesix">
+												 Where can I know the status of my electricity billing other than white meter card?
+												 <span class="heading-title-close"><i class="fa fa-plus"></i></span>
+												 </a>
+											</h4>
+									 </div>
+									 <div id="collapsesix" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingsix">
+											<div class="panel-body">
+												 Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+											</div>
+									 </div>
+								</div>
+								<div class="panel panel-default">
+									 <div class="panel-heading" role="tab" id="headingseven">
+											<h4 class="panel-title">
+												 <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseseven" aria-expanded="false" aria-controls="collapseseven">
+												 When suddenly meter burns in my service connection,what I should do?
+												 <span class="heading-title-close"><i class="fa fa-plus"></i></span>
+												 </a>
+											</h4>
+									 </div>
+									 <div id="collapseseven" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingseven">
+											<div class="panel-body">
+												 Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+											</div>
+									 </div>
+								</div>
+								<div class="panel panel-default">
+									 <div class="panel-heading" role="tab" id="headingeight">
+											<h4 class="panel-title">
+												 <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseeight" aria-expanded="false" aria-controls="collapseeight">
+												 Can I make advance payment of my electricity bills ? How it will be accounted?
+												 <span class="heading-title-close"><i class="fa fa-plus"></i></span>
+												 </a>
+											</h4>
+									 </div>
+									 <div id="collapseeight" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingeight">
+											<div class="panel-body">
+												 Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+											</div>
+									 </div>
+								</div>
+								<div class="panel panel-default">
+									 <div class="panel-heading" role="tab" id="nine">
+											<h4 class="panel-title">
+												 <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapsenine" aria-expanded="false" aria-controls="collapsenine">
+												 What I should do to change my tariff when needed ?
+												 <span class="heading-title-close"><i class="fa fa-plus"></i></span>
+												 </a>
+											</h4>
+									 </div>
+									 <div id="collapsenine" class="panel-collapse collapse" role="tabpanel" aria-labelledby="nine">
+											<div class="panel-body">
+												 Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+											</div>
+									 </div>
+								</div>
+								<div class="panel panel-default">
+									 <div class="panel-heading" role="tab" id="headingten">
+											<h4 class="panel-title">
+												 <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseten" aria-expanded="false" aria-controls="collapseten">
+												 What is the procedure to get the temporary supply ?
+												 <span class="heading-title-close"><i class="fa fa-plus"></i></span>
+												 </a>
+											</h4>
+									 </div>
+									 <div id="collapseten" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingten">
+											<div class="panel-body">
+												 Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+											</div>
+									 </div>
+								</div>
+								<div class="panel panel-default">
+									 <div class="panel-heading" role="tab" id="headingelewn">
+											<h4 class="panel-title">
+												 <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseelwn" aria-expanded="false" aria-controls="collapseelwn">
+												 Is it possible for me to pay my electricity bill through Online Payment?
+												 <span class="heading-title-close"><i class="fa fa-plus"></i></span>
+												 </a>
+											</h4>
+									 </div>
+									 <div id="collapseelwn" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingelewn">
+											<div class="panel-body">
+												 Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+											</div>
+									 </div>
+								</div> -->
+        </div>
+      </div>
+      <app-disclamider></app-disclamider>
+    </div>
+  </div>
+</div>
+<app-footer></app-footer>

@@ -1,0 +1,43 @@
+.averageText{
+    font-weight: bold;
+    font-size: 15px;
+    text-align: left;
+    margin-top: 5px;
+    margin-left: 0;
+    float: left;
+    width: 50%;
+}
+
+/*responsive*/
+
+@media(max-width:1386px){
+.estimator-avg-text .averageText{
+    float: left;
+    font-size: 14px;
+}
+}
+@media(max-width: 991px){
+    .estimator-avg-text{
+        width: 100% !important;
+    }
+    .estimator-avg-text .averageText{
+        width: 100%;
+        padding: 15px 0px;
+        border-bottom: 1px solid #ccc;
+        border-right: 0px;
+    }
+    .estimator-avg-text .averageText:last-child{
+        border: 0px;
+    }
+}
+@media(max-width:680px){
+	.estimator-avg-text .averageText[_ngcontent-c2] {
+        font-size: 14px;
+    }
+    .estimator-avg-text .averageText:first-child {
+        padding-left: 0px;
+        padding-bottom: 15px;
+        border-bottom: 1px solid #c3c3c3;
+        border-right:0px
+    }
+}

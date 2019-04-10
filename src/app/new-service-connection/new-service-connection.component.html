@@ -1,0 +1,1167 @@
+<div id="main-wrapper" [ngClass]="{'no-sidebar': !isLoggedIn()}">
+  <app-header></app-header>
+  <span *ngIf="isLoggedIn()">
+  <app-side-bar [displayUserInfo]="dispString"></app-side-bar>
+</span>
+  <div id="content-wrapper">
+      <div  [ngClass]="{'col-sm-10 col-sm-offset-1': !isLoggedIn()}">
+    <div class="page-heading">{{'New Connection Request'|translate}}</div>
+    <div class="billing-sec complaints-page">
+      <div class="row margin_top20">
+        <div class="col-sm-12">
+          <div
+            class="service-box"
+            *ngIf="showTrackingNo == true && showMainForm == false"
+          >
+            <div class="panel-body">
+              <div class="title">{{'New Connection Request'|translate}}</div>
+              <div class="req-success-msg">
+                {{'Thank You For Registering Your New Connection Request'|translate}}
+              </div>
+              <div class="req-number">
+                {{'Your tracking no. is'|translate}}: <span>{{ trackingNo }}</span>
+              </div>
+              <div class="team-contact">{{'Our Team Will Contact You Shortly'|translate}}</div>
+              <div class="text-center padding_top50">
+                {{'Page will be redirect automatically after 30 second'|translate}}
+              </div>
+            </div>
+          </div>
+          <div
+            class="panel-body"
+            *ngIf="showTrackingNo == false && showMainForm == false"
+          >
+            <div class="row">
+              <div
+                class="col-sm-6 col-sm-offset-3 profile-right-content padding_top50"
+              >
+                <form
+                  class="form top-label-form"
+                  [formGroup]="newServiceConnectionFrm"
+                  (ngSubmit)="submitNewServiceConnectionFrm()"
+                >
+                  <div class="row">
+                    <div class="col-xs-12">
+                      <div class="form-group">
+                        <!--  {{discomNames|json}} -->
+                        <label>{{'DISCOM Name'|translate}}*</label>
+                        <select
+                          required
+                          *ngIf="!discomNameLoader && discomNames.length > 0"
+                          formControlName="discomName"
+                          name="discomName"
+                          class="form-control"
+                          (change)="fetchDevision(f.discomName)"
+                        >
+                          <option value="" selected>{{'Select DISCOM Name'|translate}}</option>
+                          <option
+                            value="{{ discName.id }}"
+                            *ngFor="let discName of discomNames"
+                            >{{ discName.name }}</option
+                          >
+                        </select>
+                        <select
+                          required
+                          *ngIf="!discomNameLoader && discomNames.length == 0"
+                          formControlName="discomName"
+                          name="discomName"
+                          class="form-control"
+                        >
+                          <option value="" selected>{{'Select DISCOM Name'|translate}}</option>
+                        </select>
+                        <div *ngIf="discomNameLoader" class="fieldLoding">
+                          {{'Loding'|translate}}...
+                        </div>
+                        <div
+                          *ngIf="f.discomName.touched && f.discomName.invalid"
+                        >
+                          <span
+                            class="error-msg"
+                            *ngIf="f.discomName.errors?.required"
+                            >{{'DISCOM Name is required'|translate}}</span
+                          >
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-xs-12">
+                      <div class="form-group">
+                        <label>{{'Division'|translate}}*</label>
+                        <select
+                          *ngIf="!divisionLoder && divisions.length > 0"
+                          required
+                          formControlName="division"
+                          name="division"
+                          class="form-control"
+                        >
+                          <option value="" selected>{{'Select Division'|translate}}</option>
+                          <option
+                            value="{{ division.name }}"
+                            *ngFor="let division of divisions"
+                            >{{ division.name }}</option
+                          >
+                        </select>
+                        <select
+                          *ngIf="!divisionLoder && divisions.length == 0"
+                          required
+                          formControlName="division"
+                          name="division"
+                          class="form-control"
+                        >
+                          <option value="" selected>{{'Select Division'|translate}}</option>
+                        </select>
+                        <div *ngIf="divisionLoder" class="fieldLoding">
+                          {{'Loding'|translate}}...
+                        </div>
+                        <div *ngIf="f.division.touched && f.division.invalid">
+                          <span
+                            class="error-msg"
+                            *ngIf="f.division.errors?.required"
+                            >{{'Division is required'|translate}}.</span
+                          >
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-xs-12">
+                      <div class="form-group">
+                        <label>{{'Select SDO office'|translate}}*</label>
+                        <select
+                          *ngIf="!sdoOfficeLoader && sdoOffices.length > 0"
+                          required
+                          formControlName="sdoOfficeName"
+                          name="sdoOfficeName"
+                          class="form-control"
+                        >
+                          <option value="" selected
+                            >{{'Select SDO office'|translate}}</option
+                          >
+                          <option
+                            value="{{ sdoOffice.name }}"
+                            *ngFor="let sdoOffice of sdoOffices"
+                            >{{ sdoOffice.name }}</option
+                          >
+                        </select>
+                        <select
+                          *ngIf="!sdoOfficeLoader && sdoOffices.length == 0"
+                          required
+                          formControlName="sdoOfficeName"
+                          name="sdoOfficeName"
+                          class="form-control"
+                        >
+                          <option value="" selected
+                            >{{'Select SDO office'|translate}}</option
+                          >
+                        </select>
+                        <div *ngIf="sdoOfficeLoader" class="fieldLoding">
+                          {{'Loding'|translate}}...
+                        </div>
+                        <div
+                          *ngIf="
+                            f.sdoOfficeName.touched && f.sdoOfficeName.invalid
+                          "
+                        >
+                          <span
+                            class="error-msg"
+                            *ngIf="f.sdoOfficeName.errors?.required"
+                            >{{'SDO Office Name is required'|translate}}</span
+                          >
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-xs-12">
+                      <div class="form-group">
+                        <label>{{'Consumer Type'|translate}}*</label>
+                        <select
+                          required
+                          formControlName="consumerType"
+                          name="consumerType"
+                          class="form-control"
+                        >
+                          <option value="" selected
+                            >{{'Select Consumer Type'|translate}}</option
+                          >
+                          <option value="others">{{'Others'|translate}}</option>
+                          <option value="departmental">{{'Departmental'|translate}}</option>
+                          <option value="bpl">{{'BPL'|translate}}</option>
+                        </select>
+                        <div
+                          *ngIf="
+                            f.consumerType.touched && f.consumerType.invalid
+                          "
+                        >
+                          <span
+                            class="error-msg"
+                            *ngIf="f.consumerType.errors?.required"
+                          >
+                            {{'Consumer Type is required'|translate}}</span
+                          >
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-xs-12">
+                      <div class="form-group">
+                        <label>{{'Load(KW)'|translate}}*</label>
+                        <select
+                          required
+                          formControlName="load"
+                          name="load"
+                          class="form-control"
+                        >
+                          <option value="" selected>{{'Select Load'|translate}}{{'(KW)'|translate}}</option>
+                          <option value="1">1</option>
+                          <option value="2">2</option>
+                          <option value="3">3</option>
+                          <option value="4">4</option>
+                          <option value="5">5</option>
+                          <option value="6">6</option>
+                          <option value="7">7</option>
+                          <option value="8">8</option>
+                          <option value="9">9</option>
+                        </select>
+                        <div *ngIf="f.load.touched && f.load.invalid">
+                          <span
+                            class="error-msg"
+                            *ngIf="f.load.errors?.required"
+                          >
+                            {{'Load(KW) is required'|translate}}</span
+                          >
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div
+                    class="form-group text-center no-margin-b"
+                    [ngClass]="{ 'pos-rel': submitComplaingLoder }"
+                  >
+                    <div
+                      class="spinner"
+                      *ngIf="submitComplaingLoder"
+                      style="top: 80%;"
+                    >
+                      <div class="bounce1"></div>
+                      <div class="bounce2"></div>
+                      <div class="bounce3"></div>
+                    </div>
+                    <button
+                      [disabled]="submitComplaingLoder == true"
+                      class="btn btn-primary submit-btn full-btn"
+                      type="submit"
+                    >
+                      {{'Submit'|translate}}
+                    </button>
+                  </div>
+                  <!-- {{newServiceConnectionFrm.value | json}} -->
+                </form>
+              </div>
+            </div>
+          </div>
+          <div
+            class="panel-body"
+            *ngIf="showTrackingNo == false && showMainForm == true"
+          >
+            <div class="row">
+              <div class="form-holder">
+                <form
+                  class="top-label-form"
+                  [formGroup]="newServiceConnectionFrmSetp2"
+                  (ngSubmit)="submitNewConnectionStep2Frm()"
+                >
+                  <div class="heading-field">{{'Name of Applicant'|translate}}</div>
+                  <div class="row">
+                    <div class="col-lg-6 col-sm-6 col-xs-12">
+                      <div class="form-group">
+                        <label>{{'First Name'|translate}}* </label>
+                        <input
+                          formControlName="firstName"
+                          type="text"
+                          name="firstName"
+                          class="form-control"
+                          placeholder="{{'Name'|translate}}"
+                          required
+                        />
+                        <div
+                          *ngIf="
+                            step2f.firstName.touched && step2f.firstName.invalid
+                          "
+                        >
+                          <span
+                            class="error-msg"
+                            *ngIf="step2f.firstName.errors?.required"
+                          >
+                            {{'First name is required'|translate}}</span
+                          >
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-lg-6 col-sm-6 col-xs-12">
+                      <div class="form-group">
+                        <label>{{'Last Name'|translate}}* </label>
+                        <input
+                          formControlName="lastName"
+                          name="lastName"
+                          type="text"
+                          class="form-control"
+                          placeholder="{{'Last Name'|translate}}"
+                          required
+                        />
+                        <div
+                          *ngIf="
+                            step2f.lastName.touched && step2f.lastName.invalid
+                          "
+                        >
+                          <span
+                            class="error-msg"
+                            *ngIf="step2f.lastName.errors?.required"
+                          >
+                            {{'Last name is required'|translate}}</span
+                          >
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-lg-6 col-sm-6 col-xs-12">
+                      <div class="form-group">
+                        <label>{{'Father_First_Name'|translate}}*</label>
+                        <input
+                          formControlName="fatherFirstName"
+                          name="fatherFirstName"
+                          type="text"
+                          class="form-control"
+                          placeholder="{{'Fathers First Name'|translate}}"
+                          required
+                        />
+                        <div
+                          *ngIf="
+                            step2f.fatherFirstName.touched &&
+                            step2f.fatherFirstName.invalid
+                          "
+                        >
+                          <span
+                            class="error-msg"
+                            *ngIf="step2f.fatherFirstName.errors?.required"
+                          >
+                            {{'Fathers name is required.'|translate}}</span
+                          >
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-lg-6 col-sm-6 col-xs-12">
+                      <div class="form-group">
+                        <label>{{'Father_Last_Name'|translate}}*</label>
+                        <input
+                          formControlName="fatherLastName"
+                          name="fatherLastName"
+                          type="text"
+                          class="form-control"
+                          placeholder="{{'Fathers Last Name'|translate}}"
+                          required
+                        />
+                        <div
+                          *ngIf="
+                            step2f.fatherLastName.touched &&
+                            step2f.fatherLastName.invalid
+                          "
+                        >
+                          <span
+                            class="error-msg"
+                            *ngIf="step2f.fatherLastName.errors?.required"
+                          >
+                            {{'Fathers name is required.'|translate}}</span
+                          >
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-lg-6 col-sm-6 col-xs-12">
+                      <div class="form-group">
+                        <label>{{Husband_First_Name|translate}} </label>
+                        <input
+                          formControlName="husbandFirstName"
+                          name="husbandFirstName"
+                          class="form-control"
+                          placeholder="{{'Husbands First Name'|translate}}"
+                          type="text"
+                        />
+                      </div>
+                    </div>
+                    <div class="col-lg-6 col-sm-6 col-xs-12">
+                      <div class="form-group">
+                        <label>{{Husband_Last_Name|translate}} </label>
+                        <input
+                          formControlName="husbandLastName"
+                          name="husbandLastName"
+                          class="form-control"
+                          placeholder="{{'Husbands Last Name'|translate}}"
+                          type="text"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-lg-6 col-sm-6 col-xs-12">
+                      <div class="form-group">
+                        <label>{{Mother_Maiden_Name|translate}}* </label>
+                        <input
+                          formControlName="motherName"
+                          name="motherName"
+                          class="form-control"
+                          placeholder="{{'Mothers Maiden Name'|translate}}"
+                          type="text"
+                          required
+                        />
+                        <div
+                          *ngIf="
+                            step2f.motherName.touched &&
+                            step2f.motherName.invalid
+                          "
+                        >
+                          <span
+                            class="error-msg"
+                            *ngIf="step2f.motherName.errors?.required"
+                          >
+                            {{'Mothers maiden name is required.'|translate}}</span
+                          >
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-lg-6 col-sm-6 col-xs-12">
+                      <div class="form-group">
+                        <label>{{'Occupation'|translate}}</label>
+                        <input
+                          formControlName="occupation"
+                          name="occupation"
+                          type="text"
+                          class="form-control"
+                          placeholder="{{'Occupation'|translate}}"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                  <div class="heading-field">{{'Communication Address'|translate}}</div>
+                  <div class="row">
+                    <div class="col-lg-6 col-sm-6 col-xs-12">
+                      <div class="form-group">
+                        <label>{{'Address line 1'|translate}}* </label>
+                        <input
+                          formControlName="communicationAddress1"
+                          name="communicationAddress1"
+                          type="text"
+                          class="form-control"
+                          placeholder="{{'Address line 1'|translate}}"
+                          required
+                        />
+                        <div
+                          *ngIf="
+                            step2f.communicationAddress1.touched &&
+                            step2f.communicationAddress1.invalid
+                          "
+                        >
+                          <span
+                            class="error-msg"
+                            *ngIf="
+                              step2f.communicationAddress1.errors?.required
+                            "
+                          >
+                            {{'Address line 1 is required.'|translate}}</span
+                          >
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-lg-6 col-sm-6 col-xs-12">
+                      <div class="form-group">
+                        <label>{{'Address line 2'|translate}}* </label>
+                        <input
+                          formControlName="communicationAddress2"
+                          required
+                          name="communicationAddress2"
+                          type="text"
+                          class="form-control"
+                          placeholder="{{'Address line 2'|translate}}"
+                        />
+                        <div
+                          *ngIf="
+                            step2f.communicationAddress2.touched &&
+                            step2f.communicationAddress2.invalid
+                          "
+                        >
+                          <span
+                            class="error-msg"
+                            *ngIf="
+                              step2f.communicationAddress2.errors?.required
+                            "
+                          >
+                            {{'Address line 2 is required.'|translate}}</span
+                          >
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-lg-6 col-sm-6 col-xs-12">
+                      <div class="form-group">
+                        <label>{{'Address line 3'|translate}}* </label>
+                        <input
+                          formControlName="communicationAddress3"
+                          required
+                          name="communicationAddress3"
+                          type="text"
+                          class="form-control"
+                          placeholder="{{'Address line 3'|translate}}"
+                        />
+                        <div
+                          *ngIf="
+                            step2f.communicationAddress3.touched &&
+                            step2f.communicationAddress3.invalid
+                          "
+                        >
+                          <span
+                            class="error-msg"
+                            *ngIf="
+                              step2f.communicationAddress3.errors?.required
+                            "
+                          >
+                            {{'Address line 3 is required.'|translate}}</span
+                          >
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-lg-6 col-sm-6 col-xs-12">
+                      <div class="form-group">
+                        <label>{{'Pin Code'|translate}}*</label>
+                        <input
+                          formControlName="communicationPincode"
+                          name="communicationPincode"
+                          type="text"
+                          class="form-control"
+                          placeholder="{{'Pin Code'|translate}}"
+                          required
+                        />
+                        <div
+                          *ngIf="
+                            step2f.communicationPincode.touched &&
+                            step2f.communicationPincode.invalid
+                          "
+                        >
+                          <span
+                            class="error-msg"
+                            *ngIf="step2f.communicationPincode.errors?.required"
+                          >
+                            {{'Pin code is required.'|translate}}</span
+                          >
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-lg-6 col-sm-6 col-xs-12">
+                      <div class="form-group">
+                        <label>{{'Mobile Number'|translate}}* </label>
+                        <input
+                          formControlName="communicationMobileNumber"
+                          name="communicationMobileNumber"
+                          type="text"
+                          class="form-control"
+                          placeholder="{{'Mobile Number'|translate}}"
+                          pattern="^(?:(?:\+|0{0,2})91(\s*[\-]\s*)?|[0]?)?[789]\d{9}$"
+                          required
+                        />
+                        <div
+                          *ngIf="
+                            step2f.communicationMobileNumber.touched &&
+                            step2f.communicationMobileNumber.invalid
+                          "
+                        >
+                          <span
+                            class="error-msg"
+                            *ngIf="
+                              step2f.communicationMobileNumber.errors?.required
+                            "
+                          >
+                            {{'Mobile number is required.'|translate}}</span
+                          >
+                          <span
+                            class="error-msg"
+                            *ngIf="
+                              step2f.communicationMobileNumber.errors?.pattern
+                            "
+                            >Please enter valid mobile number.</span
+                          >
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="heading-field">{{'Installation Address'|translate}}</div>
+                  <div class="row">
+                    <div class="col-lg-6 col-sm-6 col-xs-12">
+                      <div class="form-group">
+                        <label>{{'Address line 1'|translate}}* </label>
+                        <input
+                          formControlName="installationAddress1"
+                          required
+                          name="installationAddress1"
+                          type="text"
+                          class="form-control"
+                          placeholder="{{'Address line 1'|translate}}"
+                        />
+                        <div
+                          *ngIf="
+                            step2f.installationAddress1.touched &&
+                            step2f.installationAddress1.invalid
+                          "
+                        >
+                          <span
+                            class="error-msg"
+                            *ngIf="step2f.installationAddress1.errors?.required"
+                          >
+                            {{'Address line 1 is required.'|translate}}</span
+                          >
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="col-lg-6 col-sm-6 col-xs-12">
+                      <div class="form-group">
+                        <label>{{'Address line 2'|translate}}* </label>
+                        <input
+                          formControlName="installationAddress2"
+                          name="installationAddress2"
+                          required
+                          type="text"
+                          class="form-control"
+                          placeholder="{{'Address line 2'|translate}}"
+                        />
+                        <div
+                          *ngIf="
+                            step2f.installationAddress2.touched &&
+                            step2f.installationAddress2.invalid
+                          "
+                        >
+                          <span
+                            class="error-msg"
+                            *ngIf="step2f.installationAddress2.errors?.required"
+                          >
+                            {{'Address line 2 is required.'|translate}}</span
+                          >
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-lg-6 col-sm-6 col-xs-12">
+                      <div class="form-group">
+                        <label>{{'Address line 3'|translate}}* </label>
+                        <input
+                          formControlName="installationAddress3"
+                          name="installationAddress3"
+                          required
+                          type="text"
+                          class="form-control"
+                          placeholder="{{'Address line 3'|translate}}"
+                        />
+                        <div
+                          *ngIf="
+                            step2f.installationAddress3.touched &&
+                            step2f.installationAddress3.invalid
+                          "
+                        >
+                          <span
+                            class="error-msg"
+                            *ngIf="step2f.installationAddress3.errors?.required"
+                          >
+                            {{'Address line 3 is required.'|translate}}</span
+                          >
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="col-lg-6 col-sm-6 col-xs-12">
+                      <div class="form-group">
+                        <label>{{'Pin Code'|translate}}* </label>
+                        <input
+                          formControlName="installationPincode"
+                          name="installationPincode"
+                          required
+                          type="text"
+                          class="form-control"
+                          placeholder="{{'Pin Code'|translate}}"
+                        />
+                        <div
+                          *ngIf="
+                            step2f.installationPincode.touched &&
+                            step2f.installationPincode.invalid
+                          "
+                        >
+                          <span
+                            class="error-msg"
+                            *ngIf="step2f.installationPincode.errors?.required"
+                          >
+                            {{'Pin code is required.'|translate}}</span
+                          >
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-lg-6 col-sm-6 col-xs-12">
+                      <div class="form-group">
+                        <label>{{'Mobile Number'|translate}}* </label>
+                        <input
+                          formControlName="installationMobileNumber"
+                          name="installationMobileNumber"
+                          required
+                          type="text"
+                          class="form-control"
+                          placeholder="{{'Mobile Number'|translate}}"
+                          pattern="^(?:(?:\+|0{0,2})91(\s*[\-]\s*)?|[0]?)?[789]\d{9}$"
+                        />
+                        <div
+                          *ngIf="
+                            step2f.installationMobileNumber.touched &&
+                            step2f.installationMobileNumber.invalid
+                          "
+                        >
+                          <span
+                            class="error-msg"
+                            *ngIf="
+                              step2f.installationMobileNumber.errors?.required
+                            "
+                          >
+                            {{'Mobile number is required.'|translate}}</span
+                          >
+                          <span
+                            class="error-msg"
+                            *ngIf="
+                              step2f.installationMobileNumber.errors?.pattern
+                            "
+                            >{{['Please enter valid mobile number.'|translate]}}</span
+                          >
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="col-lg-6 col-sm-6 col-xs-12">
+                      <div class="form-group">
+                        <label
+                          >{{'Is the permanent address same as installation address'|translate}}</label
+                        >
+                        <select
+                          required
+                          formControlName="isPermanentAddressIntallation"
+                          name="isPermanentAddressIntallation"
+                          class="form-control"
+                          req uired
+                        >
+                          <option value="">{{'Select Options'|translate}}</option>
+                          <option value="yes">{{'Yes'|translate}}</option>
+                          <option value="No">{{'No'|translate}}</option>
+                        </select>
+                        <div
+                          *ngIf="
+                            step2f.isPermanentAddressIntallation.touched &&
+                            step2f.isPermanentAddressIntallation.invalid
+                          "
+                        >
+                          <span
+                            class="error-msg"
+                            *ngIf="
+                              step2f.isPermanentAddressIntallation.errors
+                                ?.required
+                            "
+                          >
+                            {{'Permanent address options is required.'|translate}}</span
+                          >
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-lg-6 col-sm-6 col-xs-12">
+                      <div class="form-group">
+                        <label>{{'Plot Size (in Sq mts)'|translate}}*</label>
+                        <input
+                          formControlName="plotSize"
+                          name="plotSize"
+                          required
+                          type="text"
+                          class="form-control"
+                          placeholder="{{'Plot Size (in Sq mts)'|translate}}"
+                        />
+                        <div
+                          *ngIf="
+                            step2f.plotSize.touched && step2f.plotSize.invalid
+                          "
+                        >
+                          <span
+                            class="error-msg"
+                            *ngIf="step2f.plotSize.errors?.required"
+                          >
+                            {{'Plot Size is required.'|translate}}</span
+                          >
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="col-lg-6 col-sm-6 col-xs-12">
+                      <div class="form-group">
+                        <label>{{'Covered Area (in Sq mts)'|translate}}* </label>
+                        <input
+                          formControlName="coveredArea"
+                          name="coveredArea"
+                          required
+                          type="text"
+                          class="form-control"
+                          placeholder="{{'Covered Area (in Sq mts)'|translate}}"
+                        />
+                        <div
+                          *ngIf="
+                            step2f.coveredArea.touched &&
+                            step2f.coveredArea.invalid
+                          "
+                        >
+                          <span
+                            class="error-msg"
+                            *ngIf="step2f.coveredArea.errors?.required"
+                          >
+                            {{'Covered area is required.'|translate}}</span
+                          >
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-lg-6 col-sm-6 col-xs-12">
+                      <div class="form-group">
+                        <label>{{'Town Name'|translate}}* </label>
+                        <input
+                          formControlName="townName"
+                          name="townName"
+                          required
+                          type="text"
+                          class="form-control"
+                          placeholder="{{'Town Name'|translate}}"
+                        />
+                        <div
+                          *ngIf="
+                            step2f.townName.touched && step2f.townName.invalid
+                          "
+                        >
+                          <span
+                            class="error-msg"
+                            *ngIf="step2f.townName.errors?.required"
+                          >
+                            {{'Town name is required.'|translate}}</span
+                          >
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="col-lg-6 col-sm-6 col-xs-12">
+                      <div class="form-group">
+                        <label>{{'Units (KW)'|translate}}</label>
+                        <input
+                          formControlName="units"
+                          name="units"
+                          type="text"
+                          class="form-control"
+                          placeholder="{{'Units (KW)'|translate}}"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                  <!--Dropdown-->
+                  <div class="row">
+                    <div class="col-lg-6 col-sm-6 col-xs-12">
+                      <div class="form-group">
+                        <label>{{'Purpose of Supply'|translate}}*</label>
+                        <select
+                          formControlName="purposeOfSupply"
+                          name="purposeOfSupply"
+                          required
+                          class="form-control"
+                        >
+                          <option value="" selected>{{'Select options'|translate}}</option>
+                          <option value="Domestic">{{'Domestic'|translate}}</option>
+                        </select>
+                        <div
+                          *ngIf="
+                            step2f.purposeOfSupply.touched &&
+                            step2f.purposeOfSupply.invalid
+                          "
+                        >
+                          <span
+                            class="error-msg"
+                            *ngIf="step2f.purposeOfSupply.errors?.required"
+                          >
+                            {{'Purpose of supply is required.'|translate}}</span
+                          >
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-lg-6 col-sm-6 col-xs-12">
+                      <div class="form-group">
+                        <label>{{'Connection Point'|translate}}</label>
+                        <input
+                          formControlName="connectionPoint"
+                          name="connectionPoint"
+                          type="text"
+                          class="form-control"
+                          placeholder="{{'Connection Point'|translate}}"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-lg-6 col-sm-6 col-xs-12">
+                      <div class="form-group">
+                        <label>{{'Adjacent Account Number'|translate}}</label>
+                        <input
+                          formControlName="adjacentAccountNumber"
+                          name="adjacentAccountNumber"
+                          type="text"
+                          class="form-control"
+                          placeholder="{{'Adjacent Account Number'|translate}}"
+                        />
+                      </div>
+                    </div>
+                    <div class="col-lg-6 col-sm-6 col-xs-12">
+                      <div class="form-group">
+                        <label>{{'Email ID'|translate}}* </label>
+                        <input
+                          formControlName="email"
+                          required
+                          name="email"
+                          type="text"
+                          class="form-control"
+                          placeholder="{{'Email ID'|translate}}"
+                        />
+                        <div
+                          *ngIf="step2f.email.touched && step2f.email.invalid"
+                        >
+                          <span
+                            class="error-msg"
+                            *ngIf="step2f.email.errors?.required"
+                          >
+                            {{'Email is required.'|translate}}</span
+                          >
+                          <span
+                            class="error-msg"
+                            *ngIf="
+                              step2f.email.invalid &&
+                              !step2f.email.errors?.required
+                            "
+                          >
+                            {{'Email address is invalid.'|translate}}</span
+                          >
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-lg-6 col-sm-6 col-xs-12">
+                      <div class="form-group">
+                        <label>{{'Place Type'|translate}}</label>
+                        <select
+                          formControlName="placeType"
+                          name="placeType"
+                          class="form-control"
+                         
+                        >
+                          <option value="" selected>{{'Select Place Type'|translate}}</option>
+                          <option value="Urban">{{'Urban'|translate}} </option>
+                          <option value="Rural">{{'Rural'|translate}} </option>
+                        </select>
+                        <div></div>
+                      </div>
+                    </div>
+                    <div class="col-lg-6 col-sm-6 col-xs-12">
+                      <div class="form-group">
+                        <label>{{'Connection Type'|translate}}</label>
+                        <select
+                          formControlName="connectionType"
+                          name="connectionType"
+                          class="form-control"
+                          
+                        >
+                          <option value="" selected
+                            >{{'Select Connection Type'|translate}}</option
+                          >
+                          <option value="Post Paid">{{'Post Paid'|translate}} </option>
+                          <option value="Pre Paid">{{'Pre Paid'|translate}} </option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-lg-6 col-sm-6 col-xs-12">
+                      <div class="form-group">
+                        <label>{{'Phase Type'|translate}}</label>
+                        <select
+                          formControlName="phaseType"
+                          name="phaseType"
+                          class="form-control"
+                         
+                        >
+                          <option value="" selected>{{'Select Phase Type'|translate}}</option>
+                          <option value="Single Phase">{{'Single Phase'|translate}}</option>
+                          <option value="Three Phase">{{'Three Phase'|translate}}</option>
+                        </select>
+                      </div>
+                    </div>
+                    <!--yes No selection -->
+                    <div class="col-lg-6 col-sm-6 col-xs-12">
+                      <div class="form-group">
+                        <!--  {{complaintCaseTypes }} -->
+                        <label>{{'Do you want to give possession details'|translate}}</label>
+                        <select
+                          formControlName="possessionDetails"
+                          name="possessionDetails"
+                          class="form-control"
+                        >
+                          <option value="" selected>{{'Select options'|translate}}</option>
+                          <option value="Yes">{{'Yes'|translate}}</option>
+                          <option value="No">{{'No'|translate}}</option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+                  <!--Dropdown-->
+                  <div class="row">
+                    <div class="col-lg-6 col-sm-6 col-xs-12">
+                      <div class="form-group">
+                        <!--  {{complaintCaseTypes }} -->
+                        <label>{{'Document for Identification'|translate}}</label>
+                        <select
+                          *ngIf="
+                            !enclosedIdentifDocLoder &&
+                            enclosedIdentifDocs.length > 0
+                          "
+                          formControlName="documentIdentification"
+                          name="documentIdentification"
+                          class="form-control"
+                        >
+                          <option value="" selected>{{'Select options'|translate}}</option>
+                          <option
+                            value="{{
+                              enclosedIdentifDoc.enclosed_identification_documents
+                            }}"
+                            *ngFor="
+                              let enclosedIdentifDoc of enclosedIdentifDocs
+                            "
+                            >{{
+                              enclosedIdentifDoc.enclosed_identification_documents
+                            }}</option
+                          >
+                        </select>
+                        <select
+                          *ngIf="
+                            !enclosedIdentifDocLoder &&
+                            enclosedIdentifDocs.length == 0
+                          "
+                          formControlName="documentIdentification"
+                          name="documentIdentification"
+                          class="form-control"
+                        >
+                          <option value="" selected>{{'Select options'|translate}}</option>
+                        </select>
+                        <div
+                          *ngIf="enclosedIdentifDocLoder"
+                          class="fieldLoding"
+                        >
+                          Loading...
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="heading-field">{{'Enclosure Section'|translate}}</div>
+                  <div class="row">
+                    <!--Yes NO Selection-->
+                    <div class="col-lg-6 col-sm-6 col-xs-12">
+                      <div class="form-group">
+                        <!--  {{complaintCaseTypes }} -->
+                        <label>{{'NOC'|translate}}</label>
+                        <select
+                          formControlName="noc"
+                          name="noc"
+                          class="form-control"
+                        >
+                          <option value="" selected>{{'Select options'|translate}}</option>
+                          <option value="Yes">{{'Yes'|translate}} </option>
+                          <option value="No">{{'No'|translate}}</option>
+                        </select>
+                      </div>
+                    </div>
+
+                    <div class="col-lg-6 col-sm-6 col-xs-12">
+                      <div class="form-group">
+                        <label>{{'Owner Consent Letter'|translate}}</label>
+                        <select
+                          formControlName="ownerConcentLetter"
+                          name="ownerConcentLetter"
+                          class="form-control"
+                        >
+                          <option value="" selected>{{'Select options'|translate}}</option>
+                          <option value="Yes">{{'Yes'|translate}} </option>
+                          <option value="No">{{'No'|translate}} </option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-lg-6 col-sm-6 col-xs-12">
+                      <div class="form-group">
+                        <label>{{'Work Completion Certificate'|translate}}</label>
+                        <select
+                          formControlName="workCompletionCertificate"
+                          name="workCompletionCertificate"
+                          class="form-control"
+                        >
+                          <option value="" selected>{{'Select options'|translate}}</option>
+                          <option value="Yes">{{'Yes'|translate}}</option>
+                          <option value="No">{{'No'|translate}}</option>
+                        </select>
+                      </div>
+                    </div>
+
+                    <!-- <div class="col-lg-6 col-sm-6 col-xs-12">
+                      <div class="form-group">
+                        <label> Captcha </label>
+                        <input
+                          type="text"
+                          name=" recaptcha"
+                          type="text"
+                          class="form-control"
+                          placeholder=" Captcha"
+                        />
+                      </div>
+                    </div> -->
+                  </div>
+                  <!-- Transfer of Connection ends here -->
+                  <div
+                    class="form-group border-none"
+                    [ngClass]="{ 'pos-rel': submitNewConnectReqLoader }"
+                  >
+                    <div
+                      class="spinner"
+                      *ngIf="submitNewConnectReqLoader"
+                      style="top: 80%;"
+
+                    >
+                      <div class="bounce1"></div>
+                      <div class="bounce2"></div>
+                      <div class="bounce3"></div>
+                    </div>
+                    <button class="btn btn-primary submit-btn" [disabled]="submitNewConnectReqLoader == true">{{'Submit'|translate}}</button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+      </div>
+    <div *ngIf="isLoggedIn()" id="main-menu-bg"></div>
+  </div>
+  <app-footer></app-footer>
+</div>

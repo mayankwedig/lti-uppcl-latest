@@ -1,0 +1,74 @@
+<div id="main-wrapper" class="no-sidebar">
+  <app-header></app-header>
+  <div id="content-wrapper" class="status-sec-panel">
+      <div class="status-inner-panel" 
+      [ngClass]="{
+        'success-msg-sec':msgFlag == 'success',
+        'warning-msg-sec':msgFlag == 'warning',
+        'failure-msg-sec':msgFlag == 'error'}"
+      >
+	  		<div class="container">
+			    <div class="blue-box">
+				    <div class="msg-heading">
+				        <h3 *ngIf="msgFlag == 'success'">
+				        	{{'Congratulations'|translate}}
+                </h3>
+                <h3 *ngIf="msgFlag == 'warning'">
+				        	{{'Payment is Pending'|translate}}
+                </h3>
+                <h3 *ngIf="msgFlag == 'error'">
+				        	{{'Payment failed'|translate}}
+				        </h3>  
+				        <span>
+				        	{{msgDispay}}
+				        </span>
+				    </div>
+				    <div class="status-table-sec" *ngIf="viewTransectionDetails != null">
+				    	<table class="table table-bordered table-responsive">
+				    		<thead>
+				    			<th class="text-center">
+				    				Transaction ID
+				    			</th>
+				    			<th class="text-center">
+				    				Order ID
+				    			</th>
+				    			<th class="text-center">
+				    				Amount
+				    			</th>
+				    			<th class="text-center">
+				    				Date and Time
+				    			</th>
+				    		</thead>
+				    		<tbody>
+				    			<tr>
+				    				<td class="text-center" data-title="Transaction ID">
+				    					{{viewTransectionDetails.TXNID}}
+				    				</td>
+				    				<td class="text-center" data-title="Order ID">
+				    					{{viewTransectionDetails.ORDERID}}
+				    				</td>
+				    				<td class="text-center" data-title="Amount">
+				    					<i class="fa fa-inr" aria-hidden="true"></i> {{viewTransectionDetails.TXNAMOUNT}}
+				    				</td>
+				    				<td class="text-center" data-title="Date">
+				    					{{viewTransectionDetails.TXNDATE|date:'EEEE, d  MMMM, y, h:mm:ss a '}}
+				    				</td>
+				    			</tr>
+				    		</tbody>
+				    	</table>
+				    </div>
+				    <div class="rows text-center" *ngIf="msgFlag == 'success' && !isLoggedIn()">
+								<a class="blue-goback-btn margin_top0" (click)="redirectUser('/')" style="cursor: pointer;">{{'Go to Home'|translate}}</a>
+						</div>
+						<div class="rows text-center" *ngIf="msgFlag == 'success' && isLoggedIn()"  style="cursor: pointer;">
+								<a class="blue-goback-btn margin_top0" (click)="redirectUser('dashboard')">{{'Go to Dashboard'|translate}}</a>
+							</div>
+            <div class="rows text-center" *ngIf="msgFlag != 'success'" style="cursor: pointer;">
+				    	<a class="blue-goback-btn margin_top0" (click)="redirectUser('contact-us')">{{'Contact us'|translate}}</a>
+            </div>
+				</div>
+	  		</div>
+      </div>
+  </div>
+</div>
+<app-footer></app-footer>
