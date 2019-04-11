@@ -80,7 +80,7 @@ export class NewServiceConnectionComponent implements OnInit {
           " ) ";
       } else {
         setTimeout(()=>{
-          this.toastr.warning("Please select account number", ""); // prompt msg
+          this.toastr.warning(this.translationServices.translate("Please select account number"), ""); // prompt msg
           this.router.navigate(["/manageaccount"]); // redirect user to manage account
         },1)
        

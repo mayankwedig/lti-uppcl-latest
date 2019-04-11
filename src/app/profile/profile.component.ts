@@ -300,7 +300,7 @@ export class ProfileComponent implements OnInit {
         }
       }
     }else{
-      this.toastr.warning("Please fill required fields");
+      this.toastr.warning(this.translate("Please fill required fields"));
     }
   }
   sendOTP(frmData){

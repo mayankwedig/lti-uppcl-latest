@@ -228,7 +228,7 @@ export class LoginComponent {
             if (OtpVerificationToken != null) {
               this.toastr.success(this._translate.translate(res.msg), this._translate.translate("Verification is successful!"));
               this.router.navigate(["/otp-verification"]);
-              this.toastr.success(res.msg, "Verification is successful!");
+              this.toastr.success(this._translate.translate(res.msg), this._translate.translate("Verification is successful!"));
               if(!withSequityQues){
                 this.router.navigate(["/otp-verification"]);
               }else{
@@ -238,7 +238,7 @@ export class LoginComponent {
               
             }
           } else {
-            this.toastr.error(this._translate.translate(res.msg), "Failed!");
+            this.toastr.error(this._translate.translate(res.msg), this._translate.translate("Failed!"));
           }
         }
       },(error)=>{

@@ -115,7 +115,7 @@ export class RegistrationComponent implements OnInit {
           this.questionsList2 = res.data_params;
         }
       } else {
-        this.toastr.error(res.msg, "Failed!");
+        this.toastr.error(this.translate(res.msg), this.translate("Failed!"));
       }
     });
   }
@@ -153,10 +153,10 @@ export class RegistrationComponent implements OnInit {
             this.loder = false;
             if (res.authCode) {
               if (res.authCode == "200" && res.status == true) {
-                this.toastr.success(res.msg, "Success!");
+                this.toastr.success(this.translate(res.msg), this.translate("Success!)"));
                 this.router.navigate(["/login"]);
               } else {
-                this.toastr.error(res.msg, "Failed!");
+                this.toastr.error(this.translate(res.msg), this.translate("Failed!"));
               }
             }
           },

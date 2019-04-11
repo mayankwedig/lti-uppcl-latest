@@ -1,16 +1,15 @@
 import { HelpersService } from "./../services/helpers/helpers.service";
 import { AuthService } from "./../services/authService/auth.service";
 import { Component, OnInit } from "@angular/core";
-
 import { BadInput } from "./../common/bad-input";
 import { AppError } from "./../common/app-error";
 import { CustomValidationsService } from "./../services/custom-validations/custom-validations.service";
 import { ResetPasswordService } from "../services/reset-password/reset-password.service";
-
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
-
 import { ToastrService } from "ngx-toastr";
 import { Router } from "@angular/router";
+import { TranslationService } from "../services/translation/translation.service";
+
 
 @Component({
   selector: "app-change-password",
@@ -31,7 +30,13 @@ export class ChangePasswordComponent implements OnInit {
     private helpersService: HelpersService,
     private router:Router,
     private auth:AuthService
-  ) {}
+  ) 
+  {
+  }
+
+  translate(string:string):string{
+    return this.helpersService.translate(string);
+  }
 
   get changePassFields() {
     return this.ChangePasswordFrm.controls;
@@ -80,13 +85,13 @@ export class ChangePasswordComponent implements OnInit {
         var res = response;
         if (res.authCode) {
           if (res.authCode == "200" && res.status == true) {
-            this.toastr.success(res.msg, "Password updated!");
+            this.toastr.success(res.msg, this.translate("Password updated!"));
             if(!this.isExpiredPasswordChange){ // if user is changeing password after login
               this.auth.logout();
             }
             this.router.navigate(["/login"]);
           } else {
-            this.toastr.error(res.msg, "Failed!");
+            this.toastr.error(res.msg, this.translate("Failed!"));
           }
         }
       });

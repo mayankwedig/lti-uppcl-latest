@@ -5,6 +5,8 @@ import { Component,OnInit } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { ToastrService } from "ngx-toastr";
 import { Router } from "@angular/router";
+import { TranslationService } from "../services/translation/translation.service";
+
 
 
 @Component({
@@ -52,7 +54,9 @@ export class ValidateAccountNumber implements OnInit {
     private router: Router,
     private ValidateAccountNumber:ValidateAccountNumberService,
     private helpers:HelpersService,
-    private auth:AuthService
+    private auth:AuthService,
+    private translationServices: TranslationService,
+
   ) {
     
   }
@@ -76,7 +80,7 @@ export class ValidateAccountNumber implements OnInit {
           sessionStorage.setItem("verifiedAccountNumber", this.accountVerificationFrm.value.account_number);
           sessionStorage.setItem("verifiedAccEmail",accEmail);
           sessionStorage.setItem("verifiedAccMobileNo", accMobile);
-          this.toastr.success(res.msg, 'Success!');
+          this.toastr.success(this.translationServices.translate(res.msg), this.translationServices.translate("Success!"));
           this.router.navigate(["/singup-otp-varification"]);
 
         
@@ -88,12 +92,12 @@ export class ValidateAccountNumber implements OnInit {
           sessionStorage.setItem("verifiedAccMobileNo", '123456789');
           this.toastr.success(res.msg, 'Success!');
           this.router.navigate(["/singup-otp-varification"]); */
-          this.toastr.error(res.msg, 'Failed!');
+          this.toastr.error(this.translationServices.translate(res.msg), this.translationServices.translate("Failed!"));
         }
       }
     },(error)=>{
       this.loder=false;
-      this.toastr.error(error, 'Failed!');
+      this.toastr.error(error, this.translationServices.translate('Failed!'));
     });
     
   }

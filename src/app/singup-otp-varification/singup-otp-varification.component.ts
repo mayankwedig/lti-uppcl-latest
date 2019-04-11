@@ -87,7 +87,7 @@ export class SingupOtpVarificationComponent implements OnInit{
         this.Otoploder = false;
         if (res.authCode) {
           if (res.authCode == "200" && res.status == true) {
-            this.toastr.success(this.translationServices.translate(res.msg), "Success!");
+            this.toastr.success(this.translationServices.translate(res.msg), this.translationServices.translate("Success!"));
             sessionStorage.setItem("otpVerifiedAccEmail",  this.otpVerifiedAccEmail);
             sessionStorage.setItem("otpVerifiedAccMobileNo",  this.otpVerifiedAccMobileNo);
             sessionStorage.setItem("otpVerifiedAccountNumber",  this.verifiedAccountNumber);
@@ -98,7 +98,7 @@ export class SingupOtpVarificationComponent implements OnInit{
             sessionStorage.setItem("otpVerifiedAccMobileNo",  '8769433262');
             sessionStorage.setItem("otpVerifiedAccountNumber",  '111111555555');
             this.router.navigate(["/registration"]); */
-            this.toastr.error(this.translationServices.translate(res.msg), "Failed!");
+            this.toastr.error(this.translationServices.translate(res.msg), this.translationServices.translate("Failed!"));
             this.router.navigate(["/account-verification"]);
           }
         }

@@ -68,7 +68,7 @@ export class TrackServiceRequestComponent implements OnInit {
      var serviceReqNo=this.serviceRequestFrm.value.serviceReqNo;
       this.redirectoRequestDetails(serviceReqNo);
     }else{
-      this.toastr.warning(this.translationServices.translate("Please fill all required fields"), "Failed!");
+      this.toastr.warning(this.translationServices.translate("Please fill all required fields"), this.translationServices.translate("Failed!"));
     }
   }
   get f() {

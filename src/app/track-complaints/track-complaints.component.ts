@@ -62,7 +62,7 @@ export class TrackComplaintsComponent implements OnInit {
      var complaintNo=this.trackComplaintFrm.value.complaintNumber;
       this.redirectoRequestDetails(complaintNo);
     }else{
-      this.toastr.warning(this.translationServices.translate("Please fill all required fields"), "Failed!");
+      this.toastr.warning(this.translationServices.translate("Please fill all required fields"), this.translationServices.translate("Failed!"));
     }
   }
   get f() {

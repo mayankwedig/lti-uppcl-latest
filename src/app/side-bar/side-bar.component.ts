@@ -223,7 +223,7 @@ export class SideBarComponent implements OnInit {
           } else {
             this.toastr.error(
               this.translationServices.translate(res.msg),
-              "failed!"
+              this.translationServices.translate("failed!")
             );
             this.isAccountDataFound = false;
           }
