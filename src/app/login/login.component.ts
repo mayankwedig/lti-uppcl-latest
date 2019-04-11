@@ -192,12 +192,12 @@ export class LoginComponent {
          
           this.forgotPassword(true,this.forgotPassFrm.value, APIUrl);
         } else {
-          this.toastr.error(this._translate.translate("Please fill required field."), this._translate.translate("Failed"));
+          this.toastr.error(this._translate.translate("Please fill required fields."), this._translate.translate("Failed!"));
         }
       } else {
         this.errorFlags.email = true;
         this.errorFlags.email1 = true;
-        this.toastr.error(this._translate.translate("Please fill at least one required field."), this._translate.translate("Failed"));
+        this.toastr.error(this._translate.translate("Please fill at least one required field."), this._translate.translate("Failed!"));
       }
     }
   }
@@ -370,7 +370,7 @@ export class LoginComponent {
           ansques1: [""],
           ansques2: [""]
         };
-        this.toastr.error("Something went wrong,Please try again later", this._translate.translate("Failed!"));
+        this.toastr.error(this._translate.translate("Something went wrong,Please try again later"), this._translate.translate("Failed!"));
       });
     }else{
       fields = {

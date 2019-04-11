@@ -137,11 +137,11 @@
                           name="email"
                           type="text"
                           class="form-control"
-                          placeholder="{{'Userid'|translate}} / {{'E-mail'|translate}} / {{'Mobile no.'|translate}}"
+                          placeholder="{{'Userid'|translate}} / {{'E-mail'|translate}} / {{'Mobile Number'|translate}}"
                         />
                         <div *ngIf="errorFlags.email">
                           <span class="error-msg"
-                            >{{'Userid/E-mail/mobile no. is required'|translate}}</span
+                            >{{'Userid/E-mail/Mobile Number is required'|translate}}</span
                           >
                         </div>
                       </div>
@@ -164,7 +164,7 @@
                         />
                         <div *ngIf="errorFlags.email1">
                           <span class="error-msg"
-                            >{{'User id is required'|translate}}</span
+                            >{{'Userid is required'|translate}}</span
                           >
                         </div>
                       </div>
@@ -222,7 +222,7 @@
                           class="form-control"
                           disabled
                         >
-                          <option value="">{{'Select security questions'|translate}}</option>
+                          <option value="">{{'Select security question'|translate}}</option>
                           <option
                             *ngFor="let ques of questionsList2"
                             [value]="ques.id"

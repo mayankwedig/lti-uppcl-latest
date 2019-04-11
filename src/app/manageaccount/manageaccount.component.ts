@@ -13,6 +13,7 @@ import { ManageaccountService } from "./../services/manageaccount/manageaccount.
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { ValidateAccountNumberService } from "./../services/validate-account-number/validate-account-number.service";
 import { Router } from "@angular/router";
+import { TranslationService } from "../services/translation/translation.service";
 import Swal from "sweetalert2";
 import { exists } from 'fs';
 
@@ -49,7 +50,9 @@ export class ManageaccountComponent implements OnInit {
     private ValidateAccountNumber: ValidateAccountNumberService,
     private OtpVeriyService: SignupOtpVerificationService,
     private WindowRef:WindowRefService,
-    private _helper:HelpersService
+    private _helper:HelpersService,
+    private _translate:TranslationService
+
 
   ) {}
   ngOnInit() {
@@ -100,7 +103,7 @@ export class ManageaccountComponent implements OnInit {
             this.accountData = res.data_params;
             this.isDataFound = true;
           } else {
-            this.toastr.error(this.translate(res.msg), this.translate("failed!"));
+            this.toastr.error(this._translate.translate(res.msg), this._translate.translate("failed!"));
             this.isDataFound = false;
           }
         }
@@ -146,7 +149,7 @@ export class ManageaccountComponent implements OnInit {
                   this.Otoploder = false;
                   if (res.authCode) {
                     if (res.authCode == "200" && res.status == true) {
-                      this.toastr.success(this.translate(res.msg), this.translate("Success!"));
+                      this.toastr.success(this._translate.translate(res.msg), this._translate.translate("Success!"));
                       $("#add-account-modal").hide();
                       $(".modal-backdrop").remove();
                       $("body").removeClass("modal-open");
@@ -154,7 +157,7 @@ export class ManageaccountComponent implements OnInit {
                       this.initAddaccFrm();
                     } else {
                       this.initAddaccFrm();
-                      this.toastr.error(this.translate(res.msg), this.translate("Faild!"));
+                      this.toastr.error(this._translate.translate(res.msg), this._translate.translate("Faild!"));
                     }
                   }
                 },
@@ -170,7 +173,7 @@ export class ManageaccountComponent implements OnInit {
             } else {
               this.Otoploder = false;
               this.initAddaccFrm();
-              this.toastr.error(this.translate(res.msg), this.translate("Failed!"));
+              this.toastr.error(this._translate.translate(res.msg), this._translate.translate("Failed!"));
             }
           }
         },
@@ -202,17 +205,17 @@ export class ManageaccountComponent implements OnInit {
               res.data_params.account_number
             ); // set session for verified account number.
             this.ShowOtpVerifyFrm = true;
-            this.toastr.success(this.translate(res.msg), this.translate("Success!"));
+            this.toastr.success(this._translate.translate(res.msg), this._translate.translate("Success!"));
           } else {
             this.initAddaccFrm();
-            this.toastr.error(this.translate(res.msg), this.translate("Failed!"));
+            this.toastr.error(this._translate.translate(res.msg), this._translate.translate("Failed!"));
           }
         }
       },
       error => {
         this.accountProcesLoader = false;
         this.initAddaccFrm();
-        this.toastr.error(this.translate(error), this.translate("Failed!"));
+        this.toastr.error(this._translate.translate(error), this._translate.translate("Failed!"));
       }
     );
   }
@@ -233,10 +236,10 @@ export class ManageaccountComponent implements OnInit {
             this.loder = false;
             if (res.authCode) {
               if (res.authCode == "200" && res.status == true) {
-                this.toastr.success(this.translate(res.msg), this.translate("Success!"));
+                this.toastr.success(this._translate.translate(res.msg), this._translate.translate("Success!"));
                 this.getAccount(this.searchKeyWord);
               } else {
-                this.toastr.error(this.translate(res.msg), this.translate("failed!"));
+                this.toastr.error(this._translate.translate(res.msg), this._translate.translate("failed!"));
               }
             }
           },
@@ -272,29 +275,29 @@ export class ManageaccountComponent implements OnInit {
               if (update_value == 1) {
                 // subscribed
                 msgDisp = "You have successfully subscribed to E-Bill";
-                this.toastr.success(this.translate(msgDisp), this.translate("Success!"));
+                this.toastr.success(this._translate.translate(msgDisp), this._translate.translate("Success!"));
               } else {
                 // unsubscribed
                 msgDisp = "You have successfully unsubscribed from the E-Bill";
-                this.toastr.warning(this.translate(msgDisp), this.translate("Success!"));
+                this.toastr.warning(this._translate.translate(msgDisp), this._translate.translate("Success!"));
               }
             } else {
               // Mobile bill
               if (update_value == 1) {
                 // subscribed
                 msgDisp = "You have successfully subscribed to Mobile-Bill";
-                this.toastr.success(this.translate(msgDisp), this.translate("Success!"));
+                this.toastr.success(this._translate.translate(msgDisp), this._translate.translate("Success!"));
               } else {
                 // unsubscribed
                 msgDisp =
                   "You have successfully unsubscribed from the Monile-Bill";
-                this.toastr.warning(this.translate(msgDisp), this.translate("Success!"));
+                this.toastr.warning(this._translate.translate(msgDisp), this._translate.translate("Success!"));
               }
             }
             /*  this.toastr.success(res.msg, "Success!"); */
             /*   this.getAccount(this.searchKeyWord); */
           } else {
-            this.toastr.error(this.translate(res.msg), this.translate("failed!"));
+            this.toastr.error(this._translate.translate(res.msg), this._translate.translate("failed!"));
           }
         }
       },

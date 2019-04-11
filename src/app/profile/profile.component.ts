@@ -86,11 +86,11 @@ export class ProfileComponent implements OnInit {
         };
       } else {
         this.invalidImageIssue = true;
-        this.toastr.error(this.translate("Image file size must not exceed 2 mb"), this.translate("Failed!"));
+        this.toastr.error(this.translationServices.translate("Image file size must not exceed 2 mb"), this.translate("Failed!"));
       }
     } else {
       this.invalidImageIssue = true;
-      this.toastr.error(this.translate
+      this.toastr.error(this.translationServices.translate
         ("Please upload image with valid file extension ex: png,jpeg and jpg"),
         this.translate("Failed!"));
 
@@ -127,7 +127,7 @@ export class ProfileComponent implements OnInit {
             this.oldEmailid=this.profileData.email;
             this.profile_image = this.profileData.profile_image;
           } else {
-            this.toastr.error(this.translate(res.msg), this.translate("Failed!"));
+            this.toastr.error(this.translationServices.translate(res.msg), this.translate("Failed!"));
           }
         }
       },
@@ -196,11 +196,11 @@ export class ProfileComponent implements OnInit {
         this.profileUpdateLoder = false;
         if (res.authCode) {
           if (res.authCode == "200" && res.status == true) {
-            this.toastr.success(this.translate(res.msg), this.translate("Details updated successfully!"));
+            this.toastr.success(this.translationServices.translate(res.msg), this.translationServices.translate("Details updated successfully!"));
             this.showProfileUpdateFrm(false);
             this.getProfile();
           } else {
-            this.toastr.error(this.translate(res.msg));
+            this.toastr.error(this.translationServices.translate(res.msg));
           }
         }
       },
@@ -253,13 +253,13 @@ export class ProfileComponent implements OnInit {
         if(!(frmData.email == "" || frmData.email == null || frmData.email == 0)){
             if(this.isEmailInvalid(this.updateProfileFrm.value.email)){
               this.isError=true;
-              this.toastr.error(this.translate("Email address is invalid"));
+              this.toastr.error(this.translationServices.translate("Email address is invalid"));
             }
         } 
         if(!(frmData.mobile == "" || frmData.mobile == null || frmData.mobile == 0)){
           if(this.isMobileInvalid(this.updateProfileFrm.value.mobile)){
             this.isError=true;
-            this.toastr.error(this.translate("Please enter valid mobile number"));
+            this.toastr.error(this.translationServices.translate("Please enter valid mobile number"));
           }
         }
       }
@@ -300,7 +300,7 @@ export class ProfileComponent implements OnInit {
         }
       }
     }else{
-      this.toastr.warning(this.translate("Please fill required fields"));
+      this.toastr.warning(this.translationServices.translate("Please fill required fields"));
     }
   }
   sendOTP(frmData){
@@ -314,11 +314,11 @@ export class ProfileComponent implements OnInit {
         if (result.authCode == 200 && result.status == true) {
           //OTP msg sent Successfully
 
-          this.toastr.success(this.translate(result.msg),this.translate("Success"));
+          this.toastr.success(this.translationServices.translate(result.msg),this.translationServices.translate("Success"));
           this.showModalPopup("topVerification-modal");
           this.initOtpVerificationForm();
         }else{
-          this.toastr.error(this.translate(result.msg));
+          this.toastr.error(this.translationServices.translate(result.msg));
         }
       },
       (error: AppError) => {
@@ -361,7 +361,7 @@ export class ProfileComponent implements OnInit {
             
             this.initOtpVerificationForm();
             this.closePopup("topVerification-frm");
-            this.toastr.success(this.translate(response.msg));
+            this.toastr.success(this.translationServices.translate(response.msg));
             
             if(this.newChangesType.mobileNo == true){
               
@@ -377,7 +377,7 @@ export class ProfileComponent implements OnInit {
           }else{
             this.initOtpVerificationForm();
             this.closePopup("topVerification-frm");
-            this.toastr.error(this.translate(response.msg));
+            this.toastr.error(this.translationServices.translate(response.msg));
           }
         }
       },(error: AppError) => {
@@ -409,18 +409,18 @@ export class ProfileComponent implements OnInit {
           if (res.authCode == "200" && res.status == true) {// if account verfied then open password Screen
             this.initPwVerificationForm();
             this.closePopup("passwordVerification-frm");
-            this.toastr.success(this.translate(response.msg));
+            this.toastr.success(this.translationServices.translate(response.msg));
             this.saveFomrData();
           }else{
             this.initPwVerificationForm();
             this.closePopup("passwordVerification-frm");
-            this.toastr.error(this.translate(response.msg));
+            this.toastr.error(this.translationServices.translate(response.msg));
           }
         }
       },(error: AppError) => {
         this.initPwVerificationForm();
         this.closePopup("passwordVerification-frm");
-        this.toastr.error(this.translate("Somthing went wrong"));
+        this.toastr.error(this.translationServices.translate("Something went wrong"));
         this.profileUpdateLoder = false;
         this.VerifyPasswordLoder = false;
         if (error instanceof BadInput) {
