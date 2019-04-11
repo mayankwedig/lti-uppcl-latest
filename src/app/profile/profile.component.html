@@ -82,7 +82,7 @@
                                      style="cursor:pointer"
                                      (click)="showProfileUpdateFrm(viewProfileBlock)"
                                      class="blue-btn pay-now-btn"
-                                     ><i class="fa fa-eye"></i> &nbsp;&nbsp;{{'view'| translate}} {{'profile'| translate}}</a
+                                     ><i class="fa fa-eye"></i> &nbsp;&nbsp;{{'View profile'| translate}}</a
                                      >
                                </div>
                             </div>
@@ -103,7 +103,7 @@
                                      </div>
                                   </li>
                                   <li>
-                                     <div class="lable-detail">{{'Mobile'| translate}}</div>
+                                     <div class="lable-detail">{{'Mobile Number'| translate}}</div>
                                      <div class="detail">+91 {{ profileData.mobile }}</div>
                                   </li>
                                </ul>
@@ -160,13 +160,13 @@
                                   -->
                                   <!-- pattern="^(?:(?:\+|0{0,2})91(\s*[\-]\s*)?|[0]?)?[789]\d{9}$" -->
                                <div class="form-group">
-                                  <label>{{'Mobile No'|translate}}</label>
+                                  <label>{{'Mobile Number'|translate}}</label>
                                   <input
                                      type="text"
                                      name=""
                                      class="form-control"
                                      placeholder=""
-                                     formControlName="mobile"
+                                     formControlName="Mobile Number"
                                      name="mobile"
                                     />
                                   <!-- <div *ngIf="f.mobile.touched && f.mobile.invalid">

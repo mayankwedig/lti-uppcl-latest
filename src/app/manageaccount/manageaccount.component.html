@@ -248,10 +248,7 @@
                     *ngIf="loder == false && isDataFound == false"
                   >
                     <img src="/assets/images/no_data.png" />{{
-                      "Currently no data
-                    found for accounts"
-                        | translate
-                    }}<br />
+                      "Currently no data found for accounts" | translate}}<br />
                     <!-- Please click on add account button in order to add your
                     account or contact . <br /> -->
                   </div>
@@ -314,7 +311,7 @@
                       <span
                         class="error-msg"
                         *ngIf="f.account_number.errors?.required"
-                        >{{'Account Number'|translate}} {{'or'|translate}} {{'billnumber'|translate}} {{'required'|translate}}</span
+                        >{{'Account Number or billnumber required'|translate}}</span
                       >
                     </div>
                   </div>
