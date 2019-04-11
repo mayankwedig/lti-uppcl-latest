@@ -37,8 +37,8 @@ export class PayBillService {
     return this.AuthService.isLoggedIn();
   }
   getBillAccountDetails(body) {
-   // let billPayEnquiry="users/billPayEnquiry"; actual amount
-   let billPayEnquiry="users/billPayEnquiryDummy";
+    let billPayEnquiry="users/billPayEnquiry"; //actual amount
+   //let billPayEnquiry="users/billPayEnquiryDummy";
 
     return this._data.getAll(billPayEnquiry, body, {}, "POST");
   }
@@ -48,8 +48,8 @@ export class PayBillService {
   getPaymentChecksm(accountNumber,amount=0,type="postPaid"){
     accountNumber={"accountToken":btoa(accountNumber)};
     accountNumber["amount"]=amount
-    //let paytmCheckout="users/paytmCheckout";
-    let paytmCheckout="users/paytmCheckoutDummy";
+    let paytmCheckout="users/paytmCheckout";
+    //let paytmCheckout="users/paytmCheckoutDummy";
     if(type == "prePaid"){
       paytmCheckout="users/paytmCheckout";
     }
