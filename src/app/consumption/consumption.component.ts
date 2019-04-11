@@ -460,12 +460,20 @@ export class ConsumptionComponent implements OnInit {
             }
             
             };
+            let lbl_text='';
+            if(this.helpers.getLocalStoragData("selected_lag") == 'hi'){
+              lbl_text=this.translate(this.month_name)+
+              this.translate( " ")+this.translate( this.selectedDay)+this.translate
+              (", ")+this.translate(this.selected_year)+" "+this.translate("Consumption for");
+            }else{
+              lbl_text= this.translate("Consumption for ")+this.translate(this.month_name)+
+              this.translate( " ")+this.translate( this.selectedDay)+this.translate
+              (", ")+this.translate(this.selected_year);
+            }
             this.consumptionchartData = [
               {
 
-                label: this.translate("Consumption as on")+this.translate(this.month_name)+
-                this.translate( " ")+this.translate( this.selectedDay)+this.translate
-                (", ")+this.translate(this.selected_year),
+                label:lbl_text,
                 data: gData,
                 fill: false,
                 borderWidth: 2,

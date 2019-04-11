@@ -12,7 +12,7 @@
           <div class="col-sm-12">
             <div class="service-box" *ngIf="showTrackingNo == true">
               <div class="panel-body">
-                <div class="title">Complaint registration</div>
+                <div class="title">{{'Complaint registration'|translate}}</div>
                 <div class="req-success-msg">
                 {{'Thank You For Registering Your Complaint.'|translate}}
                 </div>
@@ -28,7 +28,7 @@
             <div class="panel-body pos-rel" *ngIf="showTrackingNo == false">
               
                 <button (click)="trackComplaints()" class="btn btn-primary submit-btn trackrequest-btn"type="submit" *ngIf="!isLoggedIn()">
-                Track Request
+                {{'Track Request'|translate}}
                    </button>
               <div class="row">
                 <div
@@ -790,10 +790,10 @@
        
           <div class="electricity-consumption-box">
             <img src="../assets/images/electricity-icon.png" /> {{'Your last month
-            consumption is'|translate}} <span>3250</span> units. Learn tips how to save
-            electricity.
+            consumption is'|translate}} <span>3250</span>{{'units. Learn tips how to save
+            electricity.'|translate}}
             <a href="#"
-              >Read more <img src="../assets/images/read-more-icon.png"
+              >{{'Read more'|translate}} <img src="../assets/images/read-more-icon.png"
             /></a>
           </div>
           <app-advertisement [adQuery]="fetchAdQuery"></app-advertisement>

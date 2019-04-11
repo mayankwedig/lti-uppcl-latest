@@ -25,7 +25,7 @@
                           class="dtl-status"
                           *ngIf="complaintsDetails.status == 0"
                         >
-                          Status:
+                          {{'Status:'|translate}}
                           <span class="status-box status-open">{{
                             "Open" | translate
                           }}</span>
@@ -34,7 +34,7 @@
                           class="dtl-status"
                           *ngIf="complaintsDetails.status == 1"
                         >
-                          Status:
+                          {{'Status:'|translate}}
                           <span class="status-box status-resolved">{{
                             "Resolved" | translate
                           }}</span>
@@ -43,7 +43,7 @@
                           class="dtl-status"
                           *ngIf="complaintsDetails.status == 2"
                         >
-                          Status:
+                          {{'Status:'|translate}}
                           <span class="status-box status-pending">{{
                             "Pending" | translate
                           }}</span>
@@ -52,7 +52,7 @@
                           class="dtl-status"
                           *ngIf="complaintsDetails.status == 3"
                         >
-                          Status:
+                          {{'Status:'|translate}}
                           <span class="status-box status-rejected">{{
                             "Rejected" | translate
                           }}</span>
@@ -61,7 +61,7 @@
                           class="dtl-status"
                           *ngIf="complaintsDetails.status == 4"
                         >
-                          Status:
+                          {{'Status:'|translate}}
                           <span class="status-box status-closed">{{
                             "Closed" | translate
                           }}</span>
