@@ -481,7 +481,7 @@
                         class="btn btn-primary submit-btn "
                         type="button"
                         (click)="getDatails()"
-                      >Get Details
+                      >{{'Get Details'|translate}}
                       </button>
                       <div
                         class="spinner"
@@ -497,7 +497,7 @@
                       </div>
                       <div class="col-xs-12">
                           <div class="form-group">
-                              <label>{{'Mobile number'|translate}}*</label>
+                              <label>{{'Mobile'|translate}}*</label>
                               <input
                           type="text"
                           required
@@ -505,7 +505,7 @@
                           formControlName="mobile"
                           name="mobile"
                           class="form-control"
-                          placeholder="{{'Mobile number'|translate}}"
+                          placeholder="{{'Mobile'|translate}}"
                           disabled
                           />
                           <div
@@ -516,7 +516,7 @@
                           <span
                               class="error-msg"
                               *ngIf="f.mobile.errors?.required"
-                              >{{'Mobile number is required.'|translate}} </span
+                              >{{'Mobile is required.'|translate}} </span
                             >
                             </div>
                           </div>
@@ -524,14 +524,14 @@
                         </div>
                         <div class="col-xs-12">
                             <div class="form-group">
-                                <label>{{'E-mail address'|translate}}*</label>
+                                <label>{{'E-mail'|translate}}*</label>
                             <input
                             type="email"
                             required
                             formControlName="email"
                             name="email"
                             class="form-control"
-                            placeholder="{{'E-mail address'|translate}}"
+                            placeholder="{{'E-mail'|translate}}"
                             disabled
                             />
                             <div
@@ -747,7 +747,7 @@
                             name=""
                             id=""
                             rows="4"
-                            placeholder="Add comments here"
+                            placeholder="{{'Add comments here'|translate}}"
                           ></textarea>
                           <div *ngIf="f.comments.touched && f.comments.invalid">
                             <span

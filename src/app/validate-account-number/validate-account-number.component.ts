@@ -97,7 +97,7 @@ export class ValidateAccountNumber implements OnInit {
       }
     },(error)=>{
       this.loder=false;
-      this.toastr.error(error, this.translationServices.translate('Failed!'));
+      this.toastr.error(this.translationServices.translate(error), this.translationServices.translate('Failed!'));
     });
     
   }

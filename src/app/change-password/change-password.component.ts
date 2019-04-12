@@ -85,13 +85,13 @@ export class ChangePasswordComponent implements OnInit {
         var res = response;
         if (res.authCode) {
           if (res.authCode == "200" && res.status == true) {
-            this.toastr.success(res.msg, this.translate("Password updated!"));
+            this.toastr.success(this.translate(res.msg), this.translate("Password updated!"));
             if(!this.isExpiredPasswordChange){ // if user is changeing password after login
               this.auth.logout();
             }
             this.router.navigate(["/login"]);
           } else {
-            this.toastr.error(res.msg, this.translate("Failed!"));
+            this.toastr.error(this.translate(res.msg), this.translate("Failed!"));
           }
         }
       });

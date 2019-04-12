@@ -190,6 +190,7 @@ export class ProfileComponent implements OnInit {
       imgBlob: profile_image,
       accountToken: btoa(this.accountNumber)
     };
+    
      // If same then no need to verify mobile no.
      this.profile.saveProfile(profileSveDAta).subscribe(
       (res: any) => {
