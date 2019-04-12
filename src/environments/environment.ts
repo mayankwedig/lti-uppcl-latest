@@ -4,10 +4,6 @@
 //ng build --prod --build-optimizer --base-href=http://103.249.98.101:82/
 
 // Prod config
-  
- //var AdminUrl="http://103.249.98.101:82/admin/data/"; // Prod Admin
- //var  apiUrl='http://103.249.98.101:3000/'; // Prod API URL
- //var siteUrl='http://103.249.98.101:82';  //prod Portal url
 
   //Dev config
   var AdminUrl="http://103.249.98.101:82/admin/data/"; //Dev Admin
@@ -38,26 +34,25 @@
   siteUrl:siteUrl,
   cms_img:AdminUrl+"/cms_img/",
   download:AdminUrl+"download/",
-
   ads:{
     options:{
-      pubId: "pub-9616389000213823", // Make sure this the correct client ID!
-      query: "Electricity",
-      adPage: 1
-    },
-    adblock:{
-      container: "afscontainer1",
-      width: "100%",
-      number: 2
-    }
+    pubId: "pub-9616389000213823", // Make sure this the correct client ID!
+    query: "Electricity",
+    adPage: 1
   },
+  adblock:{
+    container: "afscontainer1",
+    width: "100%",
+    number: 2
+  }
+},
 };
 
 /*
- * For easier debugging in development mode, you can import the following file
- * to ignore zone related error stack frames such as `zone.run`, `zoneDelegate.invokeTask`.
- *
- * This import should be commented out in production mode because it will have a negative impact
- * on performance if an error is thrown.
- */
+* For easier debugging in development mode, you can import the following file
+* to ignore zone related error stack frames such as `zone.run`, `zoneDelegate.invokeTask`.
+*
+* This import should be commented out in production mode because it will have a negative impact
+* on performance if an error is thrown.
+*/
 // import 'zone.js/dist/zone-error';  // Included with Angular CLI.

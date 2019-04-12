@@ -192,7 +192,7 @@ export class LoginComponent {
          
           this.forgotPassword(true,this.forgotPassFrm.value, APIUrl);
         } else {
-          this.toastr.error(this._translate.translate("Please fill required fields."), this._translate.translate("Failed!"));
+          this.toastr.error(this._translate.translate("Please fill required fields"), this._translate.translate("Failed!"));
         }
       } else {
         this.errorFlags.email = true;

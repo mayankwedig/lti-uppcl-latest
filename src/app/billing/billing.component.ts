@@ -145,18 +145,18 @@ export class BillingComponent implements OnInit {
           gData.push(item.billingAmount);
         });
         this.billinglabels.push(
-          "JAN",
-          "FEB",
-          "MAR",
-          "APR",
-          "MAY",
-          "JUN",
-          "JUL",
-          "AUG",
-          "SEP",
-          "OCT",
-          "NOV",
-          "DEC"
+          this.translate("JAN"),
+          this.translate("FEB"),
+          this.translate("MAR"),
+          this.translate("APR"),
+          this.translate("MAY"),
+          this.translate("JUN"),
+          this.translate("JUL"),
+          this.translate("AUG"),
+          this.translate("SEP"),
+          this.translate("OCT"),
+          this.translate("NOV"),
+          this.translate("DEC")
         );
         this.billingchartData = [
           {

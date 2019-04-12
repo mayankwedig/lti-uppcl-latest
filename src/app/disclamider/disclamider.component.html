@@ -2,6 +2,6 @@
   <div class="container">
     <div class="title">{{contentTitle|translate}}</div>
     <div class="decl-text" [innerHtml]="content" *ngIf="isContentFound"></div>
-    <div class="decl-text" *ngIf="!isContentFound">Content not found.</div>
+    <div class="decl-text" *ngIf="!isContentFound">{{'Content not found.'|translate}}</div>
   </div>
 </div>
