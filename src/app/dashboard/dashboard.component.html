@@ -9,13 +9,15 @@
           <ng-container *ngIf="drows.cols.length > 0">
             <ng-container *ngFor="let dcol of filterColsBy(drows.cols, 'sort')">
               <!--  {{dcol|json}} -->
+              <!--width-9-->
               <li
-                class="dash-box-li width-9"
+                class="dash-box-li width-9 " 
                 *ngIf="
                   widgets[3]?.Name == 'Widget 1' &&
                   widgets[3]?.Status == 'Enabled' &&
                   dcol.col_name == 1
                 "
+              [ngClass]="{'noAlertwidget' :! (widgets[2]?.Status == 'Enabled') }"
               >
                 <div class="panel-body et-first-box">
                   <div class="row">
@@ -267,6 +269,7 @@
                   </div>
                 </div>
               </li>
+              
             </ng-container>
           </ng-container>
         </ul>
@@ -282,6 +285,7 @@
                   widgets[1]?.Status == 'Enabled' &&
                   dcol.col_name == 1
                 "
+                [ngClass]="{'noAlertwidget' :! (widgets[0]?.Status == 'Enabled') }"
               >
                 <div class="panel-body">
                   <div class="row">

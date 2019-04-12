@@ -1,3 +1,6 @@
 .alertLoderHeight {
     min-height: 15em;
   }
+  .noAlertwidget{
+    width: 100% !important;
+  }

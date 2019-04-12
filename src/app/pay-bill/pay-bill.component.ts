@@ -176,14 +176,21 @@ export class PayBillComponent implements OnInit {
         if (result.data_params.isPrepaid == "Yes") {
           this.router.navigate(["/recharge-history"]);
         }else{
-          var dt=new Date(result.data_params.billing_due_date);
+         let dt:any='';
+         let date:any='';
+          if(result.data_params.billing_due_date != ''){
+             dt=new Date(result.data_params.billing_due_date);  
+          }else{
+            date=dt.getDay()+"/"+Monthn+"/"+dt.getFullYear()//result.data_params.billing_due_date,
+          }
+          
           var mon=dt.getMonth();
           var Monthn=mon+1;
           this.billing = {
             accountNumber: result.data_params.account_number,
             accountName: result.data_params.account_name,
             bill_amount: result.data_params.billing_amount,
-            due_date: dt.getDay()+"/"+Monthn+"/"+dt.getFullYear(),//result.data_params.billing_due_date,
+            due_date:date, 
             payable_amount: result.data_params.billing_amount
           };
            this.getBillAccountDetails()
