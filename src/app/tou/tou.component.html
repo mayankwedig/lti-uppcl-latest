@@ -89,8 +89,7 @@
             class="text-center font-12  field_not_found"
             *ngIf="isDataFound == false && loder == false"
           >
-            <img src="/assets/images/no_data.png" />Currently no data found in
-            this section <br />
+            <img src="/assets/images/no_data.png" />{{'Currently no data found in this section'|translate}} <br />
           </div>
         </div>
       </div>
@@ -133,8 +132,7 @@
             class="text-center font-12  field_not_found"
             *ngIf="isTabularDataFound == false && tabularDataloader == false"
           >
-            <img src="/assets/images/no_data.png" /> Currently no data found in
-            this section.
+            <img src="/assets/images/no_data.png" />{{'Currently no data found in this section'|translate}}
           </div>
           <div *ngIf="tabularDataloader == true">
             <div class="spinner box-spinner" style="top: 71%;">

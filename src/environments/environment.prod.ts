@@ -5,14 +5,14 @@
 
 // Prod config
 
-  var AdminUrl="http://103.249.98.246/admin/data/"; // Prod Admin
-  var apiUrl='http://103.249.98.246:3002/'; // Prod API URL
-  var siteUrl='http://103.249.98.246/uppcl';  //prod Portal url
+  //var AdminUrl="http://103.249.98.246/admin/data/"; // Prod Admin
+  //var apiUrl='http://103.249.98.246:3002/'; // Prod API URL
+  //var siteUrl='http://103.249.98.246/uppcl';  //prod Portal url
 
   // Dev config
 
-  //var AdminUrl="http://103.249.98.101:82/admin/data/"; //Dev Admin
-  //var apiUrl='http://103.249.98.101:3000/' //dev  API
+  var AdminUrl="http://103.249.98.101:82/admin/data/"; //Dev Admin
+  var apiUrl='http://103.249.98.101:3000/' //dev  API
   //var siteUrl='http://103.249.98.101:82'; //Dev Site
 
   //var apiUrl='http://103.249.98.101:3002/'; // Dev URL SOA old
@@ -22,7 +22,7 @@
 
   //var  apiUrl='http://192.168.1.156:3002/'; //local API
   //var siteUrl="http://192.168.1.108:4200"; // local site url
-
+ var siteUrl ="http://192.168.1.110:4200/";
   //var apiUrl='http://192.168.1.156:3003/'; //local soa
 
 export const environment = {

@@ -291,7 +291,7 @@ export class NewServiceConnectionComponent implements OnInit {
             if (res.authCode) {
               if (res.authCode == "200" && res.status == true) {
                 res["msg"] =
-                  "Your new connection request has been registered successfully, We've sent a notification E-mail along with tracking number.";
+                  "{{'Your new connection request has been registered successfully, We've sent a notification E-mail along with tracking number.'|translate}}";
                 this.toastr.success(
                   this.translationServices.translate(res.msg),
                   this.translationServices.translate("Success!")

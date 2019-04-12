@@ -349,7 +349,7 @@ export class ComplaintsComponent implements OnInit {
           if (res.authCode) {
             if (res.authCode == "200" && res.status == true) {
               res["msg"] =
-                "Your complaint has been registered successfully, We've sent a notification E-mail along with tracking number.";
+                this.translationServices.translate("Your complaint has been registered successfully, We've sent a notification E-mail along with tracking number.");
               this.toastr.success(this.translationServices.translate(res.msg), this.translationServices.translate("Success!"));
               this.showTrackingNo = true;
               this.trackingNo = res.data_params;
@@ -393,7 +393,7 @@ export class ComplaintsComponent implements OnInit {
           if (res.authCode) {
             if (res.authCode == "200" && res.status == true) {
               res["msg"] =
-                "Your complaint has been registered successfully, We've sent a notification E-mail along with tracking number.";
+               this.translationServices.translate("Your complaint has been registered successfully, We've sent a notification E-mail along with tracking number.");
               this.toastr.success(this.translationServices.translate(res.msg), this.translationServices.translate("Success!"));
               this.showTrackingNo = true;
               this.trackingNo = res.data_params;
