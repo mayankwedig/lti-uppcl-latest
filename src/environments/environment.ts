@@ -17,7 +17,7 @@
   // Local Config
 
   //var  apiUrl='http://192.168.1.156:3002/'; //local API
-  //var siteUrl="http://192.168.1.108:4200"; // local site url
+  var siteUrl="http://192.168.1.110:4200"; // local site url
   // var apiUrl='http://192.168.1.156:3003/'; //local soa
  
  export const environment = {
@@ -34,6 +34,7 @@
   siteUrl:siteUrl,
   cms_img:AdminUrl+"/cms_img/",
   download:AdminUrl+"download/",
+  payment_options:"1_dw4-toj_9myfuywld3qzja_1555311365.png",
   ads:{
     options:{
     pubId: "pub-9616389000213823", // Make sure this the correct client ID!
