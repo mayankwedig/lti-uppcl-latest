@@ -1,0 +1,255 @@
+<div id="main-wrapper" class="no-sidebar">
+  <app-header></app-header>
+  <!-- <span *ngIf="isLoggedIn()">
+        <app-side-bar [displayUserInfo]="dispString"></app-side-bar>
+      </span> -->
+  <div id="content-wrapper" class="gray-wrapeer-bg">
+    <div class="container">
+      <div class="row">
+        <div class="col-xs-12 padding_top30">
+          <div class="main-heading text-left">
+            CHOOSE YOUR PREFERRED PAYMENT GATEWAY
+          </div>
+          <div class="rows margin_top20 padding_bottom10 no-padding-l no-padding-r">
+            <div class="panel-body">
+              <div class="payment-method-list" [ngClass]="{ NotificationLoaderBlock: paymentgatewayLoder == true }">
+                <ul *ngIf="isAlertDataFound == true && paymentgatewayLoder == false">
+                  <li *ngFor="let data of paymentData">
+
+                    <div class="gateway-box">
+                      <img src="/assets/images/AdminUrl/other/payment_options" />
+                      <label class="lbl-checkbox" *ngIf="!isLoggedIn()">
+                        <input 
+                        formcontrolname="isSubscribed" 
+                        value="0" 
+                        type="radio" 
+                        name="isSubscribed">
+                        <span class="checkmark"></span>
+                      </label>
+                    </div>
+                    <div class="gateway-name">PayPal</div>
+                  </li>
+                  <!-- <li class="">
+                    <div class="gateway-box">
+                      <img src="images/gateway-icon2.png" />
+                      <label class="lbl-checkbox">
+                        <input 
+                        formcontrolname="isSubscribed" 
+                        value="0" 
+                        type="radio" 
+                        name="isSubscribed">
+                        <span class="checkmark"></span>
+                      </label>
+                    </div>
+                    <div class="gateway-name">CC Avenue</div>
+                  </li>
+                  <li>
+                    <div class="gateway-box">
+                      <img src="images/gateway-icon3.png" />
+                      <label class="lbl-checkbox">
+                        <input 
+                        formcontrolname="isSubscribed" 
+                        value="0" 
+                        type="radio" 
+                        name="isSubscribed">
+                        <span class="checkmark"></span>
+                      </label>
+                    </div>
+                    <div class="gateway-name">PayU Money</div>
+                  </li>
+                  <li>
+                    <div class="gateway-box">
+                      <img src="images/gateway-icon4.png" />
+                      <label class="lbl-checkbox">
+                        <input 
+                        formcontrolname="isSubscribed" 
+                        value="0" 
+                        type="radio" 
+                        name="isSubscribed">
+                        <span class="checkmark"></span>
+                      </label>
+                    </div>
+                    <div class="gateway-name">Paytm</div>
+                  </li>
+                  <li>
+                    <div class="gateway-box">
+                      <img src="images/gateway-icon5.png" />
+                      <label class="lbl-checkbox">
+                        <input 
+                        formcontrolname="isSubscribed" 
+                        value="0" 
+                        type="radio" 
+                        name="isSubscribed">
+                        <span class="checkmark"></span>
+                      </label>
+                    </div>
+                    <div class="gateway-name">Cashfree</div>
+                  </li>
+                  <li>
+                    <div class="gateway-box">
+                      <img src="images/gateway-icon6.png" />
+                      <label class="lbl-checkbox">
+                        <input 
+                        formcontrolname="isSubscribed" 
+                        value="0" 
+                        type="radio" 
+                        name="isSubscribed">
+                        <span class="checkmark"></span>
+                      </label>
+                    </div>
+                    <div class="gateway-name">Atom</div>
+                  </li> -->
+                </ul>
+              </div>
+              <div class="rows">
+                <button class="next-btn"
+                (click)="getPaymentOption">Next</button>
+              </div>
+            </div>
+          </div>
+      
+          <app-advertisement [adQuery]="fetchAdQuery"></app-advertisement>
+        </div>
+      </div>
+    </div>
+  </div>
+  <app-footer></app-footer>
+</div>
+
+
+
+<!-- <script type="text/javascript">
+   init.push(function () {
+      var chart = AmCharts.makeChart("chartdivYears", {
+         "type": "serial",
+         "theme": "light",
+         "dataProvider": [{
+            "country": "2014",
+            "visits": 57
+         }, {
+            "country": "2015",
+            "visits": 61
+         }, {
+            "country": "2016",
+            "visits": 9
+         }, {
+            "country": "2017",
+            "visits": 17
+         }, {
+            "country": "2018",
+            "visits": 24
+         }],
+         "valueAxes": [{
+            "gridColor": "",
+            "gridAlpha": 0,
+            "dashLength": 0
+         }],
+         "gridAboveGraphs": true,
+         "startDuration": 1,
+         "graphs": [{
+            "balloonText": "[[category]] <br/>Billing: <b>[[value]]</b>",
+            "fillColors": "#0571d7",
+            "fillAlphas": 0.8,
+            "lineAlpha": 0.2,
+            "type": "column",
+            "valueField": "visits",
+         }],
+         "chartCursor": {
+            "categoryBalloonEnabled": false,
+            "cursorAlpha": 0,
+            "zoomable": false
+         },
+         "categoryField": "country",
+         "categoryAxis": {
+            "gridPosition": "start",
+            "gridAlpha": 0,
+            "tickPosition": "start",
+            "tickLength": 0
+         },
+         "export": {
+            "enabled": true
+         }
+      });
+      var chart = AmCharts.makeChart("chartdivMonths", {
+         "type": "serial",
+         "theme": "light",
+         "dataProvider": [{
+            "country": "OCT",
+            "visits": 45
+         }, {
+            "country": "NOV",
+            "visits": 8
+         }, {
+            "country": "DEC",
+            "visits": 28
+         }, {
+            "country": "JUN",
+            "visits": 53
+         }, {
+            "country": "FEB",
+            "visits": 77
+         }, {
+            "country": "MAR",
+            "visits": 51
+         }, {
+            "country": "APR",
+            "visits": 24
+         }, {
+            "country": "MAY",
+            "visits": 57
+         }, {
+            "country": "JUN",
+            "visits": 61
+         }, {
+            "country": "JUL",
+            "visits": 9
+         }, {
+            "country": "AUG",
+            "visits": 17
+         }, {
+            "country": "SEP",
+            "visits": 24
+         }],
+         "valueAxes": [{
+            "gridColor": "",
+            "gridAlpha": 0,
+            "dashLength": 0
+         }],
+         "gridAboveGraphs": true,
+         "startDuration": 1,
+         "graphs": [{
+            "balloonText": "[[category]] <br/>Billing: <b>[[value]]</b>",
+            "fillColors": "#0571d7",
+            "fillAlphas": 0.8,
+            "lineAlpha": 0.2,
+            "type": "column",
+            "valueField": "visits",
+         }],
+         "chartCursor": {
+            "categoryBalloonEnabled": false,
+            "cursorAlpha": 0,
+            "zoomable": false
+         },
+         "categoryField": "country",
+         "categoryAxis": {
+            "gridPosition": "start",
+            "gridAlpha": 0,
+            "tickPosition": "start",
+            "tickLength": 0
+         },
+         "export": {
+            "enabled": true
+         }
+      });
+      var options2 = {
+         orientation: $('body').hasClass('right-to-left') ? "auto right" : 'auto auto'
+      }
+      $('#bs-datepicker-range').datepicker(options2);
+
+      $('label input[type=radio]').click(function() {
+        $('label:has(input:checked)').closest('li').addClass('active');
+        $('label:has(input:not(:checked))').closest('li').removeClass('active');
+      });
+   });
+   window.PixelAdmin.start(init);
+</script> -->
