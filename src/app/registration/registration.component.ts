@@ -145,6 +145,8 @@ export class RegistrationComponent implements OnInit {
           this.translate("Please provide your email address or mobile number")
         );
       } else {
+        apiData['cpassword']=btoa(apiData['cpassword']);
+        apiData['password']=btoa(apiData['password']);
         this.loder = true;
         apiData["accountNumber"] = this.otpVerifiedAcInfo.account_number;
         this.SignupService.registerUser("users/register", apiData).subscribe(

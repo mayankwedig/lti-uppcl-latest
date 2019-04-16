@@ -41,8 +41,9 @@ export class AdvertisementComponent implements OnInit, AfterViewInit {
         this.adLoader = false;
         if (res.authCode) {
           if (res.authCode == "200" && res.status == true) {
+            console.log(res.data_params);
             this.adData = res.data_params;
-            if(this.adData[0].query != null && this.adData[0].type && this.adData[0].public_id != null){
+            if(this.adData[0].query != null && this.adData[0].type == 'google_ad' && this.adData[0].public_id != null){
                 this.isGoogleAd=true;
                 environment.ads.options.pubId=this.adData[0].public_id;
                 environment.ads.options.query=this.adData[0].query;

@@ -24,7 +24,7 @@
   //  var siteUrl="http://192.168.1.108:4200"; // local site url
 
   //var siteUrl="http://192.168.1.108:4200"; // local site url
- var siteUrl ="http://192.168.1.110:4200/";
+  //var siteUrl ="http://192.168.1.110:4200/";
 
  
   //var apiUrl='http://192.168.1.156:3003/'; //local soa

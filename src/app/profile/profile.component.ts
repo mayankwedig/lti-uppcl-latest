@@ -162,6 +162,7 @@ export class ProfileComponent implements OnInit {
     return this.passwordVerificationFrm.controls;
   }
   initRegistrationFrm(data) {
+    console.log(data.mobile);
     var name = data.account_name;
     var email = data.email;
     var mobile = data.mobile;
@@ -169,7 +170,7 @@ export class ProfileComponent implements OnInit {
     this.updateProfileFrm = this.fb.group({
       name: [name, Validators.required],
       email: [email],
-      mobile: [mobile],
+      mobile: [data.mobile],
       area: [area, Validators.required]
     });
   }
@@ -397,7 +398,7 @@ export class ProfileComponent implements OnInit {
   verifyPassword(){
     var password=this.passwordVerificationFrm.value.password
 
-    var header ={"password":password};
+    var header ={"password":btoa(password)};
 
     this.VerifyPasswordLoder=true;
     

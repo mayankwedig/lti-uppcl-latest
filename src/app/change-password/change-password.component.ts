@@ -76,6 +76,9 @@ export class ChangePasswordComponent implements OnInit {
 
   changePassFunc() {
     this.changePassFuncLoader = true;
+    this.ChangePasswordFrm.value.password=btoa(this.ChangePasswordFrm.value.password);
+    this.ChangePasswordFrm.value.cpassword=btoa(this.ChangePasswordFrm.value.cpassword);
+    this.ChangePasswordFrm.value.oldPassword=btoa(this.ChangePasswordFrm.value.oldPassword);
     const changePassData = this.ChangePasswordFrm.value;
     changePassData["resetPasswordToken"]=this.userId;
     this.changePassword

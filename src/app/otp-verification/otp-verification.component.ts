@@ -94,7 +94,10 @@ export class OtpVerificationComponent {
     //var apiUrl="users/resetPassword"; old
     var apiUrl="users/resetPasswordWithoutLogin";
     this.changePassFuncLoader = true;
+    this.ChangePasswordFrm.value.password=btoa(this.ChangePasswordFrm.value.password);
+    this.ChangePasswordFrm.value.cpassword=btoa(this.ChangePasswordFrm.value.cpassword);    
     const changePassData = this.ChangePasswordFrm.value;
+    
     changePassData["resetPasswordToken"] = this.otpVerificationToken;
     this.OtpVeriyService.changePassSerive(
       apiUrl ,
