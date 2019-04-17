@@ -5832,7 +5832,10 @@ nav.pagi {
 
 .image-ads {
     width: 100%;
-    float: left
+    float: left;
+    padding: 0 !important;
+    min-height: inherit !important;
+    
 }
 
 .iframe-ads {
@@ -6177,4 +6180,83 @@ nav.pagi {
 }
 .dash-box-list .dash-box-li .chart-box .modal-graph-label .label-left {
     left: -62px;
+}
+
+/**15-04-2019**/
+.payment-method-list {
+    width: 100%;
+    float: left;
+    padding: 40px 0 30px;
+}
+
+.payment-method-list ul {
+    margin: 0;
+    padding: 0;
+    list-style: none; 
+    text-align: center;
+}
+
+.payment-method-list ul li {
+    padding: 0 15px;
+    text-align: center;
+    display: inline-block;
+    width: 15%;
+}
+.payment-method-list .gateway-box {
+    border-radius: 5px;
+    border: solid 1px #e2e2e2; 
+    margin-bottom: 12px;
+    height: 75px;
+    width: 100%;
+    position: relative;
+}
+.payment-method-list .gateway-box img {
+    max-width: 110px;
+    max-height: 60px;
+    display: block;
+    margin: 0 auto; 
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+.payment-method-list .gateway-name {
+    color: #6c6c6c;
+}
+
+.payment-method-list .active .gateway-box {
+    border: solid 1px #0571d6;
+}
+.gateway-box .lbl-checkbox {
+    padding-left: 22px;
+    right: 0;
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+}
+.gateway-box .lbl-checkbox .checkmark {
+    right: 0;
+    left: auto;
+    border-radius: 0 3px 0 3px;
+    border: 3px solid transparent;
+}
+.gateway-box .lbl-checkbox:hover input ~ .checkmark {
+    border: 3px solid transparent;
+}
+.next-btn {
+    background: #0571d7;
+    padding: 0 25px;
+    font-size: 16px;
+    margin: 50px auto 10px;
+    background-image: inherit; 
+    border: none;
+    color: #fff;
+    letter-spacing: 1px;
+    height: 44px; 
+    line-height: 44px;
+    max-width: 135px;
+    width: 100%;
+    border-radius: 4px;
+    display: block;
 }

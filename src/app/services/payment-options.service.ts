@@ -21,19 +21,9 @@ export class PaymentOptionsService {
   translate(string: string): string {
     return this.helpers.translate(string);
   }
-  getAccountToken() {
-    return this.helpers.getLocalStoragData("accountToken");
-  }
-  getCurrentUser() {
-    return this.AuthService.getCurrentUser();
-  }
-  isLoggedIn() {
-    return this.AuthService.isLoggedIn();
-  }
-
 
   getPaymentOptions(){
-     return this.DataService.getAll(this.paymentGatewayType,{},this.helpers.setHeaderData(),"GET")
+    return this.DataService.getAll(this.paymentGatewayType,{},'',"GET");
     };
     
    

@@ -69,7 +69,8 @@ export class PayBillComponent implements OnInit {
   }
   getPaymentChecksm() {
    
-    window.location.href ="https://paytm.com/";
+    //window.location.href ="https://paytm.com/";
+    this.router.navigate(["payment-options"]);
     
     this.getPaymentChksmLoader = true;
     if (this.billing.accountNumber != null) {

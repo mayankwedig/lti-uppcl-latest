@@ -229,7 +229,7 @@ import { PaymentOptionsService } from './services/payment-options.service';
       {path:"transection-status",component:TransectionStatusMessageComponent},
       {path:"change-expired-password",component:ChangePasswordWithoutLoginComponent},
       {path:"peak-load-management",component:PeakLoadManageComponent,canActivate:[AuthGuard]},
-      {path:"payment-options",component:PaymentOptionsComponent,canActivate:[AuthGuard]},
+      {path:"payment-options",component:PaymentOptionsComponent},
       {path:'**',component: PageNotFoundComponent}
       
       

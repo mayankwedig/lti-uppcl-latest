@@ -1,7 +1,7 @@
 <ng-container *ngIf="isAdFound == true && adLoader == false">
-  <ul class="dash-box-list">`
-    <li class="dash-box-li rows offer-li">
-      <div class="offer-section">
+  <ul class="dash-box-list">
+    <li class="dash-box-li rows offer-li" style="list-style: none;">
+      <div class="offer-section" [ngClass]="{'image-ads': adData[0]?.type == 'image'}">
         <div
           class="text-content"
           *ngIf="adData[0]?.type == 'text'"
@@ -9,10 +9,9 @@
           {{ adData[0].add_val }}
         </div>
         <div
-          class="image-ads"
           *ngIf="adData[0]?.type == 'image'"
         >
-          <img src="{{ adimagurl }}{{ adData[0]?.add_val }}" />
+          <img src="{{ adimagurl }}/{{ adData[0].id}}/{{ adData[0]?.add_val }}" />
         </div>
         <div
           class="iframe-ads"

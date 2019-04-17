@@ -560,6 +560,14 @@
     #main-menu #main-menu-inner .dropdown.user-account-no .dropdown-toggle {
         font-size: 12px;   
     }
+    .payment-method-list ul li {
+        width: 30%;
+        margin: 15px 0;
+    }
+    .payment-method-list .gateway-box {
+        max-width: 180px;
+        margin: 0 auto 5px;
+    }
 }
 @media(max-width:1150px) {
     #content-wrapper .dash-box-list.dash-top-block .dash-box-li {
@@ -1559,6 +1567,9 @@
         padding: 8px 14px;
         text-decoration: none;
         height: auto;
+    }
+    .payment-method-list ul li {
+        width: 33%;
     }
 }
 @media(max-width: 690px){
