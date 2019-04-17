@@ -12,13 +12,12 @@
           </div>
           <div class="rows margin_top20 padding_bottom10 no-padding-l no-padding-r">
             <div class="panel-body">
-              <div class="payment-method-list" [ngClass]="{ NotificationLoaderBlock: paymentgatewayLoder == true }">
+              <div class="payment-method-list">
                 <ul *ngIf="isAlertDataFound == true && paymentgatewayLoder == false">
                   <li *ngFor="let data of paymentData">
-
                     <div class="gateway-box">
-                      <img src="/assets/images/AdminUrl/other/payment_options" />
-                      <label class="lbl-checkbox" *ngIf="!isLoggedIn()">
+                      <img src="/assets/images/AdminUrl/other/gateway-icon1.png" />
+                      <label class="lbl-checkbox">
                         <input 
                         formcontrolname="isSubscribed" 
                         value="0" 
@@ -107,7 +106,6 @@
               </div>
             </div>
           </div>
-      
           <app-advertisement [adQuery]="fetchAdQuery"></app-advertisement>
         </div>
       </div>

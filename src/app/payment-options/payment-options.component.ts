@@ -14,7 +14,6 @@ export class PaymentOptionsComponent implements OnInit {
   dispString = "";
   paymentgatewayLoder : boolean= false;
   paymentData:any=[];
-  accountNumber = "";
   isAlertDataFound: boolean=false;
 
 
@@ -33,8 +32,6 @@ export class PaymentOptionsComponent implements OnInit {
 
 
   ngOnInit() {
-        this.dispString =
-          this.translate("accountnumber") + " ( " + this.accountNumber + " ) ";
     this.getPaymentOption();
   }
 
