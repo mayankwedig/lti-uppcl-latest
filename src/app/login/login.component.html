@@ -18,6 +18,8 @@
               <div class="right-sec-inner signup-form-box">
                 <div class="box-title">
                   <div class="text-title">{{ "Login" | translate }}</div>
+                  <div *ngIf="($isLoggedIn | async); then loggedIn else loggedOut" [ngClass]="{'indicator--logged-in': ($isLoggedIn | async), 'indicator--logged-out': !(indicator--logged-in)}">
+              </div>
                 </div>
                 <form [formGroup]="loginFrm" (ngSubmit)="login()">
                   <div class="row">

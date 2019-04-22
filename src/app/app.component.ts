@@ -1,10 +1,12 @@
+import { AuthService } from './services/authService/auth.service';
 import { HelpersService } from './services/helpers/helpers.service';
-import { Component, OnInit,HostListener} from '@angular/core';
+import { Component, OnInit,HostListener,HostBinding,ChangeDetectorRef} from '@angular/core';
 import {WindowRefService} from './services/window-ref/window-ref.service';
 import { fadeAnimation } from './animations';
 import * as $  from "jquery";
 import { IconsService } from './services/icons/icons.service';
 import { Router } from '@angular/router';
+import { Observable, Subject, BehaviorSubject, of, from, timer,Subscription } from 'rxjs';
 
 
 @Component({
@@ -17,7 +19,8 @@ import { Router } from '@angular/router';
   ]
 })
 export class AppComponent implements OnInit {
- 
+  title = 'lti';
+
   getIcones() {
     if (this.helpers.getLocalStoragData("icons") == null) {
       this.icones.getIcons().subscribe(
@@ -50,17 +53,25 @@ export class AppComponent implements OnInit {
   prepareRoute(outlet: any) {
     return outlet.isActivated ? outlet.activatedRoute : '';
   }
-  title = 'lti';
-  constructor(private winRef: WindowRefService,private helpers:HelpersService,private icones:IconsService,private router:Router){
+  isLoggedIn():boolean{
+    return this.auth.isLoggedIn();
+  }
+  constructor(private winRef: WindowRefService,private helpers:HelpersService,private icones:IconsService,private router:Router,private auth:AuthService){
+    
     /* this.getIcones(); */
   }
- 
+  
   public ngOnInit(){
+
     var init=[];
-    init.push(function () {
-       
-    });
+    init.push(function () {});
    this.winRef.nativeWindow.PixelAdmin.start(init);
-    
+  }
+
+  @HostListener('document:keyup', ['$event'])
+  @HostListener('document:click', ['$event'])
+  @HostListener('document:wheel', ['$event'])
+  resetTimer() {
+    this.auth.notifyUserAction();
   }
 }

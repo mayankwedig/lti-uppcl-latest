@@ -2,7 +2,7 @@
 import { SignupService } from "./../services/signup/signup.service";
 import { DashboardService } from "./../services/dashboard/dashboard.service";
 import { HelpersService } from "./../services/helpers/helpers.service";
-import { Component } from "@angular/core";
+import { Component, OnInit,HostBinding,ChangeDetectorRef,AfterViewInit } from "@angular/core";
 import { BadInput } from "./../common/bad-input";
 import { AppError } from "./../common/app-error";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
@@ -12,13 +12,19 @@ import { JwtHelperService } from "@auth0/angular-jwt";
 import { LoginService } from "../services/login/login.service";
 import { TranslationService } from "../services/translation/translation.service";
 
+
+
+
 declare var $: any;
 @Component({
   selector: "app-login",
   templateUrl: "./login.component.html",
   styleUrls: ["./login.component.css"]
 })
-export class LoginComponent {
+export class LoginComponent implements OnInit,AfterViewInit {
+ 
+  
+  
   sliderContent = [
     {
       image: "../assets/images/main-slide1.jpg",
@@ -53,7 +59,9 @@ export class LoginComponent {
 
   questionsList1Loader = false;
   questionsList2Loader = false;
-
+  ngAfterViewInit(){
+    
+  }
   get f() {
     return this.loginFrm.controls;
   }
@@ -67,7 +75,7 @@ export class LoginComponent {
       this.questionsList2Loader = true;
     }
     
-
+    
     this.SignupService.getQuestionList("users/questionList", {
       types: quesType
     }).subscribe((response: any) => {
@@ -89,7 +97,7 @@ export class LoginComponent {
       }
     });
   }
- 
+
   constructor(
     private fb: FormBuilder,
     private toastr: ToastrService,
@@ -102,6 +110,11 @@ export class LoginComponent {
     private helpers: HelpersService,
     private _translate:TranslationService
   ) {
+   
+  }
+ 
+ 
+  ngOnInit(){
     this.initLoginFrm();
     this.initForgotFormFrm();
     this.fechQuestionList("1");
@@ -266,7 +279,6 @@ export class LoginComponent {
   /** Redirection Loder Ends Here*/
 
   login() {
-    // login funtion goes here
     this.loginFrm.value.password=btoa(this.loginFrm.value.password);
     const loginData = this.loginFrm.value;
     this.loder = true;
@@ -277,8 +289,8 @@ export class LoginComponent {
         if (res.authCode) {
           if (res.authCode == "200" && res.status == true && res.token) {
             this.loginService.setLoginData(res.token);
-            this.toastr.success(this._translate.translate(res.msg), this._translate.translate("Success!"));
-            let returnUrl = this.route.snapshot.queryParamMap.get("returnUrl");
+              this.toastr.success(this._translate.translate(res.msg), this._translate.translate("Success!"));
+              let returnUrl = this.route.snapshot.queryParamMap.get("returnUrl");
             var UserData = this.loginService.getUserData();
             if (UserData.numberOfAccounts == 1) {
               // If user has single Account

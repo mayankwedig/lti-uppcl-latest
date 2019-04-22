@@ -3,6 +3,8 @@ import { Injectable } from '@angular/core';
 import  {Router} from '@angular/router';
 import { JwtHelperService } from '@auth0/angular-jwt';
 
+import { Subject, Observable } from 'rxjs';
+
 @Injectable({
   providedIn: 'root'
 })
@@ -10,6 +12,14 @@ export class AuthService {
   private JwtHelper = new JwtHelperService();
   private Helpers =new HelpersService();
   constructor(private router:Router) { }
+
+  _userActionOccured: Subject<void> = new Subject();
+  get userActionOccured(): Observable<void> { return this._userActionOccured.asObservable() };
+
+  notifyUserAction() {
+    this._userActionOccured.next();
+  }
+  
   logout(){
     
     this.Helpers.clearLocalStorateData('accountToken');

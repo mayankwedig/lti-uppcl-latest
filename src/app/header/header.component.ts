@@ -5,13 +5,15 @@ import { BadInput } from "./../common/bad-input";
 import { AppError } from "./../common/app-error";
 import { ProfileService } from "./../services/profile/profile.service";
 import { HelpersService } from "./../services/helpers/helpers.service";
-import { Component, OnInit, AfterViewInit } from "@angular/core";
+import { Component, OnInit,ChangeDetectorRef,AfterViewInit} from '@angular/core';
 import { AuthService } from "../services/authService/auth.service";
 import { DataService } from "../services/data.service";
 import { SSL_OP_ALLOW_UNSAFE_LEGACY_RENEGOTIATION } from "constants";
 import { Router,ActivatedRoute } from "@angular/router";
 import { environment } from "src/environments/environment";
 import { SiteSettingsService } from "../services/site-settings/site-settings.service";
+
+
 
 declare var $: any;
 require("../../assets/js/owl.carousel.js");
@@ -21,6 +23,9 @@ require("../../assets/js/owl.carousel.js");
   styleUrls: ["./header.component.css"]
 })
 export class HeaderComponent implements OnInit, AfterViewInit {
+  
+  
+ 
   constructor(
     private winRef: WindowRefService,
     private icones: IconsService,
@@ -31,7 +36,8 @@ export class HeaderComponent implements OnInit, AfterViewInit {
     private helpers: HelpersService,
     private profile: ProfileService,
     private siteSettings:SiteSettingsService,
-    private activatedRoute:ActivatedRoute
+    private activatedRoute:ActivatedRoute,
+    
   ) {}
   toggleDiv(){
     var self = $(".toggleClick").parent();
@@ -121,7 +127,7 @@ export class HeaderComponent implements OnInit, AfterViewInit {
           return this.auth.isLoggedIn();
         }
   ngOnInit() {
-    console.log(this.router.url);
+  
     this.checkSearcSring();
     this.getIcones();
     this.getSiteLogo();

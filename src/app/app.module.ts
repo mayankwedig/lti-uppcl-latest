@@ -104,12 +104,10 @@ import { ChangePasswordWithoutLoginComponent } from './change-password-without-l
 import { PeakLoadManageComponent } from './peak-load-manage/peak-load-manage.component';
 import { PaymentOptionsComponent } from './payment-options/payment-options.component';
 import { PaymentOptionsService } from './services/payment-options.service';
-
-
+import { InactivityTimerComponent } from './inactivity-timer/inactivity-timer.component'
 /* import { NgxCaptchaModule } from 'ngx-captcha'; */
 @NgModule({
   declarations: [
-
     AppComponent,
     HomeComponent,
     SideBarComponent,
@@ -167,10 +165,12 @@ import { PaymentOptionsService } from './services/payment-options.service';
     ChangePasswordComponent,
     ChangePasswordWithoutLoginComponent,
     PeakLoadManageComponent,
-    PaymentOptionsComponent
+    PaymentOptionsComponent,
+   
+    InactivityTimerComponent
+    
   ],
   imports: [
-
     CommonModule,       
         AdsenseModule.forRoot({
         adClient: 'ca-pub-1234567899876543', //replace with your client from google adsense
@@ -244,8 +244,7 @@ import { PaymentOptionsService } from './services/payment-options.service';
     NgxLoadingModule.forRoot({}),
     NgxMyDatePickerModule.forRoot(),
     SelectDropDownModule,
-    MomentModule
-    /* NgxCaptchaModule */
+    MomentModule,
   ],
   providers: [
     WindowRefService,
@@ -272,7 +271,6 @@ import { PaymentOptionsService } from './services/payment-options.service';
     AdvertisementService,
     PeakLoadManageService,
     PaymentOptionsService
-
   ],
   bootstrap: [AppComponent]
 })
