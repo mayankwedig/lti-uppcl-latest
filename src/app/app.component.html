@@ -1,7 +1,4 @@
 <ngx-loading-bar></ngx-loading-bar>
-<div *ngIf="($isLoggedIn | async); then loggedIn else loggedOut"
-    [ngClass]="{'indicator--logged-in': ($isLoggedIn | async), 'indicator--logged-out': !(indicator--logged-in)}">
-</div>
 <div [@fadeAnimation]="prepareRoute(outlet)" >
     <router-outlet #outlet="outlet"></router-outlet>
   </div>

@@ -5,7 +5,7 @@ import { BadInput } from "./../common/bad-input";
 import { AppError } from "./../common/app-error";
 import { ProfileService } from "./../services/profile/profile.service";
 import { HelpersService } from "./../services/helpers/helpers.service";
-import { Component, OnInit,ChangeDetectorRef,AfterViewInit} from '@angular/core';
+import { Component, OnInit,AfterViewInit} from '@angular/core';
 import { AuthService } from "../services/authService/auth.service";
 import { DataService } from "../services/data.service";
 import { SSL_OP_ALLOW_UNSAFE_LEGACY_RENEGOTIATION } from "constants";

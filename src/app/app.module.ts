@@ -166,9 +166,7 @@ import { InactivityTimerComponent } from './inactivity-timer/inactivity-timer.co
     ChangePasswordWithoutLoginComponent,
     PeakLoadManageComponent,
     PaymentOptionsComponent,
-   
     InactivityTimerComponent
-    
   ],
   imports: [
     CommonModule,       
@@ -231,11 +229,8 @@ import { InactivityTimerComponent } from './inactivity-timer/inactivity-timer.co
       {path:"peak-load-management",component:PeakLoadManageComponent,canActivate:[AuthGuard]},
       {path:"payment-options",component:PaymentOptionsComponent},
       {path:'**',component: PageNotFoundComponent}
-      
-      
     ]),ToastrModule.forRoot({
       maxOpened:1,
-      
       autoDismiss:true,
       preventDuplicates:true
     }),

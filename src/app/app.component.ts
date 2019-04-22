@@ -1,13 +1,11 @@
 import { AuthService } from './services/authService/auth.service';
 import { HelpersService } from './services/helpers/helpers.service';
-import { Component, OnInit,HostListener,HostBinding,ChangeDetectorRef} from '@angular/core';
+import { Component, OnInit,HostListener,HostBinding} from '@angular/core';
 import {WindowRefService} from './services/window-ref/window-ref.service';
 import { fadeAnimation } from './animations';
 import * as $  from "jquery";
 import { IconsService } from './services/icons/icons.service';
 import { Router } from '@angular/router';
-import { Observable, Subject, BehaviorSubject, of, from, timer,Subscription } from 'rxjs';
-
 
 @Component({
   selector: 'app-root',

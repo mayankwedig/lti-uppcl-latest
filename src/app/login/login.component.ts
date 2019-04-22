@@ -2,7 +2,7 @@
 import { SignupService } from "./../services/signup/signup.service";
 import { DashboardService } from "./../services/dashboard/dashboard.service";
 import { HelpersService } from "./../services/helpers/helpers.service";
-import { Component, OnInit,HostBinding,ChangeDetectorRef,AfterViewInit } from "@angular/core";
+import { Component, OnInit} from "@angular/core";
 import { BadInput } from "./../common/bad-input";
 import { AppError } from "./../common/app-error";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
@@ -21,7 +21,7 @@ declare var $: any;
   templateUrl: "./login.component.html",
   styleUrls: ["./login.component.css"]
 })
-export class LoginComponent implements OnInit,AfterViewInit {
+export class LoginComponent implements OnInit{
  
   
   
@@ -59,9 +59,7 @@ export class LoginComponent implements OnInit,AfterViewInit {
 
   questionsList1Loader = false;
   questionsList2Loader = false;
-  ngAfterViewInit(){
-    
-  }
+  
   get f() {
     return this.loginFrm.controls;
   }
