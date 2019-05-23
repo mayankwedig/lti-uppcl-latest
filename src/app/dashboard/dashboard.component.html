@@ -11,22 +11,26 @@
               <!--  {{dcol|json}} -->
               <!--width-9-->
               <li
-                class="dash-box-li width-9 " 
+                class="dash-box-li width-9 "
                 *ngIf="
                   widgets[3]?.Name == 'Widget 1' &&
                   widgets[3]?.Status == 'Enabled' &&
                   dcol.col_name == 1
                 "
-              [ngClass]="{'noAlertwidget' :! (widgets[2]?.Status == 'Enabled') }"
+                [ngClass]="{
+                  noAlertwidget: !(widgets[2]?.Status == 'Enabled')
+                }"
               >
                 <div class="panel-body et-first-box">
                   <div class="row">
-                    <div class="col-sm-6 col-xs-12 border-divider">
+                    <div class="col-sm-4 col-xs-12 border-divider">
                       <div class="">
                         <div
                           class="box-title max-content-title title-min-height"
                         >
-                          <span class="title-icon" *ngIf="setIconeImage(7) != null"
+                          <span
+                            class="title-icon"
+                            *ngIf="setIconeImage(7) != null"
                             ><img [src]="setIconeImage(7)" alt=""
                           /></span>
                           <div class="text-title">
@@ -49,12 +53,14 @@
                         </div>
                       </div>
                     </div>
-                    <div class="col-sm-6 col-xs-12">
+                    <div class="col-sm-4 col-xs-12  border-divider">
                       <div class="rows">
                         <div
                           class="box-title max-content-title title-min-height"
                         >
-                          <span class="title-icon" *ngIf="setIconeImage(8) != null"
+                          <span
+                            class="title-icon"
+                            *ngIf="setIconeImage(8) != null"
                             ><img [src]="setIconeImage(8)" alt=""
                           /></span>
                           <div class="text-title">
@@ -79,21 +85,22 @@
                         </div>
                       </div>
                     </div>
-                    <div class="col-sm-4 col-xs-12" style="display:none;">
+                    <div class="col-sm-4 col-xs-12">
                       <div class="box-title max-content-title title-min-height">
-                        <span class="title-icon" *ngIf="setIconeImage(9) != null"
+                        <span
+                          class="title-icon"
+                          *ngIf="setIconeImage(9) != null"
                           ><img [src]="setIconeImage(9)" alt=""
                         /></span>
                         <div class="text-title">
                           {{ "Current Meter Reading" | translate }}
                         </div>
                       </div>
-
                       <div class="amount cmr-amount">
                         {{ onDemandReadData.latestConsumption | number: "2.2" }}
-                        <span *ngIf="onDemandReadData != ''">{{
-                          onDemandReadData.unitOfMeasure
-                        }}</span>
+                        <span *ngIf="onDemandReadData != ''">
+                          {{ onDemandReadData.unitOfMeasure }}
+                        </span>
                         &nbsp;
                         <a
                           *ngIf="
@@ -105,7 +112,6 @@
                           class="blue-btn pay-now-btn"
                           >{{ "Get Read" | translate }}</a
                         >
-
                         <a
                           class="cmr-refresh"
                           *ngIf="
@@ -138,23 +144,22 @@
                     <ul>
                       <li class="no-style">
                         <div class="page-heading energy-title no-padding-l">
-                          <img src="assets/images/energy-icon1.png" /> &nbsp;{{
-                            "Energy Tips" | translate
-                          }}
+                          <img src="assets/images/energy-icon1.png" /> &nbsp;
+                          {{ "Energy Tips" | translate }}
                         </div>
                       </li>
                       <li *ngFor="let tips of energyTips">
                         {{ tips.content }}
                       </li>
                       <!--
-                            <li>
+                          <li>
                               Preheat combustion air with waste heat (22 <sup>0</sup>C
                               reduction in flue gas temperature increases boiler efficiency by
                               1%).
                             </li>
                           -->
                       <!--
-                            <li>
+                          <li>
                               Use variable speed drives on large boiler combustion air fans
                               with variable flows.
                             </li>
@@ -186,7 +191,9 @@
                     <div class="col-sm-12">
                       <div class="scroll-div no-border">
                         <div class="box-title">
-                          <span class="title-icon" *ngIf="getWedgetIcone(widgets[2].image) != null"
+                          <span
+                            class="title-icon"
+                            *ngIf="getWedgetIcone(widgets[2].image) != null"
                             ><img
                               [src]="getWedgetIcone(widgets[2].image)"
                               alt=""
@@ -202,7 +209,26 @@
                           "
                         >
                           <li *ngFor="let alerts of alertData">
-                            <img
+                            <ng-container *ngIf="alerts.icon_img != null">
+                              <img
+                                src="{{ AlertIconUrl }}{{ alerts.icon_img }}"
+                                alt=""
+                              />
+                            </ng-container>
+                            <div>
+                              {{ alerts.desc }}
+                              <!-- - -->
+                              <!--  {{
+                                alerts.eventCreateDateTime | date: "dd/MM/yyyy"
+                              }} -->
+                              <!--  <a
+                                  *ngIf="alerts.type == 'billing'"
+                                  class="blue-btn pay-now-btn"
+                                  href="#"
+                                  >{{ "Pay Now" | translate }}</a
+                                > -->
+                            </div>
+                            <!--   <img
                               *ngIf="alerts.type == 'billing'"
                               src="assets/images/rupee-icon-hover.png"
                               alt=""
@@ -234,7 +260,7 @@
                                 href="#"
                                 >{{ "Pay Now" | translate }}</a
                               >
-                            </div>
+                            </div> -->
                           </li>
                         </ul>
                         <div
@@ -269,7 +295,6 @@
                   </div>
                 </div>
               </li>
-              
             </ng-container>
           </ng-container>
         </ul>
@@ -285,16 +310,21 @@
                   widgets[1]?.Status == 'Enabled' &&
                   dcol.col_name == 1
                 "
-                [ngClass]="{'noAlertwidget' :! (widgets[0]?.Status == 'Enabled') }"
+                [ngClass]="{
+                  noAlertwidget: !(widgets[0]?.Status == 'Enabled')
+                }"
               >
                 <div class="panel-body">
                   <div class="row">
                     <div class="col-sm-12">
                       <div class="chart-box">
                         <div class="box-title">
-                         
-                          <span class="title-icon" *ngIf="getWedgetIcone(widgets[1].image) != null"
-                            ><img [src]="getWedgetIcone(widgets[1].image)" alt=""
+                          <span
+                            class="title-icon"
+                            *ngIf="getWedgetIcone(widgets[1].image) != null"
+                            ><img
+                              [src]="getWedgetIcone(widgets[1].image)"
+                              alt=""
                           /></span>
                           <div class="text-title">
                             {{
@@ -307,7 +337,10 @@
                               style="cursor: pointer;"
                               title="{{ 'Download' | translate }}"
                             >
-                              <div class="download-circle" *ngIf="setIconeImage(4) != null">
+                              <div
+                                class="download-circle"
+                                *ngIf="setIconeImage(4) != null"
+                              >
                                 <img [src]="setIconeImage(4)" />
                               </div>
                             </a>
@@ -317,7 +350,8 @@
                           <div class="col-sm-12">
                             <div class="graph-container  modal-graph-label">
                               <div class="label-left">
-                                {{'Units'|translate}} <span>({{'In KWH'|translate}})</span>
+                                {{ "Units" | translate }}
+                                <span>({{ "In KWH" | translate }})</span>
                               </div>
                               <canvas
                                 baseChart
@@ -359,10 +393,14 @@
                     <div class="col-sm-12">
                       <div class="chart-box">
                         <div class="box-title">
-                          <span class="title-icon"
-                          *ngIf="getWedgetIcone(widgets[0].image) != null"
-                            >
-                            <img [src]="getWedgetIcone(widgets[0].image)" alt=""/>
+                          <span
+                            class="title-icon"
+                            *ngIf="getWedgetIcone(widgets[0].image) != null"
+                          >
+                            <img
+                              [src]="getWedgetIcone(widgets[0].image)"
+                              alt=""
+                            />
                           </span>
                           <div class="text-title">
                             {{ "Your Billing - Last 12 Months" | translate }}
@@ -373,7 +411,10 @@
                               style="cursor: pointer;"
                               title="{{ 'Download' | translate }}"
                             >
-                              <div class="download-circle" *ngIf="setIconeImage(4) != null">
+                              <div
+                                class="download-circle"
+                                *ngIf="setIconeImage(4) != null"
+                              >
                                 <img [src]="setIconeImage(4)" />
                               </div>
                             </a>
@@ -383,7 +424,8 @@
                           <div class="col-sm-12">
                             <div class="graph-container modal-graph-label">
                               <div class="label-left">
-                                {{ "Units" | translate }} <span>({{'Rs'|translate}})</span>
+                                {{ "Units" | translate }}
+                                <span>({{ "Rs" | translate }})</span>
                               </div>
                               <canvas
                                 baseChart
@@ -433,7 +475,10 @@
                 }"
               >
                 <div class="box-title margin_bottom10">
-                  <span class="title-icon" *ngIf="getWedgetIcone(widgets[4].image) != null">
+                  <span
+                    class="title-icon"
+                    *ngIf="getWedgetIcone(widgets[4].image) != null"
+                  >
                     <img width="15" [src]="getWedgetIcone(widgets[4].image)" />
                   </span>
                   <div class="text-title">
@@ -628,7 +673,10 @@
               [ngClass]="{ dashboardManageAccount: billingDataLoder == true }"
             >
               <div class="box-title margin_bottom10">
-                <span class="title-icon" *ngIf="getWedgetIcone(widgets[5].image) != null">
+                <span
+                  class="title-icon"
+                  *ngIf="getWedgetIcone(widgets[5].image) != null"
+                >
                   <img width="15" [src]="getWedgetIcone(widgets[5].image)" />
                 </span>
                 <div class="text-title">
@@ -646,9 +694,9 @@
                     <thead>
                       <tr>
                         <th width="11%">
-                          <span class="center-pos"
-                            >{{ "Meter Reading Date" | translate }}</span
-                          >
+                          <span class="center-pos">{{
+                            "Meter Reading Date" | translate
+                          }}</span>
                         </th>
                         <th width="9%">
                           <span class="center-pos"
@@ -810,8 +858,12 @@
                     <div class="col-sm-12">
                       <div class="chart-box">
                         <div class="box-title">
-                          <span class="title-icon" *ngIf="getWedgetIcone(widgets[6].image) != null"
-                            ><img [src]="getWedgetIcone(widgets[6].image)" alt=""
+                          <span
+                            class="title-icon"
+                            *ngIf="getWedgetIcone(widgets[6].image) != null"
+                            ><img
+                              [src]="getWedgetIcone(widgets[6].image)"
+                              alt=""
                           /></span>
                           <div class="text-title">
                             {{ "Track A Complaint" | translate }}
@@ -905,8 +957,12 @@
                     <div class="col-sm-12">
                       <div class="chart-box">
                         <div class="box-title">
-                          <span class="title-icon" *ngIf="getWedgetIcone(widgets[6].image) != null"
-                            ><img [src]="getWedgetIcone(widgets[6].image)" alt=""
+                          <span
+                            class="title-icon"
+                            *ngIf="getWedgetIcone(widgets[6].image) != null"
+                            ><img
+                              [src]="getWedgetIcone(widgets[6].image)"
+                              alt=""
                           /></span>
                           <div class="text-title">
                             {{ "Track A Service Request" | translate }}

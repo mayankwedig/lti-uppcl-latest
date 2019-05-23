@@ -1,7 +1,6 @@
 import { environment } from './../../environments/environment';
 import { AboutService } from './../services/about/about.service';
 import { Component, OnInit,AfterViewInit } from '@angular/core';
-
 declare var $: any;
 require('../../assets/js/owl.carousel.js');
 @Component({

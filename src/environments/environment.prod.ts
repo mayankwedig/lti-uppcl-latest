@@ -5,56 +5,58 @@
 
 // Prod config
 
-  //Dev config
-  
-  var AdminUrl="http://103.249.98.101:82/admin/data/"; //Dev Admin
-  var apiUrl='http://103.249.98.101:3000/' //dev  API
-  var siteUrl='http://103.249.98.101:82'; //Dev Site 
+//Dev config
 
-  //var apiUrl='http://103.249.98.101:3002/'; // Dev URL SOA old
-  //var siteUrl='http://103.249.98.101:82/uppcl';//dev
+var AdminUrl = "http://103.249.98.101:82/admin/data/"; //Dev Admin
 
-  // Local Config
+var apiUrl = "http://103.249.98.101:3000/"; //dev  API
 
-  //var  apiUrl='http://192.168.1.156:3002/'; //local API
-  //var siteUrl="http://192.168.1.110:4200"; // local site url
-   //var apiUrl='http://192.168.1.156:3003/'; //local soa
- 
- export const environment = {
+var siteUrl = "http://103.249.98.101:82"; //Dev Site
+
+//var apiUrl='http://103.249.98.101:3002/'; // Dev URL SOA old
+//var siteUrl='http://103.249.98.101:82/uppcl';//dev
+// Local Config
+//var apiUrl='http://192.168.1.156:3002/'; //local API
+
+//var siteUrl="http://192.168.1.110:4200"; // local site url
+//var apiUrl='http://192.168.1.156:3003/'; //local soa
+
+export const environment = {
   production: true,
-  adimageUrl:AdminUrl+"ads",
-  missionImage:AdminUrl+"edit_message",
-  importantLinksIcones:AdminUrl+"link_icon",
-  apiUrl:apiUrl,
-  logoUrl:AdminUrl+"other/",
-  no_image:"../assets/images/no-image-found.jpg",
-  logo_not_found:'../assets/images/no-logo.png',
-  icon_img:AdminUrl+"/icon_img/",
-  dashVBoardIcone:AdminUrl+"/widget/",
-  siteUrl:siteUrl,
-  cms_img:AdminUrl+"/cms_img/",
-  download:AdminUrl+"download/",
-  payment_options:AdminUrl+"other/",
+  adimageUrl: AdminUrl + "ads",
+  missionImage: AdminUrl + "edit_message",
+  importantLinksIcones: AdminUrl + "link_icon",
+  apiUrl: apiUrl,
+  logoUrl: AdminUrl + "other/",
+  no_image: "../assets/images/no-image-found.jpg",
+  logo_not_found: "../assets/images/no-logo.png",
+  icon_img: AdminUrl + "/icon_img/",
+  dashVBoardIcone: AdminUrl + "/widget/",
+  siteUrl: siteUrl,
+  cms_img: AdminUrl + "/cms_img/",
+  download: AdminUrl + "download/",
+  payment_options: AdminUrl + "other/",
+  alertIconUrl: AdminUrl,
 
-  ads:{
-    options:{
-    pubId: "pub-9616389000213823", // Make sure this the correct client ID!
-    query: "Electricity",
-    adPage: 1
-  },
-  adblock:{
-    container: "afscontainer1",
-    width: "100%",
-    number: 2
+  ads: {
+    options: {
+      pubId: "pub-9616389000213823", // Make sure this the correct client ID!
+      query: "Electricity",
+      adPage: 1
+    },
+    adblock: {
+      container: "afscontainer1",
+      width: "100%",
+      number: 2
+    }
   }
-},
 };
 
 /*
-* For easier debugging in development mode, you can import the following file
-* to ignore zone related error stack frames such as `zone.run`, `zoneDelegate.invokeTask`.
-*
-* This import should be commented out in production mode because it will have a negative impact
-* on performance if an error is thrown.
-*/
+ * For easier debugging in development mode, you can import the following file
+ * to ignore zone related error stack frames such as `zone.run`, `zoneDelegate.invokeTask`.
+ *
+ * This import should be commented out in production mode because it will have a negative impact
+ * on performance if an error is thrown.
+ */
 // import 'zone.js/dist/zone-error';  // Included with Angular CLI.

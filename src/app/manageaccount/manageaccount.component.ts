@@ -1,4 +1,4 @@
-import { WindowRefService } from './../services/window-ref/window-ref.service';
+import { WindowRefService } from "./../services/window-ref/window-ref.service";
 import { SignupOtpVerificationService } from "./../services/signup-otp-verification/signup-otp-verification.service";
 import { LoginService } from "./../services/login/login.service";
 import { DashboardService } from "./../services/dashboard/dashboard.service";
@@ -15,14 +15,13 @@ import { ValidateAccountNumberService } from "./../services/validate-account-num
 import { Router } from "@angular/router";
 import { TranslationService } from "../services/translation/translation.service";
 import Swal from "sweetalert2";
-import { exists } from 'fs';
+import { exists } from "fs";
 
 @Component({
   selector: "app-manageaccount",
   templateUrl: "./manageaccount.component.html",
   styleUrls: ["./manageaccount.component.css"]
 })
-
 export class ManageaccountComponent implements OnInit {
   loder: any = false;
   isDataFound = false;
@@ -33,7 +32,7 @@ export class ManageaccountComponent implements OnInit {
   displayUserInfo = "";
   dispString = "";
   ShowOtpVerifyFrm: boolean = false;
-  
+
   Otoploder: boolean = false;
 
   public OtpVerificationFrm: FormGroup;
@@ -49,11 +48,9 @@ export class ManageaccountComponent implements OnInit {
     private login: LoginService,
     private ValidateAccountNumber: ValidateAccountNumberService,
     private OtpVeriyService: SignupOtpVerificationService,
-    private WindowRef:WindowRefService,
-    private _helper:HelpersService,
-    private _translate:TranslationService
-
-
+    private WindowRef: WindowRefService,
+    private _helper: HelpersService,
+    private _translate: TranslationService
   ) {}
   ngOnInit() {
     var UserData = this.login.getUserData();
@@ -61,13 +58,13 @@ export class ManageaccountComponent implements OnInit {
       // If user has more then one account.
       this.helper.clearLocalStorateData("accountToken"); //clear previously set accountAccessToken
     }
-    this.dispString =  this.translate("accountnumber")+" ( " + + " ) ";
+    this.dispString = this.translate("accountnumber") + " ( " + +" ) ";
 
     this.getAccount(this.searchKeyWord);
     this.initAddaccFrm();
     this.getUserProfile();
   }
-  translate(string:string):string{
+  translate(string: string): string {
     return this._helper.translate(string);
   }
   get f() {
@@ -77,7 +74,8 @@ export class ManageaccountComponent implements OnInit {
     return this.OtpVerificationFrm.controls;
   }
   getUserProfile() {
-    this.dispString = "User Name ( " + this.auth.getCurrentUser().username + " )";
+    this.dispString =
+      "User Name ( " + this.auth.getCurrentUser().username + " )";
   }
   initAddaccFrm() {
     this.ShowOtpVerifyFrm = false;
@@ -103,7 +101,10 @@ export class ManageaccountComponent implements OnInit {
             this.accountData = res.data_params;
             this.isDataFound = true;
           } else {
-            this.toastr.error(this._translate.translate(res.msg), this._translate.translate("failed!"));
+            this.toastr.error(
+              this._translate.translate(res.msg),
+              this._translate.translate("failed!")
+            );
             this.isDataFound = false;
           }
         }
@@ -121,7 +122,7 @@ export class ManageaccountComponent implements OnInit {
     this.searchKeyWord = value;
     this.getAccount(this.searchKeyWord);
   }
- 
+
   verifyOtp() {
     const verifyOtpData = this.OtpVerificationFrm.value;
     var verifiedAccountNumber = this.helper.getLocalStoragData(
@@ -149,7 +150,10 @@ export class ManageaccountComponent implements OnInit {
                   this.Otoploder = false;
                   if (res.authCode) {
                     if (res.authCode == "200" && res.status == true) {
-                      this.toastr.success(this._translate.translate(res.msg), this._translate.translate("Success!"));
+                      this.toastr.success(
+                        this._translate.translate(res.msg),
+                        this._translate.translate("Success!")
+                      );
                       $("#add-account-modal").hide();
                       $(".modal-backdrop").remove();
                       $("body").removeClass("modal-open");
@@ -157,7 +161,10 @@ export class ManageaccountComponent implements OnInit {
                       this.initAddaccFrm();
                     } else {
                       this.initAddaccFrm();
-                      this.toastr.error(this._translate.translate(res.msg), this._translate.translate("Faild!"));
+                      this.toastr.error(
+                        this._translate.translate(res.msg),
+                        this._translate.translate("Faild!")
+                      );
                     }
                   }
                 },
@@ -173,7 +180,10 @@ export class ManageaccountComponent implements OnInit {
             } else {
               this.Otoploder = false;
               this.initAddaccFrm();
-              this.toastr.error(this._translate.translate(res.msg), this._translate.translate("Failed!"));
+              this.toastr.error(
+                this._translate.translate(res.msg),
+                this._translate.translate("Failed!")
+              );
             }
           }
         },
@@ -205,17 +215,26 @@ export class ManageaccountComponent implements OnInit {
               res.data_params.account_number
             ); // set session for verified account number.
             this.ShowOtpVerifyFrm = true;
-            this.toastr.success(this._translate.translate(res.msg), this._translate.translate("Success!"));
+            this.toastr.success(
+              this._translate.translate(res.msg),
+              this._translate.translate("Success!")
+            );
           } else {
             this.initAddaccFrm();
-            this.toastr.error(this._translate.translate(res.msg), this._translate.translate("Failed!"));
+            this.toastr.error(
+              this._translate.translate(res.msg),
+              this._translate.translate("Failed!")
+            );
           }
         }
       },
       error => {
         this.accountProcesLoader = false;
         this.initAddaccFrm();
-        this.toastr.error(this._translate.translate(error), this._translate.translate("Failed!"));
+        this.toastr.error(
+          this._translate.translate(error),
+          this._translate.translate("Failed!")
+        );
       }
     );
   }
@@ -236,10 +255,16 @@ export class ManageaccountComponent implements OnInit {
             this.loder = false;
             if (res.authCode) {
               if (res.authCode == "200" && res.status == true) {
-                this.toastr.success(this._translate.translate(res.msg), this._translate.translate("Success!"));
+                this.toastr.success(
+                  this._translate.translate(res.msg),
+                  this._translate.translate("Success!")
+                );
                 this.getAccount(this.searchKeyWord);
               } else {
-                this.toastr.error(this._translate.translate(res.msg), this._translate.translate("failed!"));
+                this.toastr.error(
+                  this._translate.translate(res.msg),
+                  this._translate.translate("failed!")
+                );
               }
             }
           },
@@ -275,29 +300,44 @@ export class ManageaccountComponent implements OnInit {
               if (update_value == 1) {
                 // subscribed
                 msgDisp = "You have successfully subscribed to E-Bill";
-                this.toastr.success(this._translate.translate(msgDisp), this._translate.translate("Success!"));
+                this.toastr.success(
+                  this._translate.translate(msgDisp),
+                  this._translate.translate("Success!")
+                );
               } else {
                 // unsubscribed
                 msgDisp = "You have successfully unsubscribed from the E-Bill";
-                this.toastr.warning(this._translate.translate(msgDisp), this._translate.translate("Success!"));
+                this.toastr.warning(
+                  this._translate.translate(msgDisp),
+                  this._translate.translate("Success!")
+                );
               }
             } else {
               // Mobile bill
               if (update_value == 1) {
                 // subscribed
                 msgDisp = "You have successfully subscribed to Mobile-Bill";
-                this.toastr.success(this._translate.translate(msgDisp), this._translate.translate("Success!"));
+                this.toastr.success(
+                  this._translate.translate(msgDisp),
+                  this._translate.translate("Success!")
+                );
               } else {
                 // unsubscribed
                 msgDisp =
                   "You have successfully unsubscribed from the Monile-Bill";
-                this.toastr.warning(this._translate.translate(msgDisp), this._translate.translate("Success!"));
+                this.toastr.warning(
+                  this._translate.translate(msgDisp),
+                  this._translate.translate("Success!")
+                );
               }
             }
             /*  this.toastr.success(res.msg, "Success!"); */
             /*   this.getAccount(this.searchKeyWord); */
           } else {
-            this.toastr.error(this._translate.translate(res.msg), this._translate.translate("failed!"));
+            this.toastr.error(
+              this._translate.translate(res.msg),
+              this._translate.translate("failed!")
+            );
           }
         }
       },
@@ -327,13 +367,13 @@ export class ManageaccountComponent implements OnInit {
   };
   /** Redirection Loder Ends Here*/
   redirectoPaymentPage(accountId, userId) {
-    window.open('https://paytm.com', '_blank');
-    return false;
+    //window.open('https://paytm.com', '_blank');
+    //return false;
     this.Dashboard.getAccountDetails(accountId, (result: any) => {
       if (result.authCode == "200") {
-        if(result.data_params.isPrepaid){
+        if (result.data_params.isPrepaid) {
           this.router.navigate(["/recharge-history"]);
-        }else{
+        } else {
           this.router.navigate(["/pay-bill"]);
         }
       } else {

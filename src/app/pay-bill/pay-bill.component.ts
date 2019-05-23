@@ -1,4 +1,4 @@
-import { Router } from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
 import { PayBillService } from "./../services/pay-bill/pay-bill.service";
 import { Component, OnInit } from "@angular/core";
 import { BadInput } from "./../common/bad-input";
@@ -23,11 +23,11 @@ export class PayBillComponent implements OnInit {
   fetchAdQuery = "pay-bill"; // advertisment query.
   initBillingData() {
     this.billing = {
-      accountNumber: this.accountNumber,
+      accountNumber: "",
       accountName: "ashu123",
-      bill_amount: 0.0,
+      bill_amount: 0,
       due_date: "",
-      payable_amount: 0.0
+      payable_amount: 0
     };
   }
 
@@ -67,36 +67,19 @@ export class PayBillComponent implements OnInit {
       $("#payMentFrm").submit();
     }, 10);
   }
-  getPaymentChecksm() {
-   
-    //window.location.href ="https://paytm.com/";
-    this.router.navigate(["payment-options"]);
-    
+  redirectToPaymentOptions() {
     this.getPaymentChksmLoader = true;
     if (this.billing.accountNumber != null) {
-      this.PayBillService.getPaymentChecksm(
-        this.billing.accountNumber,
-        this.billing.payable_amount,
-        "postPaid"
-      ).subscribe(
-        (response: any) => {
-          this.getPaymentChksmLoader = false;
-          if (response.authCode == "200" && response.status == true) {
-            this.isPaymentChksmReceived = true;
-            this.showPaymentProcessSection = true;
-            this.payMentDetails = response.data_params.paramsData;
-            this.submitPaymentFrm();
-          } else {
-            this.showPaymentProcessSection = false;
-            this.prompt("error", response.msg);
-            this.isPaymentChksmReceived = false;
-          }
-        },
-        error => {
-          this.showPaymentProcessSection = false;
-          this.getPaymentChksmLoader = false;
-        }
-      );
+      const billingDt = {
+        accountNumber: this.billing.accountNumber,
+        payable_amount: this.billing.payable_amount,
+        type: "postPaid"
+      };
+      window.location.href =
+        "/make-payment?paymentToken=" + btoa(JSON.stringify(billingDt));
+      /*    this.router.navigate(["make-payment"], {
+        queryParams: { paymentToken: btoa(JSON.stringify(billingDt)) }
+      }); */
     } else {
       this.prompt("error", "Please provide account number");
     }
@@ -138,8 +121,8 @@ export class PayBillComponent implements OnInit {
           this.accountDetailsLoader = false;
           if (result.authCode == 200 && result.status == true) {
             this.isAccountDetailsFound = true;
-            
-          //  this.billing = result.data_params;
+
+            //  this.billing = result.data_params;
             //this.billing["payable_amount"] = this.billing.bill_amount;
           } else {
             this.isAccountDetailsFound = false;
@@ -158,12 +141,12 @@ export class PayBillComponent implements OnInit {
         }
       );
     } else {
+      this.isAccountDetailsFound = false;
       this.initBillingData();
       this.prompt("warning", "Please provide your account number.");
     }
   }
   checkAccountType(accountNumber) {
-  
     if (accountNumber != "") {
       this.checkIfAccountIsPrepaid(accountNumber);
     } else {
@@ -171,37 +154,44 @@ export class PayBillComponent implements OnInit {
     }
   }
   checkIfAccountIsPrepaid(accNumber) {
-    this.accountNumber=accNumber;
-    this.PayBillService.checkIfAccountIsPrepaid(this.accountNumber, (result: any) => {
-      if (result.authCode == "200") {
-        if (result.data_params.isPrepaid == "Yes") {
-          this.router.navigate(["/recharge-history"]);
-        }else{
-         let dt:any='';
-         let date:any='';
-          if(result.data_params.billing_due_date != ''){
-             dt=new Date(result.data_params.billing_due_date);  
-          }else{
-            date=dt.getDay()+"/"+Monthn+"/"+dt.getFullYear()//result.data_params.billing_due_date,
+    this.accountNumber = accNumber;
+    this.PayBillService.checkIfAccountIsPrepaid(
+      this.accountNumber,
+      (result: any) => {
+        if (result.authCode == "200") {
+          if (result.data_params.isPrepaid == "Yes") {
+            this.router.navigate(["/recharge-history"]);
+          } else {
+            let dt: any = "";
+            let date: any = "";
+            if (result.data_params.billing_due_date != "") {
+              dt = new Date(result.data_params.billing_due_date);
+            } else {
+              date = dt.getDay() + "/" + Monthn + "/" + dt.getFullYear(); //result.data_params.billing_due_date,
+            }
+
+            var mon = dt.getMonth();
+            var Monthn = mon + 1;
+            this.billing = {
+              accountNumber: result.data_params.account_number,
+              accountName: result.data_params.account_name,
+              bill_amount: result.data_params.billing_amount,
+              due_date: date,
+              payable_amount: result.data_params.billing_amount
+            };
+            this.getBillAccountDetails();
           }
-          
-          var mon=dt.getMonth();
-          var Monthn=mon+1;
-          this.billing = {
-            accountNumber: result.data_params.account_number,
-            accountName: result.data_params.account_name,
-            bill_amount: result.data_params.billing_amount,
-            due_date:date, 
-            payable_amount: result.data_params.billing_amount
-          };
-           this.getBillAccountDetails()
-        } 
+        } else {
+          this.initBillingData();
+        }
       }
-    });
+    );
   }
   ngOnInit() {
-    if (this.isLoggedIn()) { // if logged in 
-      if (this.getAccountToken() != null) { // if account selected
+    if (this.isLoggedIn()) {
+      // if logged in
+      if (this.getAccountToken() != null) {
+        // if account selected
         let accountToken = atob(this.getAccountToken()); // fetch account number.
         let accountTokenInfo = accountToken.split(":");
         this.accountNumber = accountTokenInfo[1]; //account Number
@@ -209,7 +199,8 @@ export class PayBillComponent implements OnInit {
           this.translate("accountnumber") + " ( " + this.accountNumber + " ) ";
         this.checkIfAccountIsPrepaid(this.accountNumber);
         this.getBillAccountDetails();
-      } else { // if account not selected
+      } else {
+        // if account not selected
         this.prompt("warning", "Please select an account number.");
         this.router.navigate(["/manageaccount"]);
         this.getCurrentUser();

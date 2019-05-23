@@ -37,13 +37,14 @@ export class ComplaintsComponent implements OnInit {
   complaintCaseTypeLoder: boolean = false;
   complaintBillRelatedReasonLoder: boolean = false;
   billingDataLoder: boolean = false;
+ 
   isbillingDataFound: boolean = false;
-  
   isCompAcNoVerified:boolean=false;
+ 
   verifyAccountLoader:boolean=false;
-
   showTrackingNo = false;
   trackingNo = "";
+ 
   fetchAdQuery="profile"; //Ad query.
  
   constructor(
@@ -56,12 +57,10 @@ export class ComplaintsComponent implements OnInit {
     private translationServices: TranslationService,
     private auth: AuthService,
     private router:Router
-
   ) {}
 
   ngOnInit() {
     if(this.isLoggedIn()){ // if user is logged in
-
     if (this.helpers.getLocalStoragData("accountToken") != null) {
       let accountToken = atob(this.helpers.getLocalStoragData("accountToken")); // fetch account number.
       let accountTokenInfo = accountToken.split(":");
@@ -237,7 +236,6 @@ export class ComplaintsComponent implements OnInit {
     
   }
   getComplaintCaseType() {
-    
     this.complaintCaseTypeLoder = true;
     this.complaints.getComplaintCaseType().subscribe(
       (response: any) => {
@@ -381,7 +379,6 @@ export class ComplaintsComponent implements OnInit {
   }
 
   submitComplaintFrmbeforeLogin() {
-   
     this.complaintsFrm = this.helpers.markAsTouched(this.complaintsFrm);
     if (this.complaintsFrm.status != "INVALID") { // If form is not invalid
       const complaintsFrmData = this.complaintsFrm.value;

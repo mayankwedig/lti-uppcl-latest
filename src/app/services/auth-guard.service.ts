@@ -70,7 +70,10 @@ export class AuthGuard implements CanActivate {
         let accountToken = this.helpers.getLocalStoragData("accountToken"); // get account number
         if (accountToken == null) {
           // check if accountToken doesn't exits
-          this.toastr.warning(this.translationServices.translate("Please select account number"), ""); // prompt msg
+          this.toastr.warning(
+            this.translationServices.translate("Please select account number"),
+            ""
+          ); // prompt msg
           this.router.navigate(["/manageaccount"]); // redirect user to manage account
           return true;
         } else {
@@ -78,7 +81,12 @@ export class AuthGuard implements CanActivate {
           let accountTokenInfo = atob(accountToken).split(":");
           if (accountTokenInfo[0] != this.auth.getCurrentUser().userId) {
             // check if account token not belongs to currently logged in  user
-            this.toastr.warning(this.translationServices.translate("Please select account number"), ""); // propmt msg
+            this.toastr.warning(
+              this.translationServices.translate(
+                "Please select account number"
+              ),
+              ""
+            ); // propmt msg
             this.router.navigate(["/manageaccount"]); // redirect user to manage account
             return true;
           } else {
@@ -97,7 +105,10 @@ export class AuthGuard implements CanActivate {
         // check if user is logged in.
         let accountToken = this.helpers.getLocalStoragData("accountToken"); // cehck if account token is exists
         if (accountToken == null) {
-          this.toastr.warning(this.translationServices.translate("Please select account number"), ""); // prompt msg
+          this.toastr.warning(
+            this.translationServices.translate("Please select account number"),
+            ""
+          ); // prompt msg
           // if not
           this.router.navigate(["/manageaccount"]); // redirect user to manage account
           return true;
@@ -105,7 +116,12 @@ export class AuthGuard implements CanActivate {
           let accountTokenInfo = atob(accountToken).split(":");
           if (accountTokenInfo[0] != this.auth.getCurrentUser().userId) {
             // check if account token not belongs to current user
-            this.toastr.warning(this.translationServices.translate("Please select account number"), ""); // prompt msg
+            this.toastr.warning(
+              this.translationServices.translate(
+                "Please select account number"
+              ),
+              ""
+            ); // prompt msg
             this.router.navigate(["/manageaccount"]); // redirect user to manage account
             return true;
           } else {
@@ -123,7 +139,10 @@ export class AuthGuard implements CanActivate {
         // check if user is logged in.
         let accountToken = this.helpers.getLocalStoragData("accountToken"); // cehck if account token is exists
         if (accountToken == null) {
-          this.toastr.warning(this.translationServices.translate("Please select account number"), ""); // prompt msg
+          this.toastr.warning(
+            this.translationServices.translate("Please select account number"),
+            ""
+          ); // prompt msg
           // if not
           this.router.navigate(["/manageaccount"]); // redirect user to manage account
           return true;
@@ -131,7 +150,12 @@ export class AuthGuard implements CanActivate {
           let accountTokenInfo = atob(accountToken).split(":");
           if (accountTokenInfo[0] != this.auth.getCurrentUser().userId) {
             // check if account token not belongs to current user
-            this.toastr.warning(this.translationServices.translate("Please select account number"), ""); // prompt msg
+            this.toastr.warning(
+              this.translationServices.translate(
+                "Please select account number"
+              ),
+              ""
+            ); // prompt msg
             this.router.navigate(["/manageaccount"]); // redirect user to manage account
             return true;
           } else {
@@ -149,7 +173,10 @@ export class AuthGuard implements CanActivate {
         // check if user is logged in.
         let accountToken = this.helpers.getLocalStoragData("accountToken"); // cehck if account token is exists
         if (accountToken == null) {
-          this.toastr.warning(this.translationServices.translate("Please select account number"), ""); // prompt msg
+          this.toastr.warning(
+            this.translationServices.translate("Please select account number"),
+            ""
+          ); // prompt msg
           // if not
           this.router.navigate(["/manageaccount"]); // redirect user to manage account
           return true;
@@ -157,7 +184,12 @@ export class AuthGuard implements CanActivate {
           let accountTokenInfo = atob(accountToken).split(":");
           if (accountTokenInfo[0] != this.auth.getCurrentUser().userId) {
             // check if account token not belongs to current user
-            this.toastr.warning(this.translationServices.translate("Please select account number"), ""); // prompt msg
+            this.toastr.warning(
+              this.translationServices.translate(
+                "Please select account number"
+              ),
+              ""
+            ); // prompt msg
             this.router.navigate(["/manageaccount"]); // redirect user to manage account
             return true;
           } else {
@@ -175,7 +207,10 @@ export class AuthGuard implements CanActivate {
         // check if user is logged in.
         let accountToken = this.helpers.getLocalStoragData("accountToken"); // cehck if account token is exists
         if (accountToken == null) {
-          this.toastr.warning(this.translationServices.translate("Please select account number"), ""); // prompt msg
+          this.toastr.warning(
+            this.translationServices.translate("Please select account number"),
+            ""
+          ); // prompt msg
           // if not
           this.router.navigate(["/manageaccount"]); // redirect user to manage account
           return true;
@@ -183,7 +218,12 @@ export class AuthGuard implements CanActivate {
           let accountTokenInfo = atob(accountToken).split(":");
           if (accountTokenInfo[0] != this.auth.getCurrentUser().userId) {
             // check if account token not belongs to current user
-            this.toastr.warning(this.translationServices.translate("Please select account number"), ""); // prompt msg
+            this.toastr.warning(
+              this.translationServices.translate(
+                "Please select account number"
+              ),
+              ""
+            ); // prompt msg
             this.router.navigate(["/manageaccount"]); // redirect user to manage account
             return true;
           } else {
@@ -202,7 +242,10 @@ export class AuthGuard implements CanActivate {
         // if user is logged in ?
         let accountToken = this.helpers.getLocalStoragData("accountToken"); // cehck if account token is exists
         if (accountToken == null) {
-          this.toastr.warning(this.translationServices.translate("Please select account number"), ""); // prompt msg
+          this.toastr.warning(
+            this.translationServices.translate("Please select account number"),
+            ""
+          ); // prompt msg
           // if not
           this.router.navigate(["/manageaccount"]); // redirect user to manage account
           return true;
@@ -210,7 +253,12 @@ export class AuthGuard implements CanActivate {
           // else account token found then
           let accountTokenInfo = atob(accountToken).split(":");
           if (accountTokenInfo[0] != this.auth.getCurrentUser().userId) {
-            this.toastr.warning(this.translationServices.translate("Please select account number"), ""); // prompt msg
+            this.toastr.warning(
+              this.translationServices.translate(
+                "Please select account number"
+              ),
+              ""
+            ); // prompt msg
             // check if account token not belongs to current user
             this.router.navigate(["/manageaccount"]); // redirect user to manage account
             return true;
@@ -230,7 +278,10 @@ export class AuthGuard implements CanActivate {
         // if user is logged in ?
         let accountToken = this.helpers.getLocalStoragData("accountToken"); // cehck if account token is exists
         if (accountToken == null) {
-          this.toastr.warning(this.translationServices.translate("Please select account number"), ""); // prompt msg
+          this.toastr.warning(
+            this.translationServices.translate("Please select account number"),
+            ""
+          ); // prompt msg
           // if not
           this.router.navigate(["/manageaccount"]); // redirect user to manage account
           return true;
@@ -238,7 +289,12 @@ export class AuthGuard implements CanActivate {
           // else account token found then
           let accountTokenInfo = atob(accountToken).split(":");
           if (accountTokenInfo[0] != this.auth.getCurrentUser().userId) {
-            this.toastr.warning(this.translationServices.translate("Please select account number"), ""); // prompt msg
+            this.toastr.warning(
+              this.translationServices.translate(
+                "Please select account number"
+              ),
+              ""
+            ); // prompt msg
             // check if account token not belongs to current user
             this.router.navigate(["/manageaccount"]); // redirect user to manage account
             return true;
@@ -258,7 +314,10 @@ export class AuthGuard implements CanActivate {
         // if user is logged in ?
         let accountToken = this.helpers.getLocalStoragData("accountToken"); // cehck if account token is exists
         if (accountToken == null) {
-          this.toastr.warning(this.translationServices.translate("Please select account number"), ""); // prompt msg
+          this.toastr.warning(
+            this.translationServices.translate("Please select account number"),
+            ""
+          ); // prompt msg
           // if not
           this.router.navigate(["/manageaccount"]); // redirect user to manage account
           return true;
@@ -266,7 +325,12 @@ export class AuthGuard implements CanActivate {
           // else account token found then
           let accountTokenInfo = atob(accountToken).split(":");
           if (accountTokenInfo[0] != this.auth.getCurrentUser().userId) {
-            this.toastr.warning(this.translationServices.translate("Please select account number"), ""); // prompt msg
+            this.toastr.warning(
+              this.translationServices.translate(
+                "Please select account number"
+              ),
+              ""
+            ); // prompt msg
             // check if account token not belongs to current user
             this.router.navigate(["/manageaccount"]); // redirect user to manage account
             return true;

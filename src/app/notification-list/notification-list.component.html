@@ -60,6 +60,18 @@
                   >
                   <li *ngFor="let alerts of alertData">
                       <span class="notification-texts">
+                          <ng-container *ngIf="alerts.icon_img != null">
+                              <img src="{{AlertIconUrl}}{{alerts.icon_img}}" alt=""/>
+                          </ng-container>  
+                            {{ alerts.desc }} 
+                        </span>
+                          <!-- <a href="" class="blue-btn" *ngIf ="alerts.type == 'billing'">
+                            Pay Now
+                          </a> -->
+                          <span class="notification-date">
+                              {{ alerts.eventCreateDateTime | date: "dd/MM/yyyy" }}
+                          </span>
+                     <!--  <span class="notification-texts">
                       <img *ngIf ="alerts.type == 'billing'" src="assets/images/rupee-icon-hover.png" alt="" />
                       <img *ngIf ="alerts.type == 'peak_load'" src="assets/images/power-icon.png" alt="" />
                       <img *ngIf ="alerts.type == 'info'" src="assets/images/save-icon.png" alt="" />
@@ -71,7 +83,7 @@
                       </a>
                       <span class="notification-date">
                           {{ alerts.eventCreateDateTime | date: "dd/MM/yyyy" }}
-                      </span>
+                      </span> -->
                     </li>
                     <div
                       style="margin-top: 2;"

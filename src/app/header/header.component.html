@@ -9,14 +9,14 @@
     ><span class="hide-menu-text">{{ "Hide Menu" | translate }}</span>
   </button>
   
-  <div class="navbar-inner">
-    <div class="navbar-header">
+<div class="navbar-inner">
+  <div class="navbar-header">
       <a routerLink="" class="navbar-brand pull-left">
         <img alt="UPPCL" [src]="logogImage" />
       </a>
-    </div>
-    <ul class="responsive-menu">
-      <li
+  </div>
+  <ul class="responsive-menu">
+    <li
         class="nav-icon-btn nav-icon-btn-danger dropdown"
          *ngIf="auth.isLoggedIn()"
         >
@@ -28,8 +28,9 @@
           <span
             class="label-notification"
             *ngIf="hideTotalNotification == false"
-            >{{ totalNotifications }}</span
-          >
+            >
+            {{ totalNotifications }}
+          </span>
           <span
             class="title-icon header-notification"
             title="{{'View notifications'|translate}}"

@@ -20,10 +20,10 @@ import { environment } from "./../../environments/environment";
 
 require("../../../node_modules/moment/min/moment.min.js");
 require("../../assets/js/ads.js");
-
+import { Observable } from "rxjs";
+import { NotificationsService } from "../services/notifications/notifications.service";
 declare var $: any;
 declare var moment: any;
-
 
 @Component({
   selector: "app-dashboard",
@@ -35,7 +35,7 @@ declare var moment: any;
 //   name: 'dateFormat'
 // })
 export class DashboardComponent implements OnInit {
-  fetchAdQuery="dashboard";
+  fetchAdQuery = "dashboard";
   test: string;
   //Translation
   translate(string: string): string {
@@ -61,13 +61,13 @@ export class DashboardComponent implements OnInit {
     },
     { row_name: 6, sort: 6, cols: [] }
   ];
-
+  AlertIconUrl = environment.alertIconUrl;
   getRowOrderSorting() {
     this.DashboardService.getRowOrderSorting().subscribe(
       (response: any) => {
         if (response.authCode == "200" && response.status == true) {
-           this.dashBoardRows=response.data_params;
-        } 
+          this.dashBoardRows = response.data_params;
+        }
       },
       error => {
         if (error instanceof BadInput) {
@@ -121,7 +121,8 @@ export class DashboardComponent implements OnInit {
     private WindowRef: WindowRefService,
     private toastr: ToastrService,
     private _helper: HelpersService,
-    private icones: IconsService
+    private icones: IconsService,
+    private notification: NotificationsService
   ) {}
 
   widgetIconePath = environment.dashVBoardIcone;
@@ -133,20 +134,26 @@ export class DashboardComponent implements OnInit {
     }
   }
   /*******************Dropdown Configs**********************************/
-  SelectServiceReqText=this.translate("Select Service Request ID");
-  ServiceReqSearchPlaceholder=this.translate("Search Serivce Request Tracking ID");
+  SelectServiceReqText = this.translate("Select Service Request ID");
+  ServiceReqSearchPlaceholder = this.translate(
+    "Search Serivce Request Tracking ID"
+  );
   serviceReqDropDownconfig = {
     displayKey: "label", //if objects array passed which key to be displayed defaults to description
     search: true, //true/false for the search functionlity defaults to false,
     height: "200px", //height of the list so that if there are more no of items it can show a scroll defaults to auto. With auto height scroll will never appear
-    placeholder:this.SelectServiceReqText, // text to be displayed when no item is selected defaults to Select,
+    placeholder: this.SelectServiceReqText, // text to be displayed when no item is selected defaults to Select,
     customComparator: () => {}, // a custom function using which user wants to sort the items. default is undefined and Array.sort() will be used in that case, // a number thats limits the no of options displayed in the UI similar to angular's limitTo pipe
     /*  limitTo: options.length,  */ moreText: "more", // text to be displayed whenmore than one items are selected like Option 1 + 5 more
     noResultsFound: "No results found!", // text to be displayed when no items are found while searching
     searchPlaceholder: this.ServiceReqSearchPlaceholder // label thats displayed in search input
   };
-  complaintReqDropDownPlaceholder=this.translate("Select Complaint Tracking ID");
-  complaintReqDropDownSearchPlaceholder=this.translate("Search Complaint Tracking ID");
+  complaintReqDropDownPlaceholder = this.translate(
+    "Select Complaint Tracking ID"
+  );
+  complaintReqDropDownSearchPlaceholder = this.translate(
+    "Search Complaint Tracking ID"
+  );
   complaintReqDropDownconfig = {
     displayKey: "label", //if objects array passed which key to be displayed defaults to description
     search: true, //true/false for the search functionlity defaults to false,
@@ -253,6 +260,7 @@ export class DashboardComponent implements OnInit {
   alertDataLoader: boolean = false;
   isAlertDataFound: boolean = false;
   OtherIconse: any = null;
+  alertNotification = [{ title: "", icon_img: "", desc: "" }];
   getIcones() {
     this.OtherIconse = JSON.parse(this.helpers.getLocalStoragData("icons"));
     if (this.OtherIconse == null) {
@@ -286,10 +294,10 @@ export class DashboardComponent implements OnInit {
     this.getRowOrderSorting();
     this.getDesktopWidget();
     this.getIcones();
+
     let accountToken = atob(this.helpers.getLocalStoragData("accountToken")); // fetch account number.
     let accountTokenInfo = accountToken.split(":");
     this.accountNumber = accountTokenInfo[1]; //account Number
-
     this.dispString =
       this.translate("accountnumber") + " ( " + this.accountNumber + " ) ";
 
@@ -297,15 +305,17 @@ export class DashboardComponent implements OnInit {
     this.currentYear = moment().format("YYYY");
     this.currentMonth = moment().format("MMM");
     this.currentMonthDisp = moment().format("MMMM");
-
     this.consgraphFilter = [{ key: 2, value: "Monthly" }];
     this.billgraphFilter = [{ key: 2, value: "Monthly" }]; // ,{key:3,value:"Weekly"}
-    setTimeout(()=>{
+
+    setTimeout(() => {
       this.getDashboardData();
-    },1000) 
+    }, 1000);
+
     this.consumptionchartOptions = {
       responsive: true // THIS WILL MAKE THE CHART RESPONSIVE (VISIBLE IN ANY DEVICE).
     };
+
     this.consumptionlabels = [];
     // STATIC DATA FOR THE CHART IN JSON FORMAT.
     this.consumptionchartData = [
@@ -348,21 +358,36 @@ export class DashboardComponent implements OnInit {
       }
     ];
   }
+  getDummyOdr() {
+    this.currentTime = moment().format("DD MMM, YYYY hh:mm:A");
+    setTimeout(() => {
+      this.onDemandReadLoder = false;
+      this.onDemandReadData = {
+        latestConsumption: 20 * 5 + 30 + Math.floor(Math.random() * 7),
+        unitOfMeasure: "KW",
+        createdOn: this.currentTime
+      };
+    }, 2000);
+  }
   //changes by Rajesh nair
   getOnDemandRead() {
     this.showGetReadButton = false;
     this.currentTime = moment().format("DD MMM, YYYY hh:mm:A");
     this.onDemandReadLoder = true;
-    this.DashboardService.getOnDemandRead(this.accountNumber, (result: any) => {
+
+    this.getDummyOdr();
+
+    /* this.DashboardService.getOnDemandRead(this.accountNumber, (result: any) => {
       this.onDemandReadLoder = false;
       if (result.authCode == "200") {
         var data = result.data_params;
-        var latestConsumption = data; /* data.latestConsumption; */
+        var latestConsumption = data; 
         this.onDemandReadData = data;
       } else {
         this.onDemandReadData = "";
+        
       }
-    });
+    }); */
   }
   getEnergyTips() {
     this.DashboardService.getEnergyTips(this.accountNumber, (result: any) => {
@@ -494,19 +519,26 @@ export class DashboardComponent implements OnInit {
 
     // this.toastr.success("PDF downloaded successfully", "Success!");
   }
-
+  getNotificationData(type) {
+    if (this.helpers.getLocalStoragData("notifications") != null) {
+      let notify = JSON.parse(this.helpers.getLocalStoragData("notifications"));
+      if (typeof notify[type] != "undefined") {
+        return notify[type];
+      }
+    } else {
+      return null;
+    }
+  }
   getDashboardData() {
     this.showYtdData();
     this.showAccountDetails();
     this.getlast12mnt();
     this.showMonthlyConsumptionGraphData();
     this.getEnergyTips();
-    this.getBillingData();
     this.showMonthlyBillingGraphData();
     this.getcomplaints();
     this.getServiceRequest();
     this.getAlertData();
-
   }
   showYtdData() {
     this.yesterDayConsumptionLoder = true;
@@ -538,7 +570,7 @@ export class DashboardComponent implements OnInit {
       }
     );
   }
-  getlast12mnt(){
+  getlast12mnt() {
     this.helpers.lat12Monts().then(
       response => {
         this.consumptionlabels = response;
@@ -613,6 +645,7 @@ export class DashboardComponent implements OnInit {
             data: gData
           }
         ];
+        this.getBillingData();
       }
     });
   }
@@ -654,10 +687,90 @@ export class DashboardComponent implements OnInit {
         if (res.authCode) {
           if (res.authCode == "200" && res.status == true) {
             this.alertData = res.data_params;
+            for (let i = 0; i < this.alertData.length; i++) {
+              this.alertData[i]["icon_img"] = null;
+              this.alertData[i]["desc"] = null;
+              let NotificationData = this.getNotificationData(
+                this.alertData[i].alertText
+              );
+              if (NotificationData != null) {
+                this.alertData[i]["icon_img"] = NotificationData.icon_img;
+                this.alertData[i]["desc"] = NotificationData.desc;
+              }
+            }
             this.isAlertDataFound = true;
+            console.log("testdfff");
           } else {
-            this.isAlertDataFound = false;
-            this.alertData = [];
+            console.log("test");
+            this.alertData = [
+              {
+                type: "Power Restoration",
+                expiryDate: "2018-11-20T13:36:37.969Z",
+                created: "2019-01-04T14:21:23.569Z",
+                modified: "2019-01-04T14:21:23.569Z",
+                _id: "5c2fb681e19c02c3d3b3a194",
+                createdOn: "2018-11-20T13:36:37.969Z",
+                modifiedOn: "2018-11-20T13:36:37.969Z",
+                accountNumber: "1111111111",
+                alertText: "Power voltage in your area on 5 May. 2019"
+              },
+              {
+                type: "Low Voltage",
+                expiryDate: "2018-11-20T13:36:37.969Z",
+                created: "2019-01-04T14:21:23.569Z",
+                modified: "2019-01-04T14:21:23.569Z",
+                _id: "5c2fb681e19c02c3d3b3a196",
+                createdOn: "2018-11-20T13:36:37.969Z",
+                modifiedOn: "2018-11-20T13:36:37.969Z",
+                accountNumber: "1111111111",
+                alertText: "Low Voltage in your area."
+              },
+              {
+                type: "billing",
+                expiryDate: "2018-11-20T13:36:37.969Z",
+                created: "2019-01-04T14:21:23.569Z",
+                modified: "2019-01-04T14:21:23.569Z",
+                _id: "5c2fb681e19c02c3d3b3a196",
+                createdOn: "2018-11-20T13:36:37.969Z",
+                modifiedOn: "2018-11-20T13:36:37.969Z",
+                accountNumber: "1111111111",
+                alertText: "Power voltage in your area on 9 May 2019."
+              },
+              {
+                type: "tips",
+                expiryDate: "2018-11-20T13:36:37.969Z",
+                created: "2019-01-04T14:21:23.569Z",
+                modified: "2019-01-04T14:21:23.569Z",
+                _id: "5c2fb681e19c02c3d3b3a196",
+                createdOn: "2018-11-20T13:36:37.969Z",
+                modifiedOn: "2018-11-20T13:36:37.969Z",
+                accountNumber: "1111111111",
+                alertText: "Low Voltage in your area."
+              },
+              {
+                type: "Low Voltage",
+                expiryDate: "2018-11-20T13:36:37.969Z",
+                created: "2019-01-04T14:21:23.569Z",
+                modified: "2019-01-04T14:21:23.569Z",
+                _id: "5c2fb681e19c02c3d3b3a196",
+                createdOn: "2018-11-20T13:36:37.969Z",
+                modifiedOn: "2018-11-20T13:36:37.969Z",
+                accountNumber: "1111111111",
+                alertText: "Low Voltage in your area."
+              }
+            ];
+            for (let i = 0; i < this.alertData.length; i++) {
+              this.alertData[i]["icon_img"] = null;
+              this.alertData[i]["desc"] = null;
+              let NotificationData = this.getNotificationData(
+                this.alertData[i].type
+              );
+              if (NotificationData != null) {
+                this.alertData[i]["icon_img"] = NotificationData.icon_img;
+                this.alertData[i]["desc"] = NotificationData.desc;
+              }
+            }
+            this.isAlertDataFound = true;
           }
         }
       },

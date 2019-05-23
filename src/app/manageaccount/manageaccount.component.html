@@ -30,7 +30,7 @@
                         class="blue-btn pull-right"
                         (click)="initAddaccFrm()"
                         style="cursor:pointer;"
-                        title="{{ 'Add Account'|translate }}"
+                        title="{{ 'Add Account' | translate }}"
                         >{{ "Add Account" | translate }}</a
                       >
                     </div>
@@ -76,7 +76,7 @@
                           <th width="10%">{{ "Bill Amount" | translate }}</th>
                           <th width="10%">{{ "Due Date" | translate }}</th>
                           <th width="15%">{{ "Action" | translate }}</th>
-                          <!-- <th colspan="2" class="subscribe-th" width="20%">
+                          <th colspan="2" class="subscribe-th" width="20%">
                             <table width="100%">
                               <tr>
                                 <th colspan="2" class="text-center">
@@ -90,7 +90,7 @@
                                 </th>
                               </tr>
                             </table>
-                          </th> -->
+                          </th>
                         </tr>
                       </thead>
                     </table>
@@ -104,7 +104,10 @@
                       *ngIf="loder != true && isDataFound == true"
                     >
                       <tbody class="mng-data-scroll-tb">
-                        <tr *ngFor="let account of accountData; let i = index" class="mng-data-scroll-tr">
+                        <tr
+                          *ngFor="let account of accountData; let i = index"
+                          class="mng-data-scroll-tr"
+                        >
                           <td colspan="2" width="25%" class="mat-account-dtl">
                             <table width="100%" cellpadding="0" cellspacing="0">
                               <tr>
@@ -121,7 +124,6 @@
                                   >
                                 </td>
                               </tr>
-                              
                             </table>
                           </td>
                           <td width="20%" class="mat-address-col">
@@ -135,10 +137,16 @@
                               account.billing_amount | number
                             }}
                           </td>
-                          <td width="10%" *ngIf="account.billing_due_date != '-'">
+                          <td
+                            width="10%"
+                            *ngIf="account.billing_due_date != '-'"
+                          >
                             {{ account.billing_due_date | date: "d/M/yy" }}
                           </td>
-                          <td width="10%" *ngIf="account.billing_due_date == '-'">
+                          <td
+                            width="10%"
+                            *ngIf="account.billing_due_date == '-'"
+                          >
                             -
                           </td>
                           <td width="15%">
@@ -179,7 +187,7 @@
                               ><i class="fa fa-chain-broken"></i
                             ></a>
                           </td>
-                          <!-- <td colspan="2" width="20%">
+                          <td colspan="2" width="20%">
                             <table width="100%" cellpadding="0" cellspacing="0">
                               <tr>
                                 <td width="50%">
@@ -222,7 +230,7 @@
                                 </td>
                               </tr>
                             </table>
-                          </td> -->
+                          </td>
                         </tr>
                       </tbody>
                     </table>
@@ -248,7 +256,8 @@
                     *ngIf="loder == false && isDataFound == false"
                   >
                     <img src="/assets/images/no_data.png" />{{
-                      "Currently no data found for accounts" | translate}}<br />
+                      "Currently no data found for accounts" | translate
+                    }}<br />
                     <!-- Please click on add account button in order to add your
                     account or contact . <br /> -->
                   </div>
@@ -301,7 +310,9 @@
                       formControlName="account_number"
                       name="account_number"
                       class="form-control"
-                      placeholder="{{'Account Number'|translate}} {{'or'|translate}} {{'billnumber'|translate}}"
+                      placeholder="{{ 'Account Number' | translate }} {{
+                        'or' | translate
+                      }} {{ 'billnumber' | translate }}"
                     />
                     <div
                       *ngIf="
@@ -311,7 +322,9 @@
                       <span
                         class="error-msg"
                         *ngIf="f.account_number.errors?.required"
-                        >{{'Account Number or billnumber required'|translate}}</span
+                        >{{
+                          "Account Number or billnumber required" | translate
+                        }}</span
                       >
                     </div>
                   </div>
@@ -333,7 +346,8 @@
                       [disabled]="
                         !addAccountFrm.valid || accountProcesLoader == true
                       "
-                    >{{ "submit" | translate }}
+                    >
+                      {{ "submit" | translate }}
                     </button>
                   </div>
                 </div>
@@ -357,7 +371,8 @@
                 class="text-title text-transform-none"
                 style="margin-top: 15px;"
               >
-                {{"OTP has been sent to your registered mobile number and
+                {{
+                  "OTP has been sent to your registered mobile number and
                 email. please enter it below to verify"
                     | translate
                 }}
@@ -389,7 +404,8 @@
                       <span
                         class="error-msg"
                         *ngIf="OtpVerificationFields.verifyOtp.errors?.required"
-                        >{{ 'otp' | translate }} {{ "required"|translate }}</span
+                        >{{ "otp" | translate }}
+                        {{ "required" | translate }}</span
                       >
                     </div>
                   </div>
@@ -411,7 +427,8 @@
                       [disabled]="
                         !OtpVerificationFrm.valid || Otoploder == true
                       "
-                    >{{ "Submit" | translate }}
+                    >
+                      {{ "Submit" | translate }}
                     </button>
                   </div>
                 </div>

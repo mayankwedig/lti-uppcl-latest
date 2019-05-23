@@ -3,110 +3,90 @@
   <span *ngIf="isLoggedIn()">
     <app-side-bar [displayUserInfo]="dispString"></app-side-bar>
   </span>
-  <div
-    id="content-wrapper"
-    [ngClass]="{ 'complaint-wrapeer-bg': !isLoggedIn() }"
-  >
+  <div id="content-wrapper" [ngClass]="{ 'complaint-wrapeer-bg': !isLoggedIn() }">
     <!-- bill-pay -->
 
     <div [ngClass]="{ 'col-sm-10 col-sm-offset-1': !isLoggedIn() }">
       <div class="page-heading">{{ "Pay Bill" | translate }}</div>
-      <div
-        class="billing-sec margin_top20 padding_bottom10 no-padding-l no-padding-r"
-      >
+      <div class="billing-sec margin_top20 padding_bottom10 no-padding-l no-padding-r">
         <div class="panel-body bil-pay-panel" *ngIf="showPaymentProcessSection == true">
-            <div class="service-box" >
-                  <div class="title">{{'Bill Payment'|translate}}</div>
-                  <!-- <div class="req-success-msg">
+          <div class="service-box">
+            <div class="title">{{ "Bill Payment" | translate }}</div>
+            <!-- <div class="req-success-msg">
                     {{'Thank You for pay your bill'|translate}}
                   </div> -->
-                  <div class="req-number">
-                    {{'Please do not press back button or refresh this page'|translate}}
-                  </div>
-                  <div class="team-contact">{{'Your payment will process shortly'|translate}}</div>
-                  <div class="text-center padding_top50">
-                    {{'Page will be redirect automatically to the payment gateway'|translate}}
-                  </div>
-                  <form method="post" action="{{payMentDetails.url}}" name="f1" id="payMentFrm">
-                    <input type='hidden' name='MID' [value]='payMentDetails.MID' >
-                    <input type='hidden' name='WEBSITE' [value]='payMentDetails.WEBSITE' >
-                    <input type='hidden' name='CHANNEL_ID' [value]='payMentDetails.CHANNEL_ID' >
-                    <input type='hidden' name='INDUSTRY_TYPE_ID'[value]='payMentDetails.INDUSTRY_TYPE_ID' >
-                    <input type='hidden' name='ORDER_ID'[value]='payMentDetails.ORDER_ID' >
-                    <input type='hidden' name='CUST_ID'[value]='payMentDetails.CUST_ID' >
-                    <input type='hidden' name='TXN_AMOUNT'[value]='payMentDetails.TXN_AMOUNT' >
-                    <input type='hidden' name='CALLBACK_URL'[value]='payMentDetails.CALLBACK_URL' >
-                    <input type='hidden' name='EMAIL' [value]='payMentDetails.EMAIL' >
-                    <input type='hidden' name='MOBILE_NO' [value]='payMentDetails.MOBILE_NO' >
-                    <input type='hidden' name='CHECKSUMHASH' [value]='payMentDetails.CHECKSUMHASH'>
-                </form>
-              </div>
+            <div class="req-number">
+              {{
+                "Please do not press back button or refresh this page"
+                  | translate
+              }}
+            </div>
+            <div class="team-contact">
+              {{ "Your payment will process shortly" | translate }}
+            </div>
+            <div class="text-center padding_top50">
+              {{
+                "Page will be redirect automatically to the payment gateway"
+                  | translate
+              }}
+            </div>
+            <form method="post" action="{{ payMentDetails.url }}" name="f1" id="payMentFrm">
+              <input type="hidden" name="MID" [value]="payMentDetails.MID" />
+              <input type="hidden" name="WEBSITE" [value]="payMentDetails.WEBSITE" />
+              <input type="hidden" name="CHANNEL_ID" [value]="payMentDetails.CHANNEL_ID" />
+              <input type="hidden" name="INDUSTRY_TYPE_ID" [value]="payMentDetails.INDUSTRY_TYPE_ID" />
+              <input type="hidden" name="ORDER_ID" [value]="payMentDetails.ORDER_ID" />
+              <input type="hidden" name="CUST_ID" [value]="payMentDetails.CUST_ID" />
+              <input type="hidden" name="TXN_AMOUNT" [value]="payMentDetails.TXN_AMOUNT" />
+              <input type="hidden" name="CALLBACK_URL" [value]="payMentDetails.CALLBACK_URL" />
+              <input type="hidden" name="EMAIL" [value]="payMentDetails.EMAIL" />
+              <input type="hidden" name="MOBILE_NO" [value]="payMentDetails.MOBILE_NO" />
+              <input type="hidden" name="CHECKSUMHASH" [value]="payMentDetails.CHECKSUMHASH" />
+            </form>
+          </div>
         </div>
-        <div class="panel-body wtl-paybill-body" [ngClass]="{'paybill-not-login': isLoggedIn() == false}" *ngIf="showPaymentProcessSection == false">
+        <div class="panel-body wtl-paybill-body" [ngClass]="{ 'paybill-not-login': isLoggedIn() == false }"
+          *ngIf="showPaymentProcessSection == false">
           <form class="top-label-form">
             <div class="row">
               <div class="col-sm-8 col-sm-offset-2">
                 <div class="form-group top">
                   <div class="row">
                     <label *ngIf="!isLoggedIn()">
-                      {{'Account Number'|translate}}
+                      {{ "Account Number" | translate }}
                     </label>
                     <div *ngIf="!isLoggedIn()" class="col-sm-6">
-                      <input
-                        [(ngModel)]="accountNumber"
-                        name="accountNumber"
-                        type="text"
-                        class="form-control-plaintext account-number-input"
-                        (focus)="focusFunction()"
-                        required
-                      />
+                      <input [(ngModel)]="accountNumber" name="accountNumber" type="text"
+                        class="form-control-plaintext account-number-input" (focus)="focusFunction()" required />
                     </div>
-                    <div class="col-sm-6" *ngIf="!isLoggedIn() && !isAccountDetailsFound" >
-                      <button
-                        class="blue-btn"
-                        (click)="checkIfAccountIsPrepaid(accountNumber)"
-                      >
-                        {{'View'|translate}}
+                    <div class="col-sm-6" *ngIf="!isLoggedIn() && !isAccountDetailsFound">
+                      <button class="blue-btn" (click)="checkIfAccountIsPrepaid(accountNumber)">
+                        {{ "View" | translate }}
                       </button>
                     </div>
                   </div>
                   <div class="row">
                     <div class="col-sm-8 col-sm-offset-2">
                       <label *ngIf="isLoggedIn()">
-                        {{'Account Number'|translate}}
+                        {{ "Account Number" | translate }}
                       </label>
                       <div *ngIf="isLoggedIn()" class="">
-                        <select
-                          required
-                          *ngIf="!userAccountsLoder && userAccounts.length > 0"
-                          [(ngModel)]="accountNumber"
-                          name="accountNumber"
-                          class="form-control"
-                          #accNumb="ngModel"
-                          (change)="checkAccountType(accNumb.value)"
-                        >
+                        <select required *ngIf="!userAccountsLoder && userAccounts.length > 0"
+                          [(ngModel)]="accountNumber" name="accountNumber" class="form-control" #accNumb="ngModel"
+                          (change)="checkAccountType(accNumb.value)">
                           <option value="" selected>
-                            {{ "Select Account Number" | translate }}</option
-                          >
-                          <option
-                            value="{{ user.account_number }}"
-                            *ngFor="let user of userAccounts"
-                            >{{ user.account_number }}</option
-                          >
+                            {{ "Select Account Number" | translate }}</option>
+                          <option value="{{ user.account_number }}" *ngFor="let user of userAccounts">
+                            {{ user.account_number }}</option>
                         </select>
-                        <select
-                          required
-                          *ngIf="!userAccountsLoder && userAccounts.length == 0"
-                          [(ngModel)]="accountNumber"
-                          name="accountNumber"
-                          class="form-control"
-                        >
+                        <select required *ngIf="!userAccountsLoder && userAccounts.length == 0"
+                          [(ngModel)]="accountNumber" name="accountNumber" class="form-control">
                           <option value="" selected>{{
                             "Select Account Number" | translate
                           }}</option>
                         </select>
                         <div *ngIf="userAccountsLoder" class="fieldLoding">
-                          {{'Loding'|translate}}...
+                          {{ "Loding" | translate }}...
                         </div>
                       </div>
                     </div>
@@ -119,80 +99,53 @@
                     <div class="col-sm-6">
                       <div class="form-group">
                         <label>
-                          {{'Account Name'|translate}}
+                          {{ "Account Name" | translate }}
                         </label>
-                        <input
-                          [(ngModel)]="billing.accountName"
-                          name="accountName"
-                          type="text"
-                          class="form-control-plaintext"
-                          id="staticEmail2"
-                          disabled
-                        />
+                        <input [(ngModel)]="billing.accountName" name="accountName" type="text"
+                          class="form-control-plaintext" id="staticEmail2" disabled />
                       </div>
                     </div>
                     <div class="col-sm-6">
                       <div class="form-group">
                         <label>
-                          {{'Bill Amount'|translate}}
+                          {{ "Bill Amount" | translate }}
                         </label>
-                        <input
-                          [(ngModel)]="billing.bill_amount"
-                          name="bill_amount"
-                          type="text"
-                          class="form-control-plaintext"
-                          disabled
-                        />
+                        <input [(ngModel)]="billing.bill_amount" name="bill_amount" type="text"
+                          class="form-control-plaintext" disabled />
                       </div>
                     </div>
                     <div class="col-sm-6">
                       <div class="form-group">
                         <label>
-                          {{'Account Number'|translate}}
+                          {{ "Account Number" | translate }}
                         </label>
-                        <input
-                          [(ngModel)]="billing.accountNumber"
-                          name="billingAccountNumber"
-                          type="text"
-                          class="form-control-plaintext"
-                          id="staticEmail2"
-                          disabled
-                        />
+                        <input [(ngModel)]="billing.accountNumber" name="billingAccountNumber" type="text"
+                          class="form-control-plaintext" id="staticEmail2" disabled />
                       </div>
                     </div>
                     <div class="col-sm-6">
                       <div class="form-group">
                         <label class="min">
-                          {{'Due Date'|translate}}
+                          {{ "Due Date" | translate }}
                         </label>
-                        <input
-                          [(ngModel)]="billing.due_date"
-                          name="due_date"
-                          type="text"
-                          class="form-control-plaintext"
-                          id="staticEmail2"
-                          disabled
-                        />
+                        <input [(ngModel)]="billing.due_date" name="due_date" type="text" class="form-control-plaintext"
+                          id="staticEmail2" disabled />
                       </div>
                     </div>
                     <div class="col-sm-6">
                       <div class="form-group">
                         <label>
-                          {{'Payble Amount'|translate}}
+                          {{ "Payble Amount" | translate }}
                         </label>
-                        <input
-                          [(ngModel)]="billing.payable_amount"
-                          name="payable_amount"
-                          type="text"
-                          class="form-control-plaintext"
-                          id="staticEmail2"
-                          disabled
-                        />
+                        <input [(ngModel)]="billing.payable_amount" name="payable_amount" type="text"
+                          class="form-control-plaintext" id="staticEmail2" disabled />
                       </div>
                     </div>
-                    <div class="col-sm-6" *ngIf='billing.payable_amount > 0'>
+                    <div class="col-sm-6" *ngIf="billing.payable_amount > 0">
                       <div class="form-group">
-                        <button class="blue-btn" (click)=getPaymentChecksm()>{{'Pay Now'|translate}}</button>
+                        <button class="blue-btn" (click)="redirectToPaymentOptions()">
+                          {{ "Pay Now" | translate }}
+                        </button>
                       </div>
                     </div>
                   </div>

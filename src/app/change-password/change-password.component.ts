@@ -10,7 +10,6 @@ import { ToastrService } from "ngx-toastr";
 import { Router } from "@angular/router";
 import { TranslationService } from "../services/translation/translation.service";
 
-
 @Component({
   selector: "app-change-password",
   templateUrl: "./change-password.component.html",
@@ -20,7 +19,7 @@ export class ChangePasswordComponent implements OnInit {
   ChangePasswordFrm: FormGroup;
   changePassFuncLoader: boolean = false;
   userId: any = null;
-  isExpiredPasswordChange:boolean=false;
+  isExpiredPasswordChange: boolean = false;
   constructor(
     private toastr: ToastrService,
     private changePassword: ResetPasswordService,
@@ -28,13 +27,11 @@ export class ChangePasswordComponent implements OnInit {
     private fb: FormBuilder,
     private _auth: AuthService,
     private helpersService: HelpersService,
-    private router:Router,
-    private auth:AuthService
-  ) 
-  {
-  }
+    private router: Router,
+    private auth: AuthService
+  ) {}
 
-  translate(string:string):string{
+  translate(string: string): string {
     return this.helpersService.translate(string);
   }
 
@@ -59,16 +56,26 @@ export class ChangePasswordComponent implements OnInit {
     );
   }
   ngOnInit() {
-    if (this.helpersService.getLocalStoragData("changeExpPassword") != null && !this._auth.isLoggedIn()) { // if expired password change session is active
+    if (
+      this.helpersService.getLocalStoragData("changeExpPassword") != null &&
+      !this._auth.isLoggedIn()
+    ) {
+      // if expired password change session is active
       let userId = this.helpersService.getLocalStoragData("changeExpPassword"); // get user id token
-      this.userId = btoa(userId);
+      if (userId != null) {
+        this.userId = btoa(userId);
+      }
       this.helpersService.clearLocalStorateData("changeExpPassword"); // remove expired password session.
-      this.isExpiredPasswordChange=true;
+      this.isExpiredPasswordChange = true;
     } else {
-      if (this._auth.isLoggedIn() && this.helpersService.getLocalStoragData("changeExpPassword") == null) { // if user loggedin
+      if (
+        this._auth.isLoggedIn() &&
+        this.helpersService.getLocalStoragData("changeExpPassword") == null
+      ) {
+        // if user loggedin
         let currentUser = this._auth.getCurrentUser();
         this.userId = btoa(currentUser.userId);
-        this.isExpiredPasswordChange=false;
+        this.isExpiredPasswordChange = false;
       }
     }
     this.initChangePasswordFrm();
@@ -76,11 +83,17 @@ export class ChangePasswordComponent implements OnInit {
 
   changePassFunc() {
     this.changePassFuncLoader = true;
-    this.ChangePasswordFrm.value.password=btoa(this.ChangePasswordFrm.value.password);
-    this.ChangePasswordFrm.value.cpassword=btoa(this.ChangePasswordFrm.value.cpassword);
-    this.ChangePasswordFrm.value.oldPassword=btoa(this.ChangePasswordFrm.value.oldPassword);
+    this.ChangePasswordFrm.value.password = btoa(
+      this.ChangePasswordFrm.value.password
+    );
+    this.ChangePasswordFrm.value.cpassword = btoa(
+      this.ChangePasswordFrm.value.cpassword
+    );
+    this.ChangePasswordFrm.value.oldPassword = btoa(
+      this.ChangePasswordFrm.value.oldPassword
+    );
     const changePassData = this.ChangePasswordFrm.value;
-    changePassData["resetPasswordToken"]=this.userId;
+    changePassData["resetPasswordToken"] = this.userId;
     this.changePassword
       .resetPassword(changePassData)
       .subscribe((response: any) => {
@@ -88,13 +101,20 @@ export class ChangePasswordComponent implements OnInit {
         var res = response;
         if (res.authCode) {
           if (res.authCode == "200" && res.status == true) {
-            this.toastr.success(this.translate(res.msg), this.translate("Password updated!"));
-            if(!this.isExpiredPasswordChange){ // if user is changeing password after login
+            this.toastr.success(
+              this.translate(res.msg),
+              this.translate("Password updated!")
+            );
+            if (!this.isExpiredPasswordChange) {
+              // if user is changeing password after login
               this.auth.logout();
             }
             this.router.navigate(["/login"]);
           } else {
-            this.toastr.error(this.translate(res.msg), this.translate("Failed!"));
+            this.toastr.error(
+              this.translate(res.msg),
+              this.translate("Failed!")
+            );
           }
         }
       });

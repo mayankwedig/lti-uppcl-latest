@@ -21,9 +21,9 @@ export class AuthService {
   }
   
   logout(){
-    
     this.Helpers.clearLocalStorateData('accountToken');
     this.Helpers.clearLocalStorateData('token');
+    this.Helpers.clearLocalStorateData('notifications');
     this.router.navigate(['/login']);
   }
   isLoggedIn(){

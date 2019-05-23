@@ -10,7 +10,7 @@ require("../../../node_modules/moment/min/moment.min.js");
 import { TranslationService } from "../services/translation/translation.service";
 declare var moment: any;
 declare var $: any;
-
+import { environment } from "./../../environments/environment";
 @Component({
   selector: 'app-notification-list',
   templateUrl: './notification-list.component.html',
@@ -34,7 +34,7 @@ export class NotificationListComponent implements OnInit {
     private translationServices: TranslationService
 
   ) { }
-
+  AlertIconUrl=environment.alertIconUrl;
   ngOnInit() {
   let accountToken = atob(this.helpers.getLocalStoragData("accountToken")); // fetch account number.
     let accountTokenInfo = accountToken.split(":");
@@ -44,7 +44,17 @@ export class NotificationListComponent implements OnInit {
     this.getAllNotifications();
     this.getAlertData();
   };
-  
+  getNotificationData(type){
+    if(this.helpers.getLocalStoragData("notifications") != null){
+      let notify=JSON.parse(this.helpers.getLocalStoragData("notifications"));
+      if(typeof notify[type] != 'undefined'){
+        return notify[type];
+      }
+      
+     }else{
+      return null;
+     }
+  }
   getAllNotifications(){
     var limited=false;
     this.notificationsService.getNotifications(limited).subscribe(
@@ -84,6 +94,15 @@ export class NotificationListComponent implements OnInit {
         if (res.authCode) {
           if (res.authCode == "200" && res.status == true) {
             this.alertData = res.data_params;
+            for(let i = 0; i < this.alertData.length; i++){
+              this.alertData[i]["icon_img"]=null;
+              this.alertData[i]["desc"]=null;
+              let NotificationData=this.getNotificationData(this.alertData[i].alertText);
+              if(NotificationData != null){
+                this.alertData[i]["icon_img"]=NotificationData.icon_img;
+                this.alertData[i]["desc"]=NotificationData.desc;
+              }
+            }
             this.isAlertDataFound = true;
           } else {
             this.isAlertDataFound = false;

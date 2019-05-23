@@ -23,9 +23,7 @@ require("../../assets/js/owl.carousel.js");
   styleUrls: ["./header.component.css"]
 })
 export class HeaderComponent implements OnInit, AfterViewInit {
-  
-  
- 
+
   constructor(
     private winRef: WindowRefService,
     private icones: IconsService,
@@ -37,8 +35,8 @@ export class HeaderComponent implements OnInit, AfterViewInit {
     private profile: ProfileService,
     private siteSettings:SiteSettingsService,
     private activatedRoute:ActivatedRoute,
-    
   ) {}
+
   toggleDiv(){
     var self = $(".toggleClick").parent();
     self.toggleClass("open");
@@ -66,17 +64,13 @@ export class HeaderComponent implements OnInit, AfterViewInit {
       this.searchKeyWord=searchKeyWord;
     }
   }
-
   changeNavBar(){
     $("body").toggleClass("mme");
   }
-  
   ngOnDestroy(){
     $("body").removeClass("mme");
   }
-  
   getIcones() {
-      
     this.headerIcons=null;
     if (this.helpers.getLocalStoragData("icons") == null) {
       this.icones.getIcons().subscribe(
@@ -111,23 +105,22 @@ export class HeaderComponent implements OnInit, AfterViewInit {
     }
     
   }
-    setIconeImage(index){
-          if(this.headerIcons != null){
-            let image=environment.icon_img+this.headerIcons[index];
-              if(image){
-                return image;
-              }else{
-                return null;
-              }
-          }else{
-            return null;
-          }
-        }
-        isLoggedIn(){
-          return this.auth.isLoggedIn();
-        }
+setIconeImage(index){
+  if(this.headerIcons != null){
+    let image=environment.icon_img+this.headerIcons[index];
+      if(image){
+        return image;
+      }else{
+        return null;
+      }
+  }else{
+    return null;
+  }
+}
+  isLoggedIn(){
+    return this.auth.isLoggedIn();
+  }
   ngOnInit() {
-  
     this.checkSearcSring();
     this.getIcones();
     this.getSiteLogo();
@@ -136,6 +129,7 @@ export class HeaderComponent implements OnInit, AfterViewInit {
     } else {
       this.selected_lang = sessionStorage.getItem("selected_lag");
     }
+    
     let accountToken = this.helpers.getLocalStoragData("accountToken"); // cehck if account token is exists
     if (accountToken != null) {
       // If not null
@@ -144,14 +138,8 @@ export class HeaderComponent implements OnInit, AfterViewInit {
         this.accountNumber = accountTokenInfo[1];
         if (this.auth.getCurrentUser().username != null) {
           this.userName = this.auth.getCurrentUser().username;
-        }
+          }
         this.getProfile();
-        // if token of current user
-        /*  if (parseInt(accountTokenInfo[2]) == 0) {
-          this.is_net_metering = false;
-        } else {
-          this.is_net_metering = true;
-        } */
       }
     } else {
       if (this.isLoggedIn()) {
@@ -170,6 +158,7 @@ export class HeaderComponent implements OnInit, AfterViewInit {
     let SiteLogo=this.siteSettings.getSiteSettings().home_logo;
     this.logogImage=  environment.logoUrl+SiteLogo; 
   }
+
   getSiteLogo() {
     this.logogImage = environment.logo_not_found;
       if(this.siteSettings.getSiteSettings() == null){
@@ -210,20 +199,14 @@ export class HeaderComponent implements OnInit, AfterViewInit {
     };
 
     let currentUrl = this.router.url;
-
     if (currentUrl == "/") {
       this.winRef.nativeWindow.location = this.helpers.getSiteUrl() + "/home";
     } else {
       this.winRef.nativeWindow.location =
         this.helpers.getSiteUrl() + currentUrl;
     }
-
-    /* this.router.navigateByUrl(currentUrl)
-      .then(() => {
-        this.router.navigated = false;
-        this.router.navigate([this.router.url]);
-      }); */
   }
+ 
   getProfile() {
     this.loderLoder = true;
     this.profile.getProfile(this.accountNumber).subscribe(
@@ -246,6 +229,7 @@ export class HeaderComponent implements OnInit, AfterViewInit {
       }
     );
   }
+  
   ngAfterViewInit() {
     $(function() {
       $("#main-navbar-notifications").slimScroll({
@@ -256,7 +240,6 @@ export class HeaderComponent implements OnInit, AfterViewInit {
       });
     });
   }
-
   getLimitedNotifications() {
     var limited = true;
     this.notificationsService.getNotifications(limited).subscribe(
@@ -283,10 +266,10 @@ export class HeaderComponent implements OnInit, AfterViewInit {
       }
     );
   }
+
   funcHideNotification() {
     this.hideTotalNotification = true;
   }
-
   logout() {
     this.auth.logout();
     $("body").removeClass("mme");

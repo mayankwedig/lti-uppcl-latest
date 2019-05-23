@@ -1,128 +1,93 @@
 <div id="main-wrapper" class="no-sidebar">
-  <app-header></app-header>
-  <div id="content-wrapper" class="gray-wrapeer-bg">
-    <div class="container">
-      <div class="row">
-        <div class="col-xs-12 padding_top30">
-          <div class="main-heading text-left">
-           {{'Choose your preferred payment gateway'|translate}}
-          </div>
-          <div class="rows margin_top20 padding_bottom10 no-padding-l no-padding-r">
-            <div class="panel-body">
+   <app-header></app-header>
+   <div id="content-wrapper" class="gray-wrapeer-bg">
+      <div class="container">
+         <div class="row">
+            <div class="col-xs-12 padding_top30">
+               <div class="main-heading text-left">
+                  {{ "Choose your preferred payment gateway" | translate }}
+               </div>
+               <div class="rows margin_top20 padding_bottom10 no-padding-l no-padding-r">
+                  <div class="panel-body" *ngIf="showPaymentProcessSection == false">
+                     <div class="payment-method-list" [ngClass]="{
+                  NotificationLoaderBlock: paymentgatewayLoder == true
+                }">
+                        <ul *ngIf="isDataFound == true && paymentgatewayLoder == false">
+                           <li *ngFor="let data of paymentData">
+                              <div class="gateway-box">
+                                 <ng-container *ngIf="getPaymentGateWayImage(data) != null">
+                                    <img [src]="getPaymentGateWayImage(data)" />
+                                 </ng-container>
 
-              <div class="payment-method-list" [ngClass]="{ NotificationLoaderBlock: paymentgatewayLoder == true }">
-                <ul *ngIf="isDataFound == true && paymentgatewayLoder == false">
-                  <li *ngFor="let data of paymentData">
-                   
-                    <div class="gateway-box">
-                       <ng-container *ngIf="getPaymentGateWayImage(data) != null">
-                           <img [src]="getPaymentGateWayImage(data)" />
-                       </ng-container>
-                  
-                      <label class="lbl-checkbox" >
-                        <input 
-                        [ngModel]="data.isSelected"
-                        value="{{data.id}}" 
-                        type="radio"
-                        name="SelectedPaymentGateWay"
-                        (click)=choosedPaymentGateWay(data.id) 
-                        name="isSubscribed">
-                        <span class="checkmark"></span>
-                      </label>
-                    </div>
-                    <div class="gateway-name">{{data.name}}</div>
-                  </li>
-                  <!-- <li class="">
-                    <div class="gateway-box">
-                      <img src="images/gateway-icon2.png" />
-                      <label class="lbl-checkbox">
-                        <input 
-                        formcontrolname="isSubscribed" 
-                        value="0" 
-                        type="radio" 
-                        name="isSubscribed">
-                        <span class="checkmark"></span>
-                      </label>
-                    </div>
-                    <div class="gateway-name">CC Avenue</div>
-                  </li>
-                  <li>
-                    <div class="gateway-box">
-                      <img src="images/gateway-icon3.png" />
-                      <label class="lbl-checkbox">
-                        <input 
-                        formcontrolname="isSubscribed" 
-                        value="0" 
-                        type="radio" 
-                        name="isSubscribed">
-                        <span class="checkmark"></span>
-                      </label>
-                    </div>
-                    <div class="gateway-name">PayU Money</div>
-                  </li>
-                  <li>
-                    <div class="gateway-box">
-                      <img src="images/gateway-icon4.png" />
-                      <label class="lbl-checkbox">
-                        <input 
-                        formcontrolname="isSubscribed" 
-                        value="0" 
-                        type="radio" 
-                        name="isSubscribed">
-                        <span class="checkmark"></span>
-                      </label>
-                    </div>
-                    <div class="gateway-name">Paytm</div>
-                  </li>
-                  <li>
-                    <div class="gateway-box">
-                      <img src="images/gateway-icon5.png" />
-                      <label class="lbl-checkbox">
-                        <input 
-                        formcontrolname="isSubscribed" 
-                        value="0" 
-                        type="radio" 
-                        name="isSubscribed">
-                        <span class="checkmark"></span>
-                      </label>
-                    </div>
-                    <div class="gateway-name">Cashfree</div>
-                  </li>
-                  <li>
-                    <div class="gateway-box">
-                      <img src="images/gateway-icon6.png" />
-                      <label class="lbl-checkbox">
-                        <input 
-                        formcontrolname="isSubscribed" 
-                        value="0" 
-                        type="radio" 
-                        name="isSubscribed">
-                        <span class="checkmark"></span>
-                      </label>
-                    </div>
-                    <div class="gateway-name">Atom</div>
-                  </li> -->
-                </ul>
-                <ng-container *ngIf="isDataFound == false && paymentgatewayLoder == false">
-                   <div style="text-transform: capitalize;" class="text-center font-12  field_not_found">
-                    <img src="../assets/images/no_data.png" />{{'Data not found'|translate}}
+                                 <label class="lbl-checkbox">
+                                    <input [ngModel]="data.isSelected" value="{{ data.id }}" type="radio"
+                                       name="SelectedPaymentGateWay" (click)="choosedPaymentGateWay(data.id)"
+                                       name="isSubscribed" />
+                                    <span class="checkmark"></span>
+                                 </label>
+                              </div>
+                              <div class="gateway-name">{{ data.name }}</div>
+                           </li>
+                        </ul>
+                        <ng-container *ngIf="isDataFound == false && paymentgatewayLoder == false">
+                           <div style="text-transform: capitalize;" class="text-center font-12  field_not_found">
+                              <img src="../assets/images/no_data.png" />{{
+                      "Data not found" | translate
+                    }}
+                           </div>
+                        </ng-container>
+                        <div class="rows" *ngIf="isDataFound == true && paymentgatewayLoder == false">
+                           <button class="next-btn" (click)="redirectToPaymentGateway()">
+                              {{ "Next" | translate }}
+                           </button>
+                        </div>
+                     </div>
                   </div>
-                </ng-container>
-                <div class="rows" *ngIf="isDataFound == true && paymentgatewayLoder == false">
-                  <button class="next-btn"
-                  (click)="redirectToPaymentGateway()">{{'Next'|translate}}</button>
-                </div>
-              </div>
+                  <div class="panel-body bil-pay-panel" *ngIf="showPaymentProcessSection == true">
+                     <div class="service-box">
+                        <div class="title">{{ "Bill Payment" | translate }}</div>
+                        <!-- <div class="req-success-msg">
+                                {{'Thank You for pay your bill'|translate}}
+                              </div> -->
+                        <div class="req-number">
+                           {{
+                            "Please do not press back button or refresh this page"
+                              | translate
+                          }}
+                        </div>
+                        <div class="team-contact">
+                           {{ "Your payment will process shortly" | translate }}
+                        </div>
+                        <div class="text-center padding_top50">
+                           {{
+                            "Page will be redirect automatically to the payment gateway"
+                              | translate
+                          }}
+                        </div>
+                        <form method="post" action="{{ paytmPayMentDetails.url }}" name="f1" id="paytmFrm">
+                           <input type="hidden" name="MID" [value]="paytmPayMentDetails.MID" />
+                           <input type="hidden" name="WEBSITE" [value]="paytmPayMentDetails.WEBSITE" />
+                           <input type="hidden" name="CHANNEL_ID" [value]="paytmPayMentDetails.CHANNEL_ID" />
+                           <input type="hidden" name="INDUSTRY_TYPE_ID"
+                              [value]="paytmPayMentDetails.INDUSTRY_TYPE_ID" />
+                           <input type="hidden" name="ORDER_ID" [value]="paytmPayMentDetails.ORDER_ID" />
+                           <input type="hidden" name="CUST_ID" [value]="paytmPayMentDetails.CUST_ID" />
+                           <input type="hidden" name="TXN_AMOUNT" [value]="paytmPayMentDetails.TXN_AMOUNT" />
+                           <input type="hidden" name="CALLBACK_URL" [value]="paytmPayMentDetails.CALLBACK_URL" />
+                           <input type="hidden" name="EMAIL" [value]="paytmPayMentDetails.EMAIL" />
+                           <input type="hidden" name="MOBILE_NO" [value]="paytmPayMentDetails.MOBILE_NO" />
+                           <input type="hidden" name="CHECKSUMHASH" [value]="paytmPayMentDetails.CHECKSUMHASH" />
+                        </form>
+                     </div>
+                  </div>
+               </div>
             </div>
-          </div>
-        </div>
+         </div>
+         <app-advertisement [adQuery]="fetchAdQuery"></app-advertisement>
       </div>
-      <app-advertisement [adQuery]="fetchAdQuery"></app-advertisement>
-    </div>
-  </div>
-  <app-footer></app-footer>
+   </div>
+   <app-footer></app-footer>
 </div>
-
 
 
 <!-- <script type="text/javascript">

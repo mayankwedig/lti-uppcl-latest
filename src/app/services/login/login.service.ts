@@ -2,6 +2,7 @@ import { AuthService } from './../authService/auth.service';
 import { DataService } from '../data.service';
 import { Injectable } from '@angular/core';
 import { HelpersService } from './../helpers/helpers.service';
+
 @Injectable()
 export class LoginService{
   constructor(private DataService:DataService,private helpers:HelpersService,private auth:AuthService) {}
@@ -35,6 +36,10 @@ export class LoginService{
       var body={"userName":userName}
       return this.DataService.getAll(sdapiUrl,body,{},"POST");
      
-     }  
+     } 
+     getNotifyKeyWords(){
+       var apiUrl="users/getAlertIcons";
+      return this.DataService.getAll(apiUrl,'',this.helpers.setHeaderData(),"GET");
+     } 
 }
 

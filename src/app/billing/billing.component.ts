@@ -1,4 +1,4 @@
-import { HelpersService } from './../services/helpers/helpers.service';
+import { HelpersService } from "./../services/helpers/helpers.service";
 import { Router, ActivatedRoute } from "@angular/router";
 import { DashboardService } from "./../services/dashboard/dashboard.service";
 import { Component, OnInit } from "@angular/core";
@@ -34,20 +34,19 @@ export class BillingComponent implements OnInit {
   billinglabels: any = [];
   billingchartData: any = [];
   billingcolors: any = {};
-  
-  graphLoader:boolean=false;
+
+  graphLoader: boolean = false;
   constructor(
     private DashboardService: DashboardService,
     private activateRoute: ActivatedRoute,
-    private helpers:HelpersService,
+    private helpers: HelpersService,
     private WindowRef: WindowRefService,
     private toastr: ToastrService,
     private translationServices: TranslationService
-
   ) {}
-    translate(string:string):string{
-      return this.helpers.translate(string);
-    }
+  translate(string: string): string {
+    return this.helpers.translate(string);
+  }
   ngOnInit() {
     /* this.getselectedGraphData = atob(
       this.activateRoute.snapshot.queryParamMap.get("billing")
@@ -57,12 +56,13 @@ export class BillingComponent implements OnInit {
     this.accountNumber = this.getselectedGraphData[1];
     this.month_name = this.getselectedGraphData[2];
     this.isMonthSelected = this.selected_month != "" ? true : false; */
-    let accountToken=atob(this.helpers.getLocalStoragData("accountToken"));// fetch account number.
-    let accountTokenInfo=accountToken.split(":");
-    this.accountNumber=accountTokenInfo[1]//account Number
+    let accountToken = atob(this.helpers.getLocalStoragData("accountToken")); // fetch account number.
+    let accountTokenInfo = accountToken.split(":");
+    this.accountNumber = accountTokenInfo[1]; //account Number
     this.currentYear = moment().format("YYYY");
     this.currentMonth = moment().format("MMM");
-    this.dispString =  this.translate("accountnumber")+" ( " + this.accountNumber + " ) ";
+    this.dispString =
+      this.translate("accountnumber") + " ( " + this.accountNumber + " ) ";
 
     this.billinglabels = [];
     // STATIC DATA FOR THE CHART IN JSON FORMAT.
@@ -86,7 +86,6 @@ export class BillingComponent implements OnInit {
       responsive: true // THIS WILL MAKE THE CHART RESPONSIVE (VISIBLE IN ANY DEVICE).
     };
 
-    this.getBillingData();
     this.showDailyBillingGraphData();
   }
   getBillingData() {
@@ -116,16 +115,17 @@ export class BillingComponent implements OnInit {
     );
   }
 
-  downloadPDFfile(PDFURL){
+  downloadPDFfile(PDFURL) {
     this.WindowRef.nativeWindow.open(PDFURL, "popup");
 
-    this.toastr.success(this.translate("Excel downloaded successfully"), this.translate("Success!"));
-
+    this.toastr.success(
+      this.translate("Excel downloaded successfully"),
+      this.translate("Success!")
+    );
   }
 
-
   showDailyBillingGraphData() {
-    this.graphLoader=true;
+    this.graphLoader = true;
     let data = [];
     let gData = [];
     let body = {
@@ -134,7 +134,7 @@ export class BillingComponent implements OnInit {
     };
     this.DashboardService.getDailyBillingGraph(body, (result: any) => {
       // Get Yearly Data
-      this.graphLoader=false;
+      this.graphLoader = false;
       if (result != null) {
         data = result.data_params;
         var dataSort = data.slice(0);
@@ -164,6 +164,7 @@ export class BillingComponent implements OnInit {
             data: gData
           }
         ];
+        this.getBillingData();
       }
     });
   }
